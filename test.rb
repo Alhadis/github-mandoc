@@ -4,9 +4,9 @@ require "nokogiri"
 require "pp"
 
 def render(filename, content, options: {})
-	source = File.read(`man -w 7 mdoc`.chomp)
-	out, _ = Open3.capture2("mandoc -Thtml -Ofragment,man='%N.%S;../%S/%N.%S'", :stdin_data => source)
-	filter_html(out)
+	source = File.read(`man -w mdoc`.chomp)
+	out, _ = Open3.capture2("mandoc -Thtml -Ofragment,man='%N.%S;../man%S/%N.%S'", :stdin_data => source)
+	filter_html(out, filename)
 end
 
 INLINE_ELEMENTS = %w[
@@ -21,7 +21,7 @@ BLOCK_ELEMENTS = %w[
 	footer form h1 h2 h3 h4 h5 h6 header hgroup hr li main nav ol p pre section table ul
 ]
 
-def filter_html(doc)
+def filter_html(doc, path = "")
 	doc = Nokogiri::HTML(doc)
 	doc.css("table.head, table.foot").remove
 	
@@ -32,6 +32,7 @@ def filter_html(doc)
 	fix_synopses doc
 	fix_anchors doc
 	replace_unwhitelisted_tags doc
+	fix_broken_references doc, path
 	
 	# Merge adjacent <code> elements
 	doc.inner_html = doc.root.to_s
@@ -116,6 +117,16 @@ def unwrap(el)
 	nodes
 end
 
+# Remove cross-references that point to missing files
+def fix_broken_references(doc, filename = __FILE__)
+	doc.css(".Xr[href]").each do |a|
+		path = File.expand_path a["href"], filename
+		unless File.exist?(path)
+			unwrap a
+		end
+	end
+end
+
 # Replace elements that aren't included in GitHub's HTML whitelist
 def replace_unwhitelisted_tags(doc)
 	# Monospace + bold
@@ -126,6 +137,10 @@ def replace_unwhitelisted_tags(doc)
 		el.children= bold
 	end
 	
+	# Plain monospace
+	doc.css(".Ad").wrap "<samp></samp>"
+	doc.css(".Pa, .Xr").wrap "<code></code>"
+	
 	# Fix double nesting
 	nested = []
 	until (nested = doc.css("code code")).empty? do
@@ -134,7 +149,7 @@ def replace_unwhitelisted_tags(doc)
 end
 
 head = File.read("header.html")
-body = render(1, 2).to_s
+body = render("/usr/local/share/man/man7", 2).to_s
 foot = File.read("footer.html")
 page = head + body + foot
 File.write("index.html", page)
