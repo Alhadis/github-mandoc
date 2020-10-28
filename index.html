@@ -782,8 +782,8 @@ semantic markup language for formatting manual pages
 </section>
 <section>
 <h1 id="description">DESCRIPTION</h1>
-<p>The <code><b>mdoc</b></code> language supports authoring of manual pages for the <code><a href="../man1/man.1">man(1)</a></code> utility by allowing semantic annotations of words, phrases, page sections and complete manual pages. Such annotations are used by formatting tools to achieve a uniform presentation across all manuals written in <code><b>mdoc</b></code>, and to support hyperlinking if supported by the output medium.</p>
-<p>This reference document describes the structure of manual pages and the syntax and usage of the <code><b>mdoc</b></code> language. The reference implementation of a parsing and formatting tool is <code><a href="../man1/mandoc.1">mandoc(1)</a></code>; the <a href="#compatibility">COMPATIBILITY</a> section describes compatibility with other implementations.</p>
+<p>The <code><b>mdoc</b></code> language supports authoring of manual pages for the <code>man(1)</code> utility by allowing semantic annotations of words, phrases, page sections and complete manual pages. Such annotations are used by formatting tools to achieve a uniform presentation across all manuals written in <code><b>mdoc</b></code>, and to support hyperlinking if supported by the output medium.</p>
+<p>This reference document describes the structure of manual pages and the syntax and usage of the <code><b>mdoc</b></code> language. The reference implementation of a parsing and formatting tool is <code>mandoc(1)</code>; the <a href="#compatibility">COMPATIBILITY</a> section describes compatibility with other implementations.</p>
 
 <p>In an <code><b>mdoc</b></code> document, lines beginning with the control character ‘.’ are called “macro lines”. The first word is the macro name. It consists of two or three letters. Most macro names begin with a capital letter. For a list of available macros, see <a href="#macro-overview">MACRO OVERVIEW</a>. The words following the macro name are arguments to the macro, optionally including the names of other, callable macros; see <a href="#macro-syntax">MACRO SYNTAX</a> for details.</p>
 
@@ -797,7 +797,7 @@ Text lines are interpreted within the current state.
 </pre>
 
 
-<p>Many aspects of the basic syntax of the <code><b>mdoc</b></code> language are based on the <code><a href="../man7/roff.7">roff(7)</a></code> language; see the <i>LANGUAGE SYNTAX</i> and <i>MACRO SYNTAX</i> sections in the <code><a href="../man7/roff.7">roff(7)</a></code> manual for details, in particular regarding comments, escape sequences, whitespace, and quoting. However, using <code><a href="../man7/roff.7">roff(7)</a></code> requests in <code><b>mdoc</b></code> documents is discouraged; <code><a href="../man1/mandoc.1">mandoc(1)</a></code> supports some of them merely for backward compatibility.</p>
+<p>Many aspects of the basic syntax of the <code><b>mdoc</b></code> language are based on the <code>roff(7)</code> language; see the <i>LANGUAGE SYNTAX</i> and <i>MACRO SYNTAX</i> sections in the <code>roff(7)</code> manual for details, in particular regarding comments, escape sequences, whitespace, and quoting. However, using <code>roff(7)</code> requests in <code><b>mdoc</b></code> documents is discouraged; <code>mandoc(1)</code> supports some of them merely for backward compatibility.</p>
 </section>
 <section>
 <h1 id="manual-structure">MANUAL STRUCTURE</h1>
@@ -1765,7 +1765,7 @@ key to ...
               <var>Ds</var>, which resolves to
             <b>6n</b>.</li>
           <li>A scaling width as described in
-              <code><a href="../man7/roff.7">roff(7)</a></code>.</li>
+              <code>roff(7)</code>.</li>
           <li>An arbitrary string, which indents by the length of this
             string.</li>
         </ul>
@@ -1832,7 +1832,7 @@ key to ...
     [<code><b>-compact</b></code>] [<var>col ...</var>]</dt>
   <dd>
 <p>Begin a list. Lists consist of items specified using the <code><b>It</b></code> macro, containing a head or a body or both.</p>
-<p>The list <var>type</var> is mandatory and must be specified first. The <code><b>-width</b></code> and <code><b>-offset</b></code> arguments accept macro names as described for <code><b>Bd</b> <b>-offset</b></code>, scaling widths as described in <code><a href="../man7/roff.7">roff(7)</a></code>, or use the length of the given string. The <code><b>-offset</b></code> is a global indentation for the whole list, affecting both item heads and bodies. For those list types supporting it, the <code><b>-width</b></code> argument requests an additional indentation of item bodies, to be added to the <code><b>-offset</b></code>. Unless the <code><b>-compact</b></code> argument is specified, list entries are separated by vertical space.</p>
+<p>The list <var>type</var> is mandatory and must be specified first. The <code><b>-width</b></code> and <code><b>-offset</b></code> arguments accept macro names as described for <code><b>Bd</b> <b>-offset</b></code>, scaling widths as described in <code>roff(7)</code>, or use the length of the given string. The <code><b>-offset</b></code> is a global indentation for the whole list, affecting both item heads and bodies. For those list types supporting it, the <code><b>-width</b></code> argument requests an additional indentation of item bodies, to be added to the <code><b>-offset</b></code>. Unless the <code><b>-compact</b></code> argument is specified, list entries are separated by vertical space.</p>
 
 <p>A list must specify one of the following list types:</p>
 
@@ -2050,7 +2050,7 @@ key to ...
   </dd>
   <dt><code id="db"><b>Db</b></code></dt>
   <dd>This macro is obsolete. No replacement is needed. It is ignored by
-      <code><a href="../man1/mandoc.1">mandoc(1)</a></code> and groff including
+      <code>mandoc(1)</code> and groff including
       its arguments. It was formerly used to toggle a debugging mode.</dd>
   <dt><code id="dc"><b>Dc</b></code></dt>
   <dd>Close a <code><b>Do</b></code> block. Does not have any tail
@@ -2063,15 +2063,15 @@ key to ...
 <p>Document date for display in the page footer. This is the mandatory first macro of any <code><b>mdoc</b></code> manual.</p>
 <p>The <var>month</var> is the full English month name, the <var>day</var> is an integer number, and the <var>year</var> is the full four-digit year.</p>
 
-<p>Other arguments are not portable; the <code><a href="../man1/mandoc.1">mandoc(1)</a></code> utility handles them as follows:</p>
+<p>Other arguments are not portable; the <code>mandoc(1)</code> utility handles them as follows:</p>
 
 <ul>
       <li>To have the date automatically filled in by the
           <span>OpenBSD</span> version of
-          <code><a href="../man1/cvs.1">cvs(1)</a></code>, the special string
+          <code>cvs(1)</code>, the special string
           “$Mdocdate$” can be given as an argument.</li>
       <li>The traditional, purely numeric
-          <code><a href="../man7/man.7">man(7)</a></code> format
+          <code>man(7)</code> format
           <var>year</var>–<var>month</var>–<var>day</var>
           is accepted, too.</li>
       <li>If a date string cannot be parsed, it is used verbatim.</li>
@@ -2502,7 +2502,7 @@ to save the pattern space for subsequent retrieval.
     <var>filename</var>
 </dt>
   <dd>This macro is not implemented in
-      <code><a href="../man1/mandoc.1">mandoc(1)</a></code>. It was used to
+      <code>mandoc(1)</code>. It was used to
       include the contents of a (header) file literally.</dd>
   <dt>
 <code id="ic-2"><b>Ic</b></code>
@@ -2682,7 +2682,7 @@ to save the pattern space for subsequent retrieval.
 
 
 
-<p>The <code><b>Nd</b></code> macro technically accepts child macros and terminates with a subsequent <code><b>Sh</b></code> invocation. Do not assume this behaviour: some <code><a href="../man1/whatis.1">whatis(1)</a></code> database generators are not smart enough to parse more than the line arguments and will display macros verbatim.</p>
+<p>The <code><b>Nd</b></code> macro technically accepts child macros and terminates with a subsequent <code><b>Sh</b></code> invocation. Do not assume this behaviour: some <code>whatis(1)</code> database generators are not smart enough to parse more than the line arguments and will display macros verbatim.</p>
 
 <p>See also <code><b>Nm</b></code>.</p>
   </dd>
@@ -2800,7 +2800,7 @@ to save the pattern space for subsequent retrieval.
     [<var>system</var> [<var>version</var>]]</dt>
   <dd>
 <p>Operating system version for display in the page footer. This is the mandatory third macro of any <code><b>mdoc</b></code> file.</p>
-<p>The optional <var>system</var> parameter specifies the relevant operating system or environment. It is suggested to leave it unspecified, in which case <code><a href="../man1/mandoc.1">mandoc(1)</a></code> uses its <code><b>-Ios</b></code> argument or, if that isn't specified either, <var>sysname</var> and <var>release</var> as returned by <code>uname(3)</code>.</p>
+<p>The optional <var>system</var> parameter specifies the relevant operating system or environment. It is suggested to leave it unspecified, in which case <code>mandoc(1)</code> uses its <code><b>-Ios</b></code> argument or, if that isn't specified either, <var>sysname</var> and <var>release</var> as returned by <code>uname(3)</code>.</p>
 
 <p>Examples:</p>
 
@@ -2820,7 +2820,7 @@ to save the pattern space for subsequent retrieval.
     <var>functype</var>
 </dt>
   <dd>
-<p>This macro is obsolete. Use <code><b>Ft</b></code> instead; with <code><a href="../man1/mandoc.1">mandoc(1)</a></code>, both have the same effect.</p>
+<p>This macro is obsolete. Use <code><b>Ft</b></code> instead; with <code>mandoc(1)</code>, both have the same effect.</p>
 <p>Historical <code><b>mdoc</b></code> packages described it as “old function type (FORTRAN)”.</p>
   </dd>
   <dt>
@@ -3397,7 +3397,7 @@ program.
   <dd>Extend the header of an <code><b>It</b></code> macro or the body of a
       partial-implicit block macro beyond the end of the input line. This macro
       originally existed to work around the 9-argument limit of historic
-      <code><a href="../man7/roff.7">roff(7)</a></code>.</dd>
+      <code>roff(7)</code>.</dd>
   <dt>
 <code id="xr-2"><b>Xr</b></code>
     <var>name section</var>
@@ -4400,9 +4400,9 @@ In <code><b>mdoc</b></code> documents, usage of semantic markup is
   fitting semantic markup is available, consider falling back to
   <a href="#physical-markup">Physical markup</a> macros. Whenever any
   <code><b>mdoc</b></code> macro switches the
-  <code><a href="../man7/roff.7">roff(7)</a></code> font mode, it will
+  <code>roff(7)</code> font mode, it will
   automatically restore the previous font when exiting its scope. Manually
-  switching the font using the <code><a href="../man7/roff.7">roff(7)</a></code>
+  switching the font using the <code>roff(7)</code>
   ‘<code>\f</code>’ font escape sequences is never
   required.
 </section>
@@ -4466,7 +4466,7 @@ In <code><b>mdoc</b></code> documents, usage of semantic markup is
 </section>
 <section>
 <h1 id="see-also">SEE ALSO</h1>
-<p><code><a href="../man1/man.1">man(1)</a></code>, <code><a href="../man1/mandoc.1">mandoc(1)</a></code>, <code><a href="../man7/eqn.7">eqn(7)</a></code>, <code><a href="../man7/man.7">man(7)</a></code>, <code><a href="../man7/mandoc_char.7">mandoc_char(7)</a></code>, <code><a href="../man7/roff.7">roff(7)</a></code>, <code><a href="../man7/tbl.7">tbl(7)</a></code></p>
+<p><code>man(1)</code>, <code>mandoc(1)</code>, <code>eqn(7)</code>, <code>man(7)</code>, <code>mandoc_char(7)</code>, <code>roff(7)</code>, <code>tbl(7)</code></p>
 <p>The web page <a href="http://mandoc.bsd.lv/mdoc/">extended documentation for the mdoc language</a> provides a few tutorial-style pages for beginners, an extensive style guide for advanced authors, and an alphabetic index helping to choose the best macros for various kinds of content.</p>
 </section>
 <section>
@@ -4475,7 +4475,7 @@ The <code><b>mdoc</b></code> language first appeared as a troff macro
   package in <span>4.4BSD</span>. It was later significantly updated
   by Werner Lemberg and Ruslan Ermilov in groff-1.17. The standalone
   implementation that is part of the
-  <code><a href="../man1/mandoc.1">mandoc(1)</a></code> utility written by
+  <code>mandoc(1)</code> utility written by
   Kristaps Dzonsons appeared in <span>OpenBSD 4.6</span>.
 </section>
 <section>
