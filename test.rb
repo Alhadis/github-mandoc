@@ -25,11 +25,16 @@ def filter_html(doc)
 	
 	fix_implicit_paragraph doc
 	fix_synopses doc
-	replace_unwhitelisted_tags doc
 	fix_anchors doc
+	replace_unwhitelisted_tags doc
 	
 	# Merge adjacent <code> elements
-	doc = doc.to_s.gsub %r|</code>\s*<code[^>]*>|i, " "
+	doc.inner_html = doc.root.to_s
+		.gsub(%r|</code\s*>\s+<code[^>]*>|i, " ")
+		.gsub(%r|</code\s*><code[^>]*>|i, "")
+	
+	# Strip empty paragraph nodes
+	doc.css("p").each {|p| p.remove unless p.content =~ /\S/}
 	
 	# Return our spiffy-looking document
 	doc
@@ -37,13 +42,27 @@ end
 
 # Force lowercase, dash-separated anchor names
 def fix_anchors(doc)
-	changes = {}
+	map = {}
 	
 	# Normalise IDs
 	doc.css("[id]").each do |el|
 		old = el["id"]
-		changes[old] = el["id"] = fix_anchor(old)
+		id = fix_anchor(old)
+		while map.has_value? id do
+			id.sub!(/\d*$/) {|suffix| (suffix || "1").to_i + 1}
+		end
+		map[old] = el["id"] = id
 	end
+	
+	# Update hrefs
+	doc.css("[href]").each do |el|
+		href = el["href"]
+		if href =~ /#([^#]+)$/ and map.has_key? $1
+			el["href"] = href.gsub /[^#]+$/, map[$1]
+		end
+	end
+	
+	map
 end
 
 # Replace “SHOUTING_SNAKE_CASE” with “calm-kebab-case”
@@ -81,7 +100,7 @@ def inline?(node)
 	if node.is_a? Nokogiri::XML::Node
 		PHRASING_ELEMENTS.include? node.name
 	else
-		node.is_a? String or node.is_a? Nokogiri::XML::CharacterData
+		node.is_a? String or node.is_a? Nokogiri::XML::Text
 	end
 end
 

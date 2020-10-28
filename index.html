@@ -774,8 +774,7 @@
 </div>
 	<div id="readme" class="Box-body readme blob js-code-block-container p-5 p-xl-6 gist-border-0">
 		<article class="markdown-body entry-content container-lg" itemprop="text">
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
+
 <div class="manual-text">
 <section class="Sh">
 <h1 class="Sh" id="name">NAME</h1>
@@ -796,16 +795,16 @@ The <code class="Nm"><b>mdoc</b></code> language supports authoring of manual pa
     and the syntax and usage of the <code class="Nm"><b>mdoc</b></code> language. The
     reference implementation of a parsing and formatting tool is
     <a class="Xr" href="../1/mandoc.1">mandoc(1)</a>; the
-    <a class="Sx" href="#COMPATIBILITY">COMPATIBILITY</a> section describes
+    <a class="Sx" href="#compatibility">COMPATIBILITY</a> section describes
     compatibility with other implementations.</p>
 <p class="Pp">In an <code class="Nm"><b>mdoc</b></code> document, lines beginning with
     the control character ‘.’ are called “macro
     lines”. The first word is the macro name. It consists of two or three
     letters. Most macro names begin with a capital letter. For a list of
-    available macros, see <a class="Sx" href="#MACRO_OVERVIEW">MACRO
+    available macros, see <a class="Sx" href="#macro-overview">MACRO
     OVERVIEW</a>. The words following the macro name are arguments to the macro,
     optionally including the names of other, callable macros; see
-    <a class="Sx" href="#MACRO_SYNTAX">MACRO SYNTAX</a> for details.</p>
+    <a class="Sx" href="#macro-syntax">MACRO SYNTAX</a> for details.</p>
 <p class="Pp">Lines not beginning with the control character are called
     “text lines”. They provide free-form text to be printed; the
     formatting of the text depends on the respective processing context:</p>
@@ -817,12 +816,12 @@ Text lines are interpreted within the current state.
 </div>
 <p class="Pp">Many aspects of the basic syntax of the
     <code class="Nm"><b>mdoc</b></code> language are based on the
-    <a class="Xr" href="roff.7">roff(7)</a> language; see the
+    <a class="Xr" href="../7/roff.7">roff(7)</a> language; see the
     <i class="Em">LANGUAGE SYNTAX</i> and <i class="Em">MACRO SYNTAX</i>
-    sections in the <a class="Xr" href="roff.7">roff(7)</a> manual for details,
-    in particular regarding comments, escape sequences, whitespace, and quoting.
-    However, using <a class="Xr" href="roff.7">roff(7)</a> requests in
-    <code class="Nm"><b>mdoc</b></code> documents is discouraged;
+    sections in the <a class="Xr" href="../7/roff.7">roff(7)</a> manual for
+    details, in particular regarding comments, escape sequences, whitespace, and
+    quoting. However, using <a class="Xr" href="../7/roff.7">roff(7)</a>
+    requests in <code class="Nm"><b>mdoc</b></code> documents is discouraged;
     <a class="Xr" href="../1/mandoc.1">mandoc(1)</a> supports some of them
     merely for backward compatibility.</p>
 </section>
@@ -906,8 +905,7 @@ utility processes files ...
 .Nd a one line description
     </pre>
     </div>
-<p>
-    </p>
+
 <p class="Pp">Multiple ‘Nm’ names should be separated by
         commas.</p>
     <p class="Pp">The <code class="Ic"><b>Nm</b></code> macro(s) must precede the
@@ -924,8 +922,7 @@ utility processes files ...
 .Lb libarm
     </pre>
     </div>
-<p>
-    </p>
+
 <p class="Pp">See <code class="Ic"><b>Lb</b></code>.</p>
   </dd>
   <dt><i class="Em">SYNOPSIS</i></dt>
@@ -1003,8 +1000,7 @@ The
 utility does this, that, and the other.
     </pre>
     </div>
-<p>
-    </p>
+
 <p class="Pp">It usually follows with a breakdown of the options (if
         documenting a command), such as:</p>
     <div class="Bd Pp Bd-indent">
@@ -1136,7 +1132,7 @@ Print verbose information.
 This overview is sorted such that macros of similar purpose are listed together,
   to help find the best macro for any given purpose. Deprecated macros are not
   included in the overview, but can be found below in the alphabetical
-  <a class="Sx" href="#MACRO_REFERENCE">MACRO REFERENCE</a>.
+  <a class="Sx" href="#macro-reference">MACRO REFERENCE</a>.
 <section class="Ss">
 <h2 class="Ss" id="document-preamble-and-name-section-macros">Document
   preamble and NAME section macros</h2>
@@ -1562,7 +1558,7 @@ This overview is sorted such that macros of similar purpose are listed together,
   REFERENCE</h1>
 This section is a canonical reference of all macros, arranged alphabetically.
   For the scoping of individual macros, see
-  <a class="Sx" href="#MACRO_SYNTAX">MACRO SYNTAX</a>.
+  <a class="Sx" href="#macro-syntax">MACRO SYNTAX</a>.
 <dl class="Bl-tag">
   <dt>
 <code class="Ic" id="a"><b>%A</b></code>
@@ -1669,7 +1665,7 @@ This section is a canonical reference of all macros, arranged alphabetically.
       driver documented in the manual, or for the authors of the manual itself.
       Requires either the name of an author or one of the following arguments:
     </p>
-<p class="Pp"></p>
+
     <div class="Bd-indent">
     <dl class="Bl-tag Bl-compact">
       <dt><code class="Fl" id="split"><b>-split</b></code></dt>
@@ -1758,7 +1754,7 @@ key to ...
 <p>Formats an <span class="Ux">AT&amp;T UNIX</span> version. Accepts one
       optional argument:
     </p>
-<p class="Pp"></p>
+
     <div class="Bd-indent">
     <dl class="Bl-tag Bl-compact">
       <dt>
@@ -1771,7 +1767,7 @@ key to ...
       <dd>
 <span class="Ux">AT&amp;T System III UNIX</span>.</dd>
       <dt>
-<code class="Cm" id="v"><b>V</b></code> |
+<code class="Cm" id="v1"><b>V</b></code> |
         <code class="Cm" id="v-1-4"><b>V.[1-4]</b></code>
 </dt>
       <dd>A version of <span class="Ux">AT&amp;T System V
@@ -1848,12 +1844,11 @@ key to ...
               <var class="Ar">Ds</var>, which resolves to
             <b class="Sy">6n</b>.</li>
           <li>A scaling width as described in
-              <a class="Xr" href="roff.7">roff(7)</a>.</li>
+              <a class="Xr" href="../7/roff.7">roff(7)</a>.</li>
           <li>An arbitrary string, which indents by the length of this
             string.</li>
         </ul>
-<p>
-        </p>
+
 <p class="Pp">When the argument is missing,
             <code class="Fl"><b>-offset</b></code> is ignored.</p>
       </dd>
@@ -1931,12 +1926,12 @@ key to ...
         specified first. The <code class="Fl"><b>-width</b></code> and
         <code class="Fl"><b>-offset</b></code> arguments accept macro names as
         described for <code class="Ic"><b>Bd</b> <b>-offset</b></code>, scaling widths as described in
-        <a class="Xr" href="roff.7">roff(7)</a>, or use the length of the given
-        string. The <code class="Fl"><b>-offset</b></code> is a global indentation for
-        the whole list, affecting both item heads and bodies. For those list
-        types supporting it, the <code class="Fl"><b>-width</b></code> argument
-        requests an additional indentation of item bodies, to be added to the
-        <code class="Fl"><b>-offset</b></code>. Unless the
+        <a class="Xr" href="../7/roff.7">roff(7)</a>, or use the length of the
+        given string. The <code class="Fl"><b>-offset</b></code> is a global
+        indentation for the whole list, affecting both item heads and bodies.
+        For those list types supporting it, the <code class="Fl"><b>-width</b></code>
+        argument requests an additional indentation of item bodies, to be added
+        to the <code class="Fl"><b>-offset</b></code>. Unless the
         <code class="Fl"><b>-compact</b></code> argument is specified, list entries are
         separated by vertical space.</p>
     <p class="Pp">A list must specify one of the following list types:</p>
@@ -2474,7 +2469,7 @@ to save the pattern space for subsequent retrieval.
     <div class="Bd Bd-indent"><code class="Li">.Fn dbg_open "const char
       *"</code></div>
     <div class="Bd Bd-indent"><code class="Li">.Fd #endif</code></div>
-    <p class="Pp">See also <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL
+    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>, <code class="Ic"><b>In</b></code>, and
         <code class="Ic"><b>Dv</b></code>.</p>
   </dd>
@@ -2524,7 +2519,7 @@ to save the pattern space for subsequent retrieval.
     </div>
     <p class="Pp">When referring to a function documented in another manual
         page, use <code class="Ic"><b>Xr</b></code> instead. See also
-        <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a>,
+        <a class="Sx" href="#manual-structure">MANUAL STRUCTURE</a>,
         <code class="Ic"><b>Fo</b></code>, and <code class="Ic"><b>Ft</b></code>.</p>
   </dd>
   <dt>
@@ -2550,7 +2545,7 @@ to save the pattern space for subsequent retrieval.
 </div>
     <p class="Pp">A <code class="Ic"><b>Fo</b></code> scope is closed by
         <code class="Ic"><b>Fc</b></code>.</p>
-    <p class="Pp">See also <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL
+    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>, <code class="Ic"><b>Fa</b></code>, <code class="Ic"><b>Fc</b></code>,
         and <code class="Ic"><b>Ft</b></code>.</p>
   </dd>
@@ -2581,7 +2576,7 @@ to save the pattern space for subsequent retrieval.
 .Fn funcname
     </pre>
     </div>
-    <p class="Pp">See also <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL
+    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>, <code class="Ic"><b>Fn</b></code>, and
         <code class="Ic"><b>Fo</b></code>.</p>
   </dd>
@@ -2640,7 +2635,7 @@ to save the pattern space for subsequent retrieval.
         line break.</p>
     <p class="Pp">Examples:</p>
     <div class="Bd Bd-indent"><code class="Li">.In sys/types.h</code></div>
-    <p class="Pp">See also <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL
+    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>.</p>
   </dd>
   <dt>
@@ -2652,7 +2647,7 @@ to save the pattern space for subsequent retrieval.
 <p class="Pp">Lists of type <code class="Fl"><b>-hang</b></code>,
         <code class="Fl"><b>-ohang</b></code>, <code class="Fl"><b>-inset</b></code>, and
         <code class="Fl"><b>-diag</b></code> have the following syntax:</p>
-    <p class="Pp"></p>
+    
     <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
       <var class="Ar">args</var>
 </div>
@@ -2660,7 +2655,7 @@ to save the pattern space for subsequent retrieval.
         <code class="Fl"><b>-dash</b></code>, <code class="Fl"><b>-enum</b></code>,
         <code class="Fl"><b>-hyphen</b></code> and <code class="Fl"><b>-item</b></code> have
         the following syntax:</p>
-    <p class="Pp"></p>
+    
     <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
 </div>
     <p class="Pp">with subsequent lines interpreted within the scope of the
@@ -2668,7 +2663,7 @@ to save the pattern space for subsequent retrieval.
         <code class="Ic"><b>El</b></code> or another <code class="Ic"><b>It</b></code>.</p>
     <p class="Pp">The <code class="Fl"><b>-tag</b></code> list has the following
         syntax:</p>
-    <p class="Pp"></p>
+    
     <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
       [<code class="Cm"><b>args</b></code>]</div>
     <p class="Pp">Subsequent lines are interpreted as with
@@ -2677,7 +2672,7 @@ to save the pattern space for subsequent retrieval.
         the list's contents.</p>
     <p class="Pp">The <code class="Fl"><b>-column</b></code> list is the most
         complicated. Its syntax is as follows:</p>
-    <p class="Pp"></p>
+    
     <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
       <var class="Ar">cell</var> [<code class="Ic"><b>Ta</b></code>
       <var class="Ar">cell ...</var>]</div>
@@ -2703,7 +2698,7 @@ to save the pattern space for subsequent retrieval.
         macro on a line.</p>
     <p class="Pp">Note that quoted strings may span tab-delimited cells on an
         <code class="Ic"><b>It</b></code> line. For example,</p>
-    <p class="Pp"></p>
+    
     <div class="Bd Bd-indent"><code class="Li">.It "col1 , &lt;TAB&gt; col2
       ," ;</code></div>
     <p class="Pp">will preserve the whitespace before both commas, but not the
@@ -2722,7 +2717,7 @@ to save the pattern space for subsequent retrieval.
         is printed next to the linker invocation; or a custom library, in which
         case the library name is printed in quotes. This is most commonly used
         in the <i class="Em">SYNOPSIS</i> section as described in
-        <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a>.</p>
+        <a class="Sx" href="#manual-structure">MANUAL STRUCTURE</a>.</p>
     <p class="Pp">Examples:</p>
     <div class="Bd Bd-indent"><code class="Li">.Lb libz</code></div>
     <div class="Bd Bd-indent"><code class="Li">.Lb libmandoc</code></div>
@@ -2806,10 +2801,10 @@ to save the pattern space for subsequent retrieval.
       invocation happens in the <i class="Em">NAME</i> section of the page. The
       specified name will be remembered and used whenever the macro is called
       again without arguments later in the page. The <code class="Ic"><b>Nm</b></code>
-      macro uses <a class="Sx" href="#Block_full_implicit">Block
+      macro uses <a class="Sx" href="#block-full-implicit">Block
       full-implicit</a> semantics when invoked as the first macro on an input
       line in the <i class="Em">SYNOPSIS</i> section; otherwise, it uses
-      ordinary <a class="Sx" href="#In_line">In-line</a> semantics.
+      ordinary <a class="Sx" href="#in-line">In-line</a> semantics.
     </p>
 <p class="Pp">Examples:</p>
     <div class="Bd Pp Bd-indent">
@@ -2983,7 +2978,7 @@ to save the pattern space for subsequent retrieval.
 <p>Removes the space between its argument and the following macro. It is
       equivalent to:
     </p>
-<p class="Pp"></p>
+
     <div class="Bd Bd-indent">
 <code class="Ic"><b>No</b></code>
       \&amp;<var class="Ar">prefix</var> <code class="Ic"><b>Ns</b></code>
@@ -3106,7 +3101,7 @@ to save the pattern space for subsequent retrieval.
 </dt>
   <dd>
 <p>Begin a new section. For a list of conventional manual sections, see
-      <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a>. These
+      <a class="Sx" href="#manual-structure">MANUAL STRUCTURE</a>. These
       sections should be used unless it's absolutely necessary that custom
       sections be used.
     </p>
@@ -3154,7 +3149,7 @@ to save the pattern space for subsequent retrieval.
 <p>Begin a new subsection. Unlike with <code class="Ic"><b>Sh</b></code>, there is
       no convention for the naming of subsections. Except
       <i class="Em">DESCRIPTION</i>, the conventional sections described in
-      <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a> rarely have
+      <a class="Sx" href="#manual-structure">MANUAL STRUCTURE</a> rarely have
       subsections.
     </p>
 <p class="Pp">Sub-section names should be unique so that they may be keyed
@@ -3174,9 +3169,8 @@ to save the pattern space for subsequent retrieval.
     <dl class="Bl-tag">
       <dt>C language standards</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-ansiC</dt>
           <dd><span class="St">ANSI X3.159-1989
@@ -3194,28 +3188,28 @@ to save the pattern space for subsequent retrieval.
             <br>
             The original C standard.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-isoC-amd1</dt>
           <dd>
 <p><span class="St">ISO/IEC 9899/AMD1:1995 (“ISO C90,
               Amendment 1”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-isoC-tcor1</dt>
           <dd>
 <p><span class="St">ISO/IEC 9899/TCOR1:1994 (“ISO C90,
               Technical Corrigendum 1”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-isoC-tcor2</dt>
           <dd>
 <p><span class="St">ISO/IEC 9899/TCOR2:1995 (“ISO C90,
               Technical Corrigendum 2”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-isoC-99</dt>
           <dd>
@@ -3224,7 +3218,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             The second major version of the C language standard.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-isoC-2011</dt>
           <dd>
@@ -3236,9 +3230,8 @@ to save the pattern space for subsequent retrieval.
       </dd>
       <dt>POSIX.1 before the Single UNIX Specification</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-p1003.1-88</dt>
           <dd><span class="St">IEEE Std 1003.1-1988
@@ -3249,7 +3242,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             The original POSIX standard, based on ANSI C.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.1-90</dt>
           <dd><span class="St">IEEE Std 1003.1-1990
@@ -3261,7 +3254,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             The first update of POSIX.1.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.1b-93</dt>
           <dd><span class="St">IEEE Std 1003.1b-1993
@@ -3273,7 +3266,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             Real-time extensions.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.1c-95</dt>
           <dd>
@@ -3282,7 +3275,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             POSIX thread interfaces.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.1i-95</dt>
           <dd>
@@ -3291,7 +3284,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             Technical Corrigendum.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.1-96</dt>
           <dd><span class="St">ISO/IEC 9945-1:1996
@@ -3306,9 +3299,8 @@ to save the pattern space for subsequent retrieval.
       </dd>
       <dt>X/Open Portability Guide version 4 and related standards</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-xpg3</dt>
           <dd>
@@ -3317,7 +3309,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             An XPG4 precursor, published in 1989.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.2</dt>
           <dd><span class="St">IEEE Std 1003.2
@@ -3332,7 +3324,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             An XCU4 precursor.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.2a-92</dt>
           <dd>
@@ -3341,7 +3333,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             Updates to POSIX.2.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-xpg4</dt>
           <dd>
@@ -3353,9 +3345,8 @@ to save the pattern space for subsequent retrieval.
       </dd>
       <dt>Single UNIX Specification version 1 and related standards</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-susv1</dt>
           <dd><span class="St">Version 1 of the Single UNIX Specification
@@ -3368,21 +3359,21 @@ to save the pattern space for subsequent retrieval.
             This standard was published in 1994. It was used as the basis for
               UNIX 95 certification. The following three refer to parts of it.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-xsh4.2</dt>
           <dd>
 <p><span class="St">X/Open System Interfaces and Headers
               Issue 4, Version 2 (“XSH4.2”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-xcurses4.2</dt>
           <dd>
 <p><span class="St">X/Open Curses Issue 4, Version 2
               (“XCURSES4.2”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.1g-2000</dt>
           <dd>
@@ -3391,7 +3382,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             Networking APIs, including sockets.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-svid4</dt>
           <dd>
@@ -3403,9 +3394,8 @@ to save the pattern space for subsequent retrieval.
       </dd>
       <dt>Single UNIX Specification version 2 and related standards</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-susv2</dt>
           <dd>
@@ -3415,28 +3405,28 @@ to save the pattern space for subsequent retrieval.
               as the basis for UNIX 98 certification. The following refer to
               parts of it.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-xbd5</dt>
           <dd>
 <p><span class="St">X/Open Base Definitions Issue 5
               (“XBD5”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-xsh5</dt>
           <dd>
 <p><span class="St">X/Open System Interfaces and Headers
               Issue 5 (“XSH5”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-xcu5</dt>
           <dd>
 <p><span class="St">X/Open Commands and Utilities Issue 5
               (“XCU5”)</span>
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-xns5</dt>
           <dd><span class="St">X/Open Networking Services Issue 5
@@ -3448,9 +3438,8 @@ to save the pattern space for subsequent retrieval.
       </dd>
       <dt>Single UNIX Specification version 3</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-p1003.1-2001</dt>
           <dd><span class="St">IEEE Std 1003.1-2001
@@ -3464,7 +3453,7 @@ to save the pattern space for subsequent retrieval.
               is also called X/Open Portability Guide version 6. It is used as
               the basis for UNIX 03 certification.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-p1003.1-2004</dt>
           <dd>
@@ -3476,9 +3465,8 @@ to save the pattern space for subsequent retrieval.
       </dd>
       <dt>Single UNIX Specification version 4</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-p1003.1-2008</dt>
           <dd><span class="St">IEEE Std 1003.1-2008
@@ -3494,9 +3482,8 @@ to save the pattern space for subsequent retrieval.
       </dd>
       <dt>Other standards</dt>
       <dd>
-<p>
-        </p>
-<p class="Pp"></p>
+
+
         <dl class="Bl-tag Bl-compact">
           <dt>-ieee754</dt>
           <dd>
@@ -3504,7 +3491,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             Floating-point arithmetic.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-iso8601</dt>
           <dd>
@@ -3512,7 +3499,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             Representation of dates and times, published in 1988.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-iso8802-3</dt>
           <dd>
@@ -3520,7 +3507,7 @@ to save the pattern space for subsequent retrieval.
             <br>
             Ethernet local area networks.
             </p>
-<p class="Pp"></p>
+
           </dd>
           <dt>-ieee1275-94</dt>
           <dd><span class="St">IEEE Std 1275-1994 (“Open
@@ -3611,10 +3598,10 @@ program.
 <p class="Pp">This is also used for indicating global variables in the
         <i class="Em">SYNOPSIS</i> section, in which case a variable name is
         also specified. Note that it accepts
-        <a class="Sx" href="#Block_partial_implicit">Block partial-implicit</a>
+        <a class="Sx" href="#block-partial-implicit">Block partial-implicit</a>
         syntax when invoked as the first macro on an input line in the
         <i class="Em">SYNOPSIS</i> section, else it accepts ordinary
-        <a class="Sx" href="#In_line">In-line</a> syntax. In the former case,
+        <a class="Sx" href="#in-line">In-line</a> syntax. In the former case,
         this macro starts a new output line, and a blank line is inserted in
         front if there is a preceding function definition or include
       directive.</p>
@@ -3627,7 +3614,7 @@ program.
         <code class="Ic"><b>Ft</b></code>, and for variable names outside the
         <i class="Em">SYNOPSIS</i> section <code class="Ic"><b>Va</b></code>, even when
         including a type with the name. See also
-        <a class="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a>.</p>
+        <a class="Sx" href="#manual-structure">MANUAL STRUCTURE</a>.</p>
   </dd>
   <dt><code class="Ic" id="xc"><b>Xc</b></code></dt>
   <dd>Close a scope opened by <code class="Ic"><b>Xo</b></code>.</dd>
@@ -3638,7 +3625,7 @@ program.
   <dd>Extend the header of an <code class="Ic"><b>It</b></code> macro or the body of a
       partial-implicit block macro beyond the end of the input line. This macro
       originally existed to work around the 9-argument limit of historic
-      <a class="Xr" href="roff.7">roff(7)</a>.</dd>
+      <a class="Xr" href="../7/roff.7">roff(7)</a>.</dd>
   <dt>
 <code class="Ic" id="xr-2"><b>Xr</b></code>
     <var class="Ar">name section</var>
@@ -3817,12 +3804,11 @@ Multi-line scope closed by end-of-file or implicitly by another macro. All
 </td>
   </tr>
 </table>
-<p>
-</p>
+
 <p class="Pp">Note that the <code class="Ic"><b>Nm</b></code> macro is a
-    <a class="Sx" href="#Block_full_implicit">Block full-implicit</a> macro only
+    <a class="Sx" href="#block-full-implicit">Block full-implicit</a> macro only
     when invoked as the first macro in a <i class="Em">SYNOPSIS</i> section
-    line, else it is <a class="Sx" href="#In_line">In-line</a>.</p>
+    line, else it is <a class="Sx" href="#in-line">In-line</a>.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="block-partial-explicit">Block
@@ -4098,12 +4084,11 @@ Like block full-implicit, but with single-line scope closed by the end of the
     <td>Yes</td>
   </tr>
 </table>
-<p>
-</p>
+
 <p class="Pp">Note that the <code class="Ic"><b>Vt</b></code> macro is a
-    <a class="Sx" href="#Block_partial_implicit">Block partial-implicit</a> only
+    <a class="Sx" href="#block-partial-implicit">Block partial-implicit</a> only
     when invoked as the first macro in a <i class="Em">SYNOPSIS</i> section
-    line, else it is <a class="Sx" href="#In_line">In-line</a>.</p>
+    line, else it is <a class="Sx" href="#in-line">In-line</a>.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="special-block-macro">Special
@@ -4592,13 +4577,13 @@ When a macro argument consists of one single input character considered as a
     trailing arguments are closing delimiters, these delimiters are put after
     the macro scope. Spacing is suppressed after opening delimiters and before
     closing delimiters. For example,</p>
-<p class="Pp"></p>
+
 <div class="Bd Bd-indent">.Aq ( [ word ] ) .</div>
 <p class="Pp">renders as:</p>
-<p class="Pp"></p>
+
 <div class="Bd Bd-indent">([⟨word⟩]).</div>
 <p class="Pp">Opening delimiters are:</p>
-<p class="Pp"></p>
+
 <div class="Bd-indent">
 <dl class="Bl-tag Bl-compact">
   <dt>(</dt>
@@ -4608,7 +4593,7 @@ When a macro argument consists of one single input character considered as a
 </dl>
 </div>
 <p class="Pp">Closing delimiters are:</p>
-<p class="Pp"></p>
+
 <div class="Bd-indent">
 <dl class="Bl-tag Bl-compact">
   <dt>.</dt>
@@ -4635,10 +4620,10 @@ When a macro argument consists of one single input character considered as a
 <p class="Pp">Many in-line macros interrupt their scope when they encounter
     delimiters, and resume their scope when more arguments follow that are not
     delimiters. For example,</p>
-<p class="Pp"></p>
+
 <div class="Bd Bd-indent">.Fl a ( b | c \*(Ba d ) e</div>
 <p class="Pp">renders as:</p>
-<p class="Pp"></p>
+
 <div class="Bd Bd-indent">
 <code class="Fl"><b>-a</b></code> (<code class="Fl"><b>-b</b></code>
   | <code class="Fl"><b>-c</b></code> | <code class="Fl"><b>-d</b></code>)
@@ -4646,7 +4631,7 @@ When a macro argument consists of one single input character considered as a
 </div>
 <p class="Pp">This applies to both opening and closing delimiters, and also to
     the middle delimiter, which does not suppress spacing:</p>
-<p class="Pp"></p>
+
 <div class="Bd-indent">
 <dl class="Bl-tag Bl-compact">
   <dt>|</dt>
@@ -4663,11 +4648,11 @@ When a macro argument consists of one single input character considered as a
 In <code class="Nm"><b>mdoc</b></code> documents, usage of semantic markup is
   recommended in order to have proper fonts automatically selected; only when no
   fitting semantic markup is available, consider falling back to
-  <a class="Sx" href="#Physical_markup">Physical markup</a> macros. Whenever any
+  <a class="Sx" href="#physical-markup">Physical markup</a> macros. Whenever any
   <code class="Nm"><b>mdoc</b></code> macro switches the
-  <a class="Xr" href="roff.7">roff(7)</a> font mode, it will automatically
+  <a class="Xr" href="../7/roff.7">roff(7)</a> font mode, it will automatically
   restore the previous font when exiting its scope. Manually switching the font
-  using the <a class="Xr" href="roff.7">roff(7)</a>
+  using the <a class="Xr" href="../7/roff.7">roff(7)</a>
   ‘<code class="Li">\f</code>’ font escape sequences is never
   required.
 </section>
@@ -4679,7 +4664,7 @@ This section provides an incomplete list of compatibility issues between mandoc
   and GNU troff (“groff”).
 </p>
 <p class="Pp">The following problematic behaviour is found in groff:</p>
-<p class="Pp"></p>
+
 <ul class="Bl-dash Bl-compact">
   <li>
 <code class="Ic" id="dd-4"><b>Dd</b></code>
@@ -4709,7 +4694,7 @@ This section provides an incomplete list of compatibility issues between mandoc
       them to zero.</li>
 </ul>
 <p class="Pp">The following features are unimplemented in mandoc:</p>
-<p class="Pp"></p>
+
 <ul class="Bl-dash Bl-compact">
   <li>
 <code class="Ic" id="bd-4"><b>Bd</b> <b>-file</b></code> <var class="Ar">file</var> is unsupported
@@ -4736,7 +4721,7 @@ This section provides an incomplete list of compatibility issues between mandoc
   <a class="Xr" href="../7/eqn.7">eqn(7)</a>,
   <a class="Xr" href="../7/man.7">man(7)</a>,
   <a class="Xr" href="../7/mandoc_char.7">mandoc_char(7)</a>,
-  <a class="Xr" href="roff.7">roff(7)</a>,
+  <a class="Xr" href="../7/roff.7">roff(7)</a>,
   <a class="Xr" href="../7/tbl.7">tbl(7)</a>
 </p>
 <p class="Pp">The web page
@@ -4762,7 +4747,7 @@ The <code class="Nm"><b>mdoc</b></code> reference was written by
 </section>
 </div>
 
-</body></html>
+
 </article>
 </div>
 </div>
