@@ -775,6 +775,7 @@
 	<div id="readme" class="Box-body readme blob js-code-block-container p-5 p-xl-6 gist-border-0">
 		<article class="markdown-body entry-content container-lg" itemprop="text">
 
+
 <div class="manual-text">
 <section class="Sh">
 <h1 class="Sh" id="name">NAME</h1>
@@ -797,6 +798,7 @@ The <code class="Nm"><b>mdoc</b></code> language supports authoring of manual pa
     <a class="Xr" href="../1/mandoc.1">mandoc(1)</a>; the
     <a class="Sx" href="#compatibility">COMPATIBILITY</a> section describes
     compatibility with other implementations.</p>
+
 <p class="Pp">In an <code class="Nm"><b>mdoc</b></code> document, lines beginning with
     the control character ‘.’ are called “macro
     lines”. The first word is the macro name. It consists of two or three
@@ -805,15 +807,19 @@ The <code class="Nm"><b>mdoc</b></code> language supports authoring of manual pa
     OVERVIEW</a>. The words following the macro name are arguments to the macro,
     optionally including the names of other, callable macros; see
     <a class="Sx" href="#macro-syntax">MACRO SYNTAX</a> for details.</p>
+
 <p class="Pp">Lines not beginning with the control character are called
     “text lines”. They provide free-form text to be printed; the
     formatting of the text depends on the respective processing context:</p>
+
 <div class="Bd Pp Bd-indent">
+
 <pre>
 .Sh Macro lines change control state.
 Text lines are interpreted within the current state.
 </pre>
 </div>
+
 <p class="Pp">Many aspects of the basic syntax of the
     <code class="Nm"><b>mdoc</b></code> language are based on the
     <a class="Xr" href="../7/roff.7">roff(7)</a> language; see the
@@ -835,16 +841,21 @@ A well-formed <code class="Nm"><b>mdoc</b></code> document consists of a documen
 <p class="Pp">The prologue, which consists of the <code class="Ic"><b>Dd</b></code>,
     <code class="Ic"><b>Dt</b></code>, and <code class="Ic"><b>Os</b></code> macros in that
     order, is required for every document.</p>
+
 <p class="Pp">The first section (sections are denoted by
     <code class="Ic"><b>Sh</b></code>) must be the NAME section, consisting of at least
     one <code class="Ic"><b>Nm</b></code> followed by <code class="Ic"><b>Nd</b></code>.</p>
+
 <p class="Pp">Following that, convention dictates specifying at least the
     <i class="Em">SYNOPSIS</i> and <i class="Em">DESCRIPTION</i> sections,
     although this varies between manual sections.</p>
+
 <p class="Pp">The following is a well-formed skeleton
     <code class="Nm"><b>mdoc</b></code> file for a utility
   “progname”:</p>
+
 <div class="Bd Pp Bd-indent">
+
 <pre>
 .Dd $Mdocdate$
 .Dt PROGNAME section
@@ -890,15 +901,20 @@ utility processes files ...
 .\" Not used in OpenBSD.
 </pre>
 </div>
+
 <p class="Pp">The sections in an <code class="Nm"><b>mdoc</b></code> document are
     conventionally ordered as they appear above. Sections should be composed as
     follows:</p>
+
 <dl class="Bl-ohang Bd-indent">
   <dt><i class="Em">NAME</i></dt>
-  <dd>The name(s) and a one line description of the documented material. The
+  <dd>
+<p>The name(s) and a one line description of the documented material. The
       syntax for this as follows:
-    <div class="Bd Pp Bd-indent">
-    <pre>
+    </p>
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Nm name0 ,
 .Nm name1 ,
 .Nm name2
@@ -908,17 +924,22 @@ utility processes files ...
 
 <p class="Pp">Multiple ‘Nm’ names should be separated by
         commas.</p>
-    <p class="Pp">The <code class="Ic"><b>Nm</b></code> macro(s) must precede the
+
+<p class="Pp">The <code class="Ic"><b>Nm</b></code> macro(s) must precede the
         <code class="Ic"><b>Nd</b></code> macro.</p>
-    <p class="Pp">See <code class="Ic"><b>Nm</b></code> and
+
+<p class="Pp">See <code class="Ic"><b>Nm</b></code> and
       <code class="Ic"><b>Nd</b></code>.</p>
   </dd>
   <dt><i class="Em">LIBRARY</i></dt>
-  <dd>The name of the library containing the documented material, which is
+  <dd>
+<p>The name of the library containing the documented material, which is
       assumed to be a function in a section 2, 3, or 9 manual. The syntax for
       this is as follows:
-    <div class="Bd Pp Bd-indent">
-    <pre>
+    </p>
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Lb libarm
     </pre>
     </div>
@@ -932,8 +953,10 @@ utility processes files ...
     </p>
 <p class="Pp">For the first, utilities (sections 1, 6, and 8), this is
         generally structured as follows:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Nm bar
 .Op Fl v
 .Op Fl o Ar file
@@ -944,10 +967,14 @@ utility processes files ...
 .Op Ar
     </pre>
     </div>
-    <p class="Pp">Commands should be ordered alphabetically.</p>
-    <p class="Pp">For the second, function calls (sections 2, 3, 9):</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<p class="Pp">Commands should be ordered alphabetically.</p>
+
+<p class="Pp">For the second, function calls (sections 2, 3, 9):</p>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .In header.h
 .Vt extern const char *global;
 .Ft "char *"
@@ -956,20 +983,26 @@ utility processes files ...
 .Fn bar "const char *src"
     </pre>
     </div>
-    <p class="Pp">Ordering of <code class="Ic"><b>In</b></code>,
+
+<p class="Pp">Ordering of <code class="Ic"><b>In</b></code>,
         <code class="Ic"><b>Vt</b></code>, <code class="Ic"><b>Fn</b></code>, and
         <code class="Ic"><b>Fo</b></code> macros should follow C header-file
         conventions.</p>
-    <p class="Pp">And for the third, configurations (section 4):</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<p class="Pp">And for the third, configurations (section 4):</p>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Cd "it* at isa? port 0x2e"
 .Cd "it* at isa? port 0x4e"
     </pre>
     </div>
-    <p class="Pp">Manuals not in these sections generally don't need a
+
+<p class="Pp">Manuals not in these sections generally don't need a
         <i class="Em">SYNOPSIS</i>.</p>
-    <p class="Pp">Some macros are displayed differently in the
+
+<p class="Pp">Some macros are displayed differently in the
         <i class="Em">SYNOPSIS</i> section, particularly
         <code class="Ic"><b>Nm</b></code>, <code class="Ic"><b>Cd</b></code>,
         <code class="Ic"><b>Fd</b></code>, <code class="Ic"><b>Fn</b></code>,
@@ -982,7 +1015,8 @@ utility processes files ...
         <code class="Ic"><b>Fo</b></code>, <code class="Ic"><b>Fn</b></code>, and
         <code class="Ic"><b>Ft</b></code>, which are always separated by vertical
         space.</p>
-    <p class="Pp">When text and macros following an <code class="Ic"><b>Nm</b></code>
+
+<p class="Pp">When text and macros following an <code class="Ic"><b>Nm</b></code>
         macro starting an input line span multiple output lines, all output
         lines but the first will be indented to align with the text immediately
         following the <code class="Ic"><b>Nm</b></code> macro, up to the next
@@ -991,10 +1025,13 @@ utility processes files ...
         whichever comes first.</p>
   </dd>
   <dt><i class="Em">DESCRIPTION</i></dt>
-  <dd>This begins with an expansion of the brief, one line description in
+  <dd>
+<p>This begins with an expansion of the brief, one line description in
       <i class="Em">NAME</i>:
-    <div class="Bd Pp Bd-indent">
-    <pre>
+    </p>
+<div class="Bd Pp Bd-indent">
+
+<pre>
 The
 .Nm
 utility does this, that, and the other.
@@ -1003,8 +1040,10 @@ utility does this, that, and the other.
 
 <p class="Pp">It usually follows with a breakdown of the options (if
         documenting a command), such as:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 The arguments are as follows:
 .Bl -tag -width Ds
 .It Fl v
@@ -1012,13 +1051,16 @@ Print verbose information.
 .El
     </pre>
     </div>
-    <p class="Pp">List the options in alphabetical order, uppercase before
+
+<p class="Pp">List the options in alphabetical order, uppercase before
         lowercase for each letter and with no regard to whether an option takes
         an argument. Put digits in ascending order before all letter
       options.</p>
-    <p class="Pp">Manuals not documenting a command won't include the above
+
+<p class="Pp">Manuals not documenting a command won't include the above
         fragment.</p>
-    <p class="Pp">Since the <i class="Em">DESCRIPTION</i> section usually
+
+<p class="Pp">Since the <i class="Em">DESCRIPTION</i> section usually
         contains most of the text of a manual, longer manuals often use the
         <code class="Ic"><b>Ss</b></code> macro to form subsections. In very long
         manuals, the <i class="Em">DESCRIPTION</i> may be split into multiple
@@ -1077,7 +1119,8 @@ Print verbose information.
 <p class="Pp">Historically, this section was used in place of
         <i class="Em">EXIT STATUS</i> for manuals in sections 1, 6, and 8;
         however, this practise is discouraged.</p>
-    <p class="Pp">See <code class="Ic"><b>Bl</b> <b>-diag</b></code>.</p>
+
+<p class="Pp">See <code class="Ic"><b>Bl</b> <b>-diag</b></code>.</p>
   </dd>
   <dt><i class="Em">ERRORS</i></dt>
   <dd>
@@ -1095,7 +1138,8 @@ Print verbose information.
 <p class="Pp">References to other documentation concerning the topic of the
         manual page, for example authoritative books or journal articles, may
         also be provided in this section.</p>
-    <p class="Pp">See <code class="Ic"><b>Rs</b></code> and
+
+<p class="Pp">See <code class="Ic"><b>Rs</b></code> and
       <code class="Ic"><b>Xr</b></code>.</p>
   </dd>
   <dt><i class="Em">STANDARDS</i></dt>
@@ -1136,6 +1180,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="document-preamble-and-name-section-macros">Document
   preamble and NAME section macros</h2>
+
 <table class="Bl-column">
   <tr>
     <td><code class="Ic" id="dd"><b>Dd</b></code></td>
@@ -1166,6 +1211,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="sections-and-cross-references">Sections
   and cross references</h2>
+
 <table class="Bl-column">
   <tr>
     <td><code class="Ic" id="sh"><b>Sh</b></code></td>
@@ -1194,6 +1240,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="displays-and-lists">Displays
   and lists</h2>
+
 <table class="Bl-column">
   <tr>
     <td>
@@ -1249,6 +1296,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="spacing-control">Spacing
   control</h2>
+
 <table class="Bl-column">
   <tr>
     <td><code class="Ic" id="pf"><b>Pf</b></code></td>
@@ -1280,6 +1328,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="semantic-markup-for-command-line-utilities">Semantic
   markup for command line utilities</h2>
+
 <table class="Bl-column">
   <tr>
     <td><code class="Ic" id="nm-2"><b>Nm</b></code></td>
@@ -1321,6 +1370,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="semantic-markup-for-function-libraries">Semantic
   markup for function libraries</h2>
+
 <table class="Bl-column">
   <tr>
     <td><code class="Ic" id="lb"><b>Lb</b></code></td>
@@ -1380,6 +1430,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="various-semantic-markup">Various
   semantic markup</h2>
+
 <table class="Bl-column">
   <tr>
     <td><code class="Ic" id="an"><b>An</b></code></td>
@@ -1413,6 +1464,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="physical-markup">Physical
   markup</h2>
+
 <table class="Bl-column">
   <tr>
     <td><code class="Ic" id="em"><b>Em</b></code></td>
@@ -1442,6 +1494,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="physical-enclosures">Physical
   enclosures</h2>
+
 <table class="Bl-column">
   <tr>
     <td>
@@ -1504,6 +1557,7 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Ss">
 <h2 class="Ss" id="text-production">Text
   production</h2>
+
 <table class="Bl-column">
   <tr>
     <td>
@@ -1556,9 +1610,11 @@ This overview is sorted such that macros of similar purpose are listed together,
 <section class="Sh">
 <h1 class="Sh" id="macro-reference">MACRO
   REFERENCE</h1>
+<p>
 This section is a canonical reference of all macros, arranged alphabetically.
   For the scoping of individual macros, see
   <a class="Sx" href="#macro-syntax">MACRO SYNTAX</a>.
+</p>
 <dl class="Bl-tag">
   <dt>
 <code class="Ic" id="a"><b>%A</b></code>
@@ -1652,8 +1708,10 @@ This section is a canonical reference of all macros, arranged alphabetically.
 <p>Memory address. Do not use this for postal addresses.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Ad [0,$]</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ad 0x00000000</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ad [0,$]</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ad 0x00000000</code></div>
   </dd>
   <dt>
 <code class="Ic" id="an-2"><b>An</b> <b>-split</b></code> |
@@ -1666,8 +1724,10 @@ This section is a canonical reference of all macros, arranged alphabetically.
       Requires either the name of an author or one of the following arguments:
     </p>
 
-    <div class="Bd-indent">
-    <dl class="Bl-tag Bl-compact">
+
+<div class="Bd-indent">
+
+<dl class="Bl-tag Bl-compact">
       <dt><code class="Fl" id="split"><b>-split</b></code></dt>
       <dd>Start a new output line before each subsequent invocation of
           <code class="Ic"><b>An</b></code>.</dd>
@@ -1675,15 +1735,19 @@ This section is a canonical reference of all macros, arranged alphabetically.
       <dd>The opposite of <code class="Fl"><b>-split</b></code>.</dd>
     </dl>
     </div>
-    <p class="Pp">The default is <code class="Fl"><b>-nosplit</b></code>. The effect of
+
+<p class="Pp">The default is <code class="Fl"><b>-nosplit</b></code>. The effect of
         selecting either of the <code class="Fl"><b>-split</b></code> modes ends at the
         beginning of the <i class="Em">AUTHORS</i> section. In the
         <i class="Em">AUTHORS</i> section, the default is
         <code class="Fl"><b>-nosplit</b></code> for the first author listing and
         <code class="Fl"><b>-split</b></code> for all other author listings.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.An -nosplit</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.An Kristaps Dzonsons Aq Mt
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.An -nosplit</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.An Kristaps Dzonsons Aq Mt
       kristaps@bsd.lv</code></div>
   </dd>
   <dt>
@@ -1700,7 +1764,8 @@ This section is a canonical reference of all macros, arranged alphabetically.
       a function.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Fn execve Ap d</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Fn execve Ap d</code></div>
   </dd>
   <dt>
 <code class="Ic" id="aq-2"><b>Aq</b></code>
@@ -1713,23 +1778,28 @@ This section is a canonical reference of all macros, arranged alphabetically.
     </p>
 <p class="Pp">Occasionally, it is used for names of characters and keys, for
         example:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 Press the
 .Aq escape
 key to ...
     </pre>
     </div>
-    <p class="Pp">For URIs, use <code class="Ic"><b>Lk</b></code> instead, and
+
+<p class="Pp">For URIs, use <code class="Ic"><b>Lk</b></code> instead, and
         <code class="Ic"><b>In</b></code> for “#include” directives.
         Never wrap <code class="Ic"><b>Ar</b></code> in <code class="Ic"><b>Aq</b></code>.</p>
-    <p class="Pp">Since <code class="Ic"><b>Aq</b></code> usually renders with
+
+<p class="Pp">Since <code class="Ic"><b>Aq</b></code> usually renders with
         non-ASCII characters in non-ASCII output modes, do not use it where the
         ASCII characters ‘&lt;’ and ‘&gt;’ are
         required as syntax elements. Instead, use these characters directly in
         such cases, combining them with the macros <code class="Ic"><b>Pf</b></code>,
         <code class="Ic"><b>Ns</b></code>, or <code class="Ic"><b>Eo</b></code> as needed.</p>
-    <p class="Pp">See also <code class="Ic"><b>Ao</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Ao</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="ar-2"><b>Ar</b></code>
@@ -1739,10 +1809,14 @@ key to ...
       ...” is used as a default.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Fl o Ar file</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ar</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ar arg1 , arg2 .</code></div>
-    <p class="Pp">The arguments to the <code class="Ic"><b>Ar</b></code> macro are
+
+<div class="Bd Bd-indent"><code class="Li">.Fl o Ar file</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ar</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ar arg1 , arg2 .</code></div>
+
+<p class="Pp">The arguments to the <code class="Ic"><b>Ar</b></code> macro are
         names and placeholders for command arguments; for fixed strings to be
         passed verbatim as arguments, use <code class="Ic"><b>Fl</b></code> or
         <code class="Ic"><b>Cm</b></code>.</p>
@@ -1755,8 +1829,10 @@ key to ...
       optional argument:
     </p>
 
-    <div class="Bd-indent">
-    <dl class="Bl-tag Bl-compact">
+
+<div class="Bd-indent">
+
+<dl class="Bl-tag Bl-compact">
       <dt>
 <code class="Cm" id="v-1-7"><b>v[1-7]</b></code>
         |
@@ -1774,12 +1850,18 @@ key to ...
         UNIX</span>.</dd>
     </dl>
     </div>
-    <p class="Pp">Note that these arguments do not begin with a hyphen.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.At</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.At III</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.At V.1</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Bsx</b></code>,
+
+<p class="Pp">Note that these arguments do not begin with a hyphen.</p>
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.At</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.At III</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.At V.1</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Bsx</b></code>,
         <code class="Ic"><b>Bx</b></code>, <code class="Ic"><b>Dx</b></code>,
         <code class="Ic"><b>Fx</b></code>, <code class="Ic"><b>Nx</b></code>, and
         <code class="Ic"><b>Ox</b></code>.</p>
@@ -1799,8 +1881,10 @@ key to ...
     </p>
 <p class="Pp">The <var class="Ar">type</var> must be one of the
       following:</p>
-    <div class="Bd-indent">
-    <dl class="Bl-tag">
+
+<div class="Bd-indent">
+
+<dl class="Bl-tag">
       <dt><code class="Fl" id="centered"><b>-centered</b></code></dt>
       <dd>Produce one output line from each input line, and center-justify each
           line. Using this display type is not recommended; many
@@ -1821,17 +1905,22 @@ key to ...
           output device.</dd>
     </dl>
     </div>
-    <p class="Pp">The <var class="Ar">type</var> must be provided first.
+
+<p class="Pp">The <var class="Ar">type</var> must be provided first.
         Additional arguments may follow:</p>
-    <div class="Bd-indent">
-    <dl class="Bl-tag">
+
+<div class="Bd-indent">
+
+<dl class="Bl-tag">
       <dt>
 <code class="Fl" id="offset"><b>-offset</b></code>
         <var class="Ar">width</var>
 </dt>
-      <dd>Indent the display by the <var class="Ar">width</var>, which may be
+      <dd>
+<p>Indent the display by the <var class="Ar">width</var>, which may be
           one of the following:
-        <ul class="Bl-item">
+        </p>
+<ul class="Bl-item">
           <li>One of the pre-defined strings <code class="Cm"><b>indent</b></code>, the
               width of a standard indentation (six constant width characters);
               <code class="Cm"><b>indent-two</b></code>, twice
@@ -1856,15 +1945,19 @@ key to ...
       <dd>Do not assert vertical space before the display.</dd>
     </dl>
     </div>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Bd -literal -offset indent -compact
    Hello       world.
 .Ed
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>D1</b></code> and
+
+<p class="Pp">See also <code class="Ic"><b>D1</b></code> and
         <code class="Ic"><b>Dl</b></code>.</p>
   </dd>
   <dt>
@@ -1900,17 +1993,21 @@ key to ...
     </p>
 <p class="Pp">The <code class="Fl"><b>-words</b></code> argument is required;
         additional arguments are ignored.</p>
-    <p class="Pp">The following example will not break within each
+
+<p class="Pp">The following example will not break within each
         <code class="Ic"><b>Op</b></code> macro line:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Bk -words
 .Op Fl f Ar flags
 .Op Fl o Ar output
 .Ek
     </pre>
     </div>
-    <p class="Pp">Be careful in using over-long lines within a keep block! Doing
+
+<p class="Pp">Be careful in using over-long lines within a keep block! Doing
         so will clobber the right margin.</p>
   </dd>
   <dt>
@@ -1934,9 +2031,12 @@ key to ...
         to the <code class="Fl"><b>-offset</b></code>. Unless the
         <code class="Fl"><b>-compact</b></code> argument is specified, list entries are
         separated by vertical space.</p>
-    <p class="Pp">A list must specify one of the following list types:</p>
-    <div class="Bd-indent">
-    <dl class="Bl-tag">
+
+<p class="Pp">A list must specify one of the following list types:</p>
+
+<div class="Bd-indent">
+
+<dl class="Bl-tag">
       <dt><code class="Fl" id="bullet"><b>-bullet</b></code></dt>
       <dd>No item heads can be specified, but a bullet will be printed at the
           head of each item. Item bodies start on the same output line as the
@@ -1989,10 +2089,12 @@ key to ...
           head.</dd>
     </dl>
     </div>
-    <p class="Pp">Lists may be nested within lists and displays. Nesting of
+
+<p class="Pp">Lists may be nested within lists and displays. Nesting of
         <code class="Fl"><b>-column</b></code> and <code class="Fl"><b>-enum</b></code> lists
         may not be portable.</p>
-    <p class="Pp">See also <code class="Ic"><b>El</b></code> and
+
+<p class="Pp">See also <code class="Ic"><b>El</b></code> and
         <code class="Ic"><b>It</b></code>.</p>
   </dd>
   <dt>
@@ -2004,13 +2106,16 @@ key to ...
       arguments.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Bo 1 ,
 .Dv BUFSIZ Bc
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>Bq</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Bq</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="bq-2"><b>Bq</b></code>
@@ -2020,12 +2125,15 @@ key to ...
 <p>Encloses its arguments in square brackets.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Bq 1, Dv BUFSIZ</code></div>
-    <p class="Pp"><i class="Em">Remarks</i>: this macro is sometimes abused to
+
+<div class="Bd Bd-indent"><code class="Li">.Bq 1, Dv BUFSIZ</code></div>
+
+<p class="Pp"><i class="Em">Remarks</i>: this macro is sometimes abused to
         emulate optional arguments for commands; the correct macros to use for
         this purpose are <code class="Ic"><b>Op</b></code>, <code class="Ic"><b>Oo</b></code>,
         and <code class="Ic"><b>Oc</b></code>.</p>
-    <p class="Pp">See also <code class="Ic"><b>Bo</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Bo</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="brc"><b>Brc</b></code></dt>
   <dd>Close a <code class="Ic"><b>Bro</b></code> block. Does not have any tail
@@ -2038,13 +2146,16 @@ key to ...
 <p>Begin a block enclosed by curly braces. Does not have any head arguments.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Bro 1 , ... ,
 .Va n Brc
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>Brq</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Brq</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="brq-2"><b>Brq</b></code>
@@ -2054,8 +2165,10 @@ key to ...
 <p>Encloses its arguments in curly braces.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Brq 1, ..., Va n</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Bro</b></code>.</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Brq 1, ..., Va n</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Bro</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="bsx-2"><b>Bsx</b></code>
@@ -2065,9 +2178,12 @@ key to ...
       or a default value if no argument is provided.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Bsx 1.0</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Bsx</code></div>
-    <p class="Pp">See also <code class="Ic"><b>At</b></code>,
+
+<div class="Bd Bd-indent"><code class="Li">.Bsx 1.0</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Bsx</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>At</b></code>,
         <code class="Ic"><b>Bx</b></code>, <code class="Ic"><b>Dx</b></code>,
         <code class="Ic"><b>Fx</b></code>, <code class="Ic"><b>Nx</b></code>, and
         <code class="Ic"><b>Ox</b></code>.</p>
@@ -2083,10 +2199,14 @@ key to ...
       a default value if no argument is provided.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Bx 4.3 Tahoe</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Bx 4.4</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Bx</code></div>
-    <p class="Pp">See also <code class="Ic"><b>At</b></code>,
+
+<div class="Bd Bd-indent"><code class="Li">.Bx 4.3 Tahoe</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Bx 4.4</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Bx</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>At</b></code>,
         <code class="Ic"><b>Bsx</b></code>, <code class="Ic"><b>Dx</b></code>,
         <code class="Ic"><b>Fx</b></code>, <code class="Ic"><b>Nx</b></code>, and
         <code class="Ic"><b>Ox</b></code>.</p>
@@ -2101,9 +2221,11 @@ key to ...
       section 4 manual pages.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Cd device le0 at
+
+<div class="Bd Bd-indent"><code class="Li">.Cd device le0 at
       scode?</code></div>
-    <p class="Pp"><i class="Em">Remarks</i>: this macro is commonly abused by
+
+<p class="Pp"><i class="Em">Remarks</i>: this macro is commonly abused by
         using quoted literals to retain whitespace and align consecutive
         <code class="Ic"><b>Cd</b></code> declarations. This practise is
       discouraged.</p>
@@ -2118,15 +2240,20 @@ key to ...
       specifying configuration options or keys.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Nm mt Fl f Ar device Cm
+
+<div class="Bd Bd-indent"><code class="Li">.Nm mt Fl f Ar device Cm
       rewind</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Nm ps Fl o Cm pid , Ns Cm
+
+<div class="Bd Bd-indent"><code class="Li">.Nm ps Fl o Cm pid , Ns Cm
       command</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Nm dd Cm if= Ns Ar file1 Cm of=
+
+<div class="Bd Bd-indent"><code class="Li">.Nm dd Cm if= Ns Ar file1 Cm of=
       Ns Ar file2</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Cm IdentityFile Pa
+
+<div class="Bd Bd-indent"><code class="Li">.Cm IdentityFile Pa
       ~/.ssh/id_rsa</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Cm LogLevel Dv
+
+<div class="Bd Bd-indent"><code class="Li">.Cm LogLevel Dv
       DEBUG</code></div>
   </dd>
   <dt>
@@ -2138,8 +2265,10 @@ key to ...
       useful for simple indented statements. It is followed by a newline.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.D1 Fl abcdefgh</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Bd</b></code> and
+
+<div class="Bd Bd-indent"><code class="Li">.D1 Fl abcdefgh</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Bd</b></code> and
         <code class="Ic"><b>Dl</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="db"><b>Db</b></code></dt>
@@ -2160,10 +2289,12 @@ key to ...
 <p class="Pp">The <var class="Ar">month</var> is the full English month
         name, the <var class="Ar">day</var> is an integer number, and the
         <var class="Ar">year</var> is the full four-digit year.</p>
-    <p class="Pp">Other arguments are not portable; the
+
+<p class="Pp">Other arguments are not portable; the
         <a class="Xr" href="../1/mandoc.1">mandoc(1)</a> utility handles them as
         follows:</p>
-    <ul class="Bl-dash Bd-indent Bl-compact">
+
+<ul class="Bl-dash Bd-indent Bl-compact">
       <li>To have the date automatically filled in by the
           <span class="Ux">OpenBSD</span> version of
           <a class="Xr" href="../1/cvs.1">cvs(1)</a>, the special string
@@ -2175,12 +2306,17 @@ key to ...
       <li>If a date string cannot be parsed, it is used verbatim.</li>
       <li>If no date string is given, the current date is used.</li>
     </ul>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Dd $Mdocdate$</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Dd $Mdocdate: July 2
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Dd $Mdocdate$</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Dd $Mdocdate: July 2
       2018$</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Dd July 2, 2018</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Dt</b></code> and
+
+<div class="Bd Bd-indent"><code class="Li">.Dd July 2, 2018</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Dt</b></code> and
         <code class="Ic"><b>Os</b></code>.</p>
   </dd>
   <dt>
@@ -2192,9 +2328,11 @@ key to ...
       for commands and invocations. It is followed by a newline.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Dl % mandoc mdoc.7 \(ba
+
+<div class="Bd Bd-indent"><code class="Li">.Dl % mandoc mdoc.7 \(ba
       less</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Ql</b></code>,
+
+<p class="Pp">See also <code class="Ic"><b>Ql</b></code>,
         <code class="Ic"><b>Bd</b> <b>-literal</b></code>, and
         <code class="Ic"><b>D1</b></code>.</p>
   </dd>
@@ -2206,15 +2344,18 @@ key to ...
 <p>Begin a block enclosed by double quotes. Does not have any head arguments.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Do
 April is the cruellest month
 .Dc
 \(em T.S. Eliot
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>Dq</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Dq</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="dq-2"><b>Dq</b></code>
@@ -2224,13 +2365,16 @@ April is the cruellest month
 <p>Encloses its arguments in “typographic” double-quotes.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Dq April is the cruellest month
 \(em T.S. Eliot
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>Qq</b></code>,
+
+<p class="Pp">See also <code class="Ic"><b>Qq</b></code>,
         <code class="Ic"><b>Sq</b></code>, and <code class="Ic"><b>Do</b></code>.</p>
   </dd>
   <dt>
@@ -2241,8 +2385,10 @@ April is the cruellest month
       second macro of any <code class="Nm"><b>mdoc</b></code> file.
     </p>
 <p class="Pp">Its arguments are as follows:</p>
-    <div class="Bd-indent">
-    <dl class="Bl-tag">
+
+<div class="Bd-indent">
+
+<dl class="Bl-tag">
       <dt><var class="Ar">TITLE</var></dt>
       <dd>The document's title (name), defaulting to “UNTITLED” if
           unspecified. To achieve a uniform appearance of page header lines, it
@@ -2266,10 +2412,14 @@ April is the cruellest month
           varies by operating system.</dd>
     </dl>
     </div>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Dt FOO 1</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Dt FOO 9 i386</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Dd</b></code> and
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Dt FOO 1</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Dt FOO 9 i386</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Dd</b></code> and
         <code class="Ic"><b>Os</b></code>.</p>
   </dd>
   <dt>
@@ -2281,10 +2431,14 @@ April is the cruellest month
       enumeration values, and so on.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Dv NULL</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Dv BUFSIZ</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Dv STDOUT_FILENO</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Er</b></code> and
+
+<div class="Bd Bd-indent"><code class="Li">.Dv NULL</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Dv BUFSIZ</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Dv STDOUT_FILENO</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Er</b></code> and
         <code class="Ic"><b>Ev</b></code> for special-purpose constants,
         <code class="Ic"><b>Va</b></code> for variable symbols, and
         <code class="Ic"><b>Fd</b></code> for listing preprocessor variable definitions
@@ -2298,9 +2452,12 @@ April is the cruellest month
       argument, or a default value if no argument is provided.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Dx 2.4.1</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Dx</code></div>
-    <p class="Pp">See also <code class="Ic"><b>At</b></code>,
+
+<div class="Bd Bd-indent"><code class="Li">.Dx 2.4.1</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Dx</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>At</b></code>,
         <code class="Ic"><b>Bsx</b></code>, <code class="Ic"><b>Bx</b></code>,
         <code class="Ic"><b>Fx</b></code>, <code class="Ic"><b>Nx</b></code>, and
         <code class="Ic"><b>Ox</b></code>.</p>
@@ -2338,9 +2495,12 @@ April is the cruellest month
         for technical terms and placeholders, except that for syntax elements,
         <code class="Ic"><b>Sy</b></code> and <code class="Ic"><b>Ar</b></code> are preferred,
         respectively.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent">
+
+<pre>
 Selected lines are those
 .Em not
 matching any of the specified patterns.
@@ -2349,7 +2509,8 @@ Some of the functions use a
 to save the pattern space for subsequent retrieval.
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>No</b></code>,
+
+<p class="Pp">See also <code class="Ic"><b>No</b></code>,
         <code class="Ic"><b>Ql</b></code>, and <code class="Ic"><b>Sy</b></code>.</p>
   </dd>
   <dt>
@@ -2378,9 +2539,12 @@ to save the pattern space for subsequent retrieval.
       global variable. This is most often used in section 2 and 3 manual pages.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Er EPERM</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Er ENOENT</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Dv</b></code> for general constants.</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Er EPERM</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Er ENOENT</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Dv</b></code> for general constants.</p>
   </dd>
   <dt>
 <code class="Ic" id="es"><b>Es</b></code>
@@ -2402,9 +2566,12 @@ to save the pattern space for subsequent retrieval.
       <a class="Xr" href="../7/environ.7">environ(7)</a>.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Ev DISPLAY</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ev PATH</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Dv</b></code> for general constants.</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Ev DISPLAY</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ev PATH</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Dv</b></code> for general constants.</p>
   </dd>
   <dt>
 <code class="Ic" id="ex-2"><b>Ex</b> <b>-std</b></code> [<var class="Ar">utility ...</var>]</dt>
@@ -2417,7 +2584,8 @@ to save the pattern space for subsequent retrieval.
         document's name set by <code class="Ic"><b>Nm</b></code> is used. Multiple
         <var class="Ar">utility</var> arguments are treated as separate
         utilities.</p>
-    <p class="Pp">See also <code class="Ic"><b>Rv</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Rv</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="fa-2"><b>Fa</b></code>
@@ -2433,20 +2601,26 @@ to save the pattern space for subsequent retrieval.
     </p>
 <p class="Pp">This macro is also used to specify the field name of a
         structure.</p>
-    <p class="Pp">Most often, the <code class="Ic"><b>Fa</b></code> macro is used in
+
+<p class="Pp">Most often, the <code class="Ic"><b>Fa</b></code> macro is used in
         the <i class="Em">SYNOPSIS</i> within <code class="Ic"><b>Fo</b></code> blocks
         when documenting multi-line function prototypes. If invoked with
         multiple arguments, the arguments are separated by a comma. Furthermore,
         if the following macro is another <code class="Ic"><b>Fa</b></code>, the last
         argument will also have a trailing comma.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Fa "const char
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Fa "const char
       *p"</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fa "int a" "int
+
+<div class="Bd Bd-indent"><code class="Li">.Fa "int a" "int
       b" "int c"</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fa "char *"
+
+<div class="Bd Bd-indent"><code class="Li">.Fa "char *"
       size_t</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Fo</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Fo</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="fc"><b>Fc</b></code></dt>
   <dd>End a function context started by <code class="Ic"><b>Fo</b></code>.</dd>
@@ -2460,16 +2634,23 @@ to save the pattern space for subsequent retrieval.
       <code class="Ic"><b>In</b></code>.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Fd #define sa_handler
+
+<div class="Bd Bd-indent"><code class="Li">.Fd #define sa_handler
       __sigaction_u.__sa_handler</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fd #define
+
+<div class="Bd Bd-indent"><code class="Li">.Fd #define
       SIO_MAXNFDS</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fd #ifdef FS_DEBUG</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ft void</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fn dbg_open "const char
+
+<div class="Bd Bd-indent"><code class="Li">.Fd #ifdef FS_DEBUG</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ft void</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Fn dbg_open "const char
       *"</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fd #endif</code></div>
-    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
+
+<div class="Bd Bd-indent"><code class="Li">.Fd #endif</code></div>
+
+<p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>, <code class="Ic"><b>In</b></code>, and
         <code class="Ic"><b>Dv</b></code>.</p>
   </dd>
@@ -2484,15 +2665,21 @@ to save the pattern space for subsequent retrieval.
       the subsequent macro output.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Fl R Op Fl H | L |
+
+<div class="Bd Bd-indent"><code class="Li">.Fl R Op Fl H | L |
       P</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Op Fl
+
+<div class="Bd Bd-indent"><code class="Li">.Op Fl
       1AaCcdFfgHhikLlmnopqRrSsTtux</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fl type Cm d Fl name Pa
+
+<div class="Bd Bd-indent"><code class="Li">.Fl type Cm d Fl name Pa
       CVS</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fl Ar signal_number</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fl o Fl</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Cm</b></code>.</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Fl Ar signal_number</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Fl o Fl</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Cm</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="fn-2"><b>Fn</b></code>
@@ -2505,19 +2692,26 @@ to save the pattern space for subsequent retrieval.
         are output. In the <i class="Em">SYNOPSIS</i> section, this macro starts
         a new output line, and a blank line is automatically inserted between
         function definitions.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Fn "int funcname"
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Fn "int funcname"
       "int arg0" "int arg1"</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fn funcname "int
+
+<div class="Bd Bd-indent"><code class="Li">.Fn funcname "int
       arg0"</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fn funcname arg0</code></div>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<div class="Bd Bd-indent"><code class="Li">.Fn funcname arg0</code></div>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Ft functype
 .Fn funcname
     </pre>
     </div>
-    <p class="Pp">When referring to a function documented in another manual
+
+<p class="Pp">When referring to a function documented in another manual
         page, use <code class="Ic"><b>Xr</b></code> instead. See also
         <a class="Sx" href="#manual-structure">MANUAL STRUCTURE</a>,
         <code class="Ic"><b>Fo</b></code>, and <code class="Ic"><b>Ft</b></code>.</p>
@@ -2531,7 +2725,8 @@ to save the pattern space for subsequent retrieval.
       <code class="Ic"><b>Fn</b></code>.
     </p>
 <p class="Pp">Invocations usually occur in the following context:</p>
-    <div class="Bd Pp Bd-indent">.<code class="Ic"><b>Ft</b></code>
+
+<div class="Bd Pp Bd-indent">.<code class="Ic"><b>Ft</b></code>
       <var class="Ar">functype</var>
     <br>
     .<code class="Ic"><b>Fo</b></code> <var class="Ar">funcname</var>
@@ -2543,9 +2738,11 @@ to save the pattern space for subsequent retrieval.
     <br>
     .<code class="Ic"><b>Fc</b></code>
 </div>
-    <p class="Pp">A <code class="Ic"><b>Fo</b></code> scope is closed by
+
+<p class="Pp">A <code class="Ic"><b>Fo</b></code> scope is closed by
         <code class="Ic"><b>Fc</b></code>.</p>
-    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
+
+<p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>, <code class="Ic"><b>Fa</b></code>, <code class="Ic"><b>Fc</b></code>,
         and <code class="Ic"><b>Ft</b></code>.</p>
   </dd>
@@ -2568,15 +2765,20 @@ to save the pattern space for subsequent retrieval.
     </p>
 <p class="Pp">In the <i class="Em">SYNOPSIS</i> section, a new output line
         is started after this macro.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Ft int</code></div>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Ft int</code></div>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Ft functype
 .Fn funcname
     </pre>
     </div>
-    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
+
+<p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>, <code class="Ic"><b>Fn</b></code>, and
         <code class="Ic"><b>Fo</b></code>.</p>
   </dd>
@@ -2588,9 +2790,12 @@ to save the pattern space for subsequent retrieval.
       argument, or a default value if no argument is provided.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Fx 7.1</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fx</code></div>
-    <p class="Pp">See also <code class="Ic"><b>At</b></code>,
+
+<div class="Bd Bd-indent"><code class="Li">.Fx 7.1</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Fx</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>At</b></code>,
         <code class="Ic"><b>Bsx</b></code>, <code class="Ic"><b>Bx</b></code>,
         <code class="Ic"><b>Dx</b></code>, <code class="Ic"><b>Nx</b></code>, and
         <code class="Ic"><b>Ox</b></code>.</p>
@@ -2611,10 +2816,14 @@ to save the pattern space for subsequent retrieval.
       <code class="Ic"><b>Cm</b></code> but used for instructions rather than values.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Ic :wq</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ic hash</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ic alias</code></div>
-    <p class="Pp">Note that using <code class="Ic"><b>Ql</b></code>,
+
+<div class="Bd Bd-indent"><code class="Li">.Ic :wq</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ic hash</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ic alias</code></div>
+
+<p class="Pp">Note that using <code class="Ic"><b>Ql</b></code>,
         <code class="Ic"><b>Dl</b></code>, or <code class="Ic"><b>Bd</b> <b>-literal</b></code> is preferred for displaying code
         samples; the <code class="Ic"><b>Ic</b></code> macro is used when referring to
         an individual command name.</p>
@@ -2633,9 +2842,12 @@ to save the pattern space for subsequent retrieval.
         inserted in front if there is a preceding function declaration. In other
         sections, it only encloses its argument in angle brackets and causes no
         line break.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.In sys/types.h</code></div>
-    <p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.In sys/types.h</code></div>
+
+<p class="Pp">See also <a class="Sx" href="#manual-structure">MANUAL
         STRUCTURE</a>.</p>
   </dd>
   <dt>
@@ -2647,63 +2859,85 @@ to save the pattern space for subsequent retrieval.
 <p class="Pp">Lists of type <code class="Fl"><b>-hang</b></code>,
         <code class="Fl"><b>-ohang</b></code>, <code class="Fl"><b>-inset</b></code>, and
         <code class="Fl"><b>-diag</b></code> have the following syntax:</p>
-    
-    <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
+
+
+
+<div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
       <var class="Ar">args</var>
 </div>
-    <p class="Pp">Lists of type <code class="Fl"><b>-bullet</b></code>,
+
+<p class="Pp">Lists of type <code class="Fl"><b>-bullet</b></code>,
         <code class="Fl"><b>-dash</b></code>, <code class="Fl"><b>-enum</b></code>,
         <code class="Fl"><b>-hyphen</b></code> and <code class="Fl"><b>-item</b></code> have
         the following syntax:</p>
-    
-    <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
+
+
+
+<div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
 </div>
-    <p class="Pp">with subsequent lines interpreted within the scope of the
+
+<p class="Pp">with subsequent lines interpreted within the scope of the
         <code class="Ic"><b>It</b></code> until either a closing
         <code class="Ic"><b>El</b></code> or another <code class="Ic"><b>It</b></code>.</p>
-    <p class="Pp">The <code class="Fl"><b>-tag</b></code> list has the following
+
+<p class="Pp">The <code class="Fl"><b>-tag</b></code> list has the following
         syntax:</p>
-    
-    <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
+
+
+
+<div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
       [<code class="Cm"><b>args</b></code>]</div>
-    <p class="Pp">Subsequent lines are interpreted as with
+
+<p class="Pp">Subsequent lines are interpreted as with
         <code class="Fl"><b>-bullet</b></code> and family. The line arguments
         correspond to the list's left-hand side; body arguments correspond to
         the list's contents.</p>
-    <p class="Pp">The <code class="Fl"><b>-column</b></code> list is the most
+
+<p class="Pp">The <code class="Fl"><b>-column</b></code> list is the most
         complicated. Its syntax is as follows:</p>
-    
-    <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
+
+
+
+<div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
       <var class="Ar">cell</var> [<code class="Ic"><b>Ta</b></code>
       <var class="Ar">cell ...</var>]</div>
-    <div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
+
+<div class="Bd Bd-indent">.<code class="Ic"><b>It</b></code>
       <var class="Ar">cell</var> [&lt;TAB&gt; <var class="Ar">cell
       ...</var>]</div>
-    <p class="Pp">The arguments consist of one or more lines of text and macros
+
+<p class="Pp">The arguments consist of one or more lines of text and macros
         representing a complete table line. Cells within the line are delimited
         by the special <code class="Ic"><b>Ta</b></code> block macro or by literal tab
         characters.</p>
-    <p class="Pp">Using literal tabs is strongly discouraged because they are
+
+<p class="Pp">Using literal tabs is strongly discouraged because they are
         very hard to use correctly and <code class="Nm"><b>mdoc</b></code> code using
         them is very hard to read. In particular, a blank character is
         syntactically significant before and after the literal tab character. If
         a word precedes or follows the tab without an intervening blank, that
         word is never interpreted as a macro call, but always output
       literally.</p>
-    <p class="Pp">The tab cell delimiter may only be used within the
+
+<p class="Pp">The tab cell delimiter may only be used within the
         <code class="Ic"><b>It</b></code> line itself; on following lines, only the
         <code class="Ic"><b>Ta</b></code> macro can be used to delimit cells, and
         portability requires that <code class="Ic"><b>Ta</b></code> is called by other
         macros: some parsers do not recognize it when it appears as the first
         macro on a line.</p>
-    <p class="Pp">Note that quoted strings may span tab-delimited cells on an
+
+<p class="Pp">Note that quoted strings may span tab-delimited cells on an
         <code class="Ic"><b>It</b></code> line. For example,</p>
-    
-    <div class="Bd Bd-indent"><code class="Li">.It "col1 , &lt;TAB&gt; col2
+
+
+
+<div class="Bd Bd-indent"><code class="Li">.It "col1 , &lt;TAB&gt; col2
       ," ;</code></div>
-    <p class="Pp">will preserve the whitespace before both commas, but not the
+
+<p class="Pp">will preserve the whitespace before both commas, but not the
         whitespace before the semicolon.</p>
-    <p class="Pp">See also <code class="Ic"><b>Bl</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Bl</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="lb-2"><b>Lb</b> <b>lib</b></code><var class="Ar">name</var>
@@ -2718,9 +2952,12 @@ to save the pattern space for subsequent retrieval.
         case the library name is printed in quotes. This is most commonly used
         in the <i class="Em">SYNOPSIS</i> section as described in
         <a class="Sx" href="#manual-structure">MANUAL STRUCTURE</a>.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Lb libz</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Lb libmandoc</code></div>
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Lb libz</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Lb libmandoc</code></div>
   </dd>
   <dt>
 <code class="Ic" id="li-3"><b>Li</b></code>
@@ -2737,10 +2974,13 @@ to save the pattern space for subsequent retrieval.
 <p>Format a hyperlink.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Lk http://bsd.lv "The
+
+<div class="Bd Bd-indent"><code class="Li">.Lk http://bsd.lv "The
       BSD.lv Project"</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Lk http://bsd.lv</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Mt</b></code>.</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Lk http://bsd.lv</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Mt</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="lp"><b>Lp</b></code></dt>
   <dd>Deprecated synonym for <code class="Ic"><b>Pp</b></code>.</dd>
@@ -2752,8 +2992,10 @@ to save the pattern space for subsequent retrieval.
 <p>Display a mathematical symbol.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Ms sigma</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ms aleph</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ms sigma</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ms aleph</code></div>
   </dd>
   <dt>
 <code class="Ic" id="mt-2"><b>Mt</b></code>
@@ -2763,9 +3005,11 @@ to save the pattern space for subsequent retrieval.
 <p>Format a “mailto:” hyperlink.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Mt
+
+<div class="Bd Bd-indent"><code class="Li">.Mt
       discuss@manpages.bsd.lv</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.An Kristaps Dzonsons Aq Mt
+
+<div class="Bd Bd-indent"><code class="Li">.An Kristaps Dzonsons Aq Mt
       kristaps@bsd.lv</code></div>
   </dd>
   <dt>
@@ -2778,17 +3022,21 @@ to save the pattern space for subsequent retrieval.
       sections.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.<b>Nd mdoc
+
+<div class="Bd Bd-indent"><code class="Li">.<b>Nd mdoc
       language reference</b></code></div>
-    <div class="Bd Bd-indent"><code class="Li">.<b>Nd format and
+
+<div class="Bd Bd-indent"><code class="Li">.<b>Nd format and
       display UNIX manuals</b></code></div>
-    <p class="Pp">The <code class="Ic"><b>Nd</b></code> macro technically accepts child
+
+<p class="Pp">The <code class="Ic"><b>Nd</b></code> macro technically accepts child
         macros and terminates with a subsequent <code class="Ic"><b>Sh</b></code>
         invocation. Do not assume this behaviour: some
         <a class="Xr" href="../1/whatis.1">whatis(1)</a> database generators are
         not smart enough to parse more than the line arguments and will display
         macros verbatim.</p>
-    <p class="Pp">See also <code class="Ic"><b>Nm</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Nm</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="nm-3"><b>Nm</b></code>
@@ -2807,15 +3055,18 @@ to save the pattern space for subsequent retrieval.
       ordinary <a class="Sx" href="#in-line">In-line</a> semantics.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Sh SYNOPSIS
 .Nm cat
 .Op Fl benstuv
 .Op Ar
     </pre>
     </div>
-    <p class="Pp">In the <i class="Em">SYNOPSIS</i> of section 2, 3 and 9 manual
+
+<p class="Pp">In the <i class="Em">SYNOPSIS</i> of section 2, 3 and 9 manual
         pages, use the <code class="Ic"><b>Fn</b></code> macro rather than
         <code class="Ic"><b>Nm</b></code> to mark up the name of the manual page.</p>
   </dd>
@@ -2831,16 +3082,20 @@ to save the pattern space for subsequent retrieval.
       semantic annotation macros.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Em italic , Sy bold , No and
+
+<div class="Bd Bd-indent"><code class="Li">.Em italic , Sy bold , No and
       roman</code></div>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+
+<div class="Bd Pp Bd-indent">
+
+<pre>
 .Sm off
 .Cm :C No / Ar pattern No / Ar replacement No /
 .Sm on
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>Em</b></code>,
+
+<p class="Pp">See also <code class="Ic"><b>Em</b></code>,
         <code class="Ic"><b>Ql</b></code>, and <code class="Ic"><b>Sy</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="ns-2"><b>Ns</b></code></dt>
@@ -2851,12 +3106,17 @@ to save the pattern space for subsequent retrieval.
     </p>
 <p class="Pp">This has no effect when invoked at the start of a macro
       line.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Ar name Ns = Ns Ar
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Ar name Ns = Ns Ar
       value</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Cm :M Ns Ar pattern</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Fl o Ns Ar output</code></div>
-    <p class="Pp">See also <code class="Ic"><b>No</b></code> and
+
+<div class="Bd Bd-indent"><code class="Li">.Cm :M Ns Ar pattern</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Fl o Ns Ar output</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>No</b></code> and
         <code class="Ic"><b>Sm</b></code>.</p>
   </dd>
   <dt>
@@ -2867,9 +3127,12 @@ to save the pattern space for subsequent retrieval.
       or a default value if no argument is provided.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Nx 5.01</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Nx</code></div>
-    <p class="Pp">See also <code class="Ic"><b>At</b></code>,
+
+<div class="Bd Bd-indent"><code class="Li">.Nx 5.01</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Nx</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>At</b></code>,
         <code class="Ic"><b>Bsx</b></code>, <code class="Ic"><b>Bx</b></code>,
         <code class="Ic"><b>Dx</b></code>, <code class="Ic"><b>Fx</b></code>, and
         <code class="Ic"><b>Ox</b></code>.</p>
@@ -2884,8 +3147,10 @@ to save the pattern space for subsequent retrieval.
 <p>Multi-line version of <code class="Ic"><b>Op</b></code>.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Oo
 .Op Fl flag Ns Ar value
 .Oc
@@ -2902,9 +3167,12 @@ to save the pattern space for subsequent retrieval.
       and 8 manual pages.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Op Fl a Ar b</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Op Ar a | b</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Oo</b></code>.</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Op Fl a Ar b</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Op Ar a | b</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Oo</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="os-2"><b>Os</b></code>
@@ -2920,11 +3188,16 @@ to save the pattern space for subsequent retrieval.
         <code class="Fl"><b>-Ios</b></code> argument or, if that isn't specified
         either, <var class="Fa">sysname</var> and <var class="Fa">release</var>
         as returned by <a class="Xr" href="../3/uname.3">uname(3)</a>.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Os</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Os KTH/CSC/TCS</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Os BSD 4.3</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Dd</b></code> and
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Os</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Os KTH/CSC/TCS</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Os BSD 4.3</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Dd</b></code> and
         <code class="Ic"><b>Dt</b></code>.</p>
   </dd>
   <dt>
@@ -2947,9 +3220,12 @@ to save the pattern space for subsequent retrieval.
       argument, or a default value if no argument is provided.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Ox 4.5</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Ox</code></div>
-    <p class="Pp">See also <code class="Ic"><b>At</b></code>,
+
+<div class="Bd Bd-indent"><code class="Li">.Ox 4.5</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Ox</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>At</b></code>,
         <code class="Ic"><b>Bsx</b></code>, <code class="Ic"><b>Bx</b></code>,
         <code class="Ic"><b>Dx</b></code>, <code class="Ic"><b>Fx</b></code>, and
         <code class="Ic"><b>Nx</b></code>.</p>
@@ -2964,10 +3240,13 @@ to save the pattern space for subsequent retrieval.
       default.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Pa /usr/bin/mandoc</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Pa
+
+<div class="Bd Bd-indent"><code class="Li">.Pa /usr/bin/mandoc</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Pa
       /usr/share/man/man7/mdoc.7</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Lk</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Lk</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="pc"><b>Pc</b></code></dt>
   <dd>Close parenthesised context opened by <code class="Ic"><b>Po</b></code>.</dd>
@@ -2979,18 +3258,25 @@ to save the pattern space for subsequent retrieval.
       equivalent to:
     </p>
 
-    <div class="Bd Bd-indent">
+
+<div class="Bd Bd-indent">
 <code class="Ic"><b>No</b></code>
       \&amp;<var class="Ar">prefix</var> <code class="Ic"><b>Ns</b></code>
       <var class="Ar">macro</var> [<var class="Ar">argument ...</var>]</div>
-    <p class="Pp">The <var class="Ar">prefix</var> argument is not parsed for
+
+<p class="Pp">The <var class="Ar">prefix</var> argument is not parsed for
         macro names or delimiters, but used verbatim as if it were escaped.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Pf $ Ar
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Pf $ Ar
       variable_name</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Pf . Ar macro_name</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Pf 0x Ar hex_digits</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Ns</b></code> and
+
+<div class="Bd Bd-indent"><code class="Li">.Pf . Ar macro_name</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Pf 0x Ar hex_digits</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Ns</b></code> and
         <code class="Ic"><b>Sm</b></code>.</p>
   </dd>
   <dt>
@@ -3064,8 +3350,10 @@ to save the pattern space for subsequent retrieval.
       (at least one must be specified).
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Rs
 .%A J. E. Hopcroft
 .%A J. D. Ullman
@@ -3076,7 +3364,8 @@ to save the pattern space for subsequent retrieval.
 .Re
     </pre>
     </div>
-    <p class="Pp">If an <code class="Ic"><b>Rs</b></code> block is used within a SEE
+
+<p class="Pp">If an <code class="Ic"><b>Rs</b></code> block is used within a SEE
         ALSO section, a vertical space is asserted before the rendered output,
         else the block continues on the current line.</p>
   </dd>
@@ -3091,7 +3380,8 @@ to save the pattern space for subsequent retrieval.
         document's name set by <code class="Ic"><b>Nm</b></code> is used. Multiple
         <var class="Ar">function</var> arguments are treated as separate
         functions.</p>
-    <p class="Pp">See also <code class="Ic"><b>Ex</b></code>.</p>
+
+<p class="Pp">See also <code class="Ic"><b>Ex</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="sc"><b>Sc</b></code></dt>
   <dd>Close single-quoted context opened by <code class="Ic"><b>So</b></code>.</dd>
@@ -3109,7 +3399,8 @@ to save the pattern space for subsequent retrieval.
         <code class="Ic"><b>Sx</b></code>. Although this macro is parsed, it should not
         consist of child node or it may not be linked with
         <code class="Ic"><b>Sx</b></code>.</p>
-    <p class="Pp">See also <code class="Ic"><b>Pp</b></code>,
+
+<p class="Pp">See also <code class="Ic"><b>Pp</b></code>,
         <code class="Ic"><b>Ss</b></code>, and <code class="Ic"><b>Sx</b></code>.</p>
   </dd>
   <dt>
@@ -3122,7 +3413,8 @@ to save the pattern space for subsequent retrieval.
         switched <code class="Cm"><b>off</b></code>, no white space is inserted between
         macro arguments and between the output generated from adjacent macros,
         but text lines still get normal spacing between words and sentences.</p>
-    <p class="Pp">When called without an argument, the
+
+<p class="Pp">When called without an argument, the
         <code class="Ic"><b>Sm</b></code> macro toggles the spacing mode. Using this is
         not recommended because it makes the code harder to read.</p>
   </dd>
@@ -3156,22 +3448,26 @@ to save the pattern space for subsequent retrieval.
         by <code class="Ic"><b>Sx</b></code>. Although this macro is parsed, it should
         not consist of child node or it may not be linked with
         <code class="Ic"><b>Sx</b></code>.</p>
-    <p class="Pp">See also <code class="Ic"><b>Pp</b></code>,
+
+<p class="Pp">See also <code class="Ic"><b>Pp</b></code>,
         <code class="Ic"><b>Sh</b></code>, and <code class="Ic"><b>Sx</b></code>.</p>
   </dd>
   <dt>
 <code class="Ic" id="st-2"><b>St</b> <b>-</b></code><var class="Ar">abbreviation</var>
 </dt>
-  <dd>Replace an abbreviation for a standard with the full form. The following
+  <dd>
+<p>Replace an abbreviation for a standard with the full form. The following
       standards are recognised. Where multiple lines are given without a blank
       line in between, they all refer to the same standard, and using the first
       form is recommended.
-    <dl class="Bl-tag">
+    </p>
+<dl class="Bl-tag">
       <dt>C language standards</dt>
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-ansiC</dt>
           <dd><span class="St">ANSI X3.159-1989
               (“ANSI C89”)</span></dd>
@@ -3232,7 +3528,8 @@ to save the pattern space for subsequent retrieval.
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-p1003.1-88</dt>
           <dd><span class="St">IEEE Std 1003.1-1988
               (“POSIX.1”)</span></dd>
@@ -3301,7 +3598,8 @@ to save the pattern space for subsequent retrieval.
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-xpg3</dt>
           <dd>
 <p><span class="St">X/Open Portability Guide Issue 3
@@ -3347,7 +3645,8 @@ to save the pattern space for subsequent retrieval.
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-susv1</dt>
           <dd><span class="St">Version 1 of the Single UNIX Specification
               (“SUSv1”)</span></dd>
@@ -3396,7 +3695,8 @@ to save the pattern space for subsequent retrieval.
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-susv2</dt>
           <dd>
 <p><span class="St">Version 2 of the Single UNIX Specification
@@ -3440,7 +3740,8 @@ to save the pattern space for subsequent retrieval.
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-p1003.1-2001</dt>
           <dd><span class="St">IEEE Std 1003.1-2001
               (“POSIX.1”)</span></dd>
@@ -3467,7 +3768,8 @@ to save the pattern space for subsequent retrieval.
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-p1003.1-2008</dt>
           <dd><span class="St">IEEE Std 1003.1-2008
               (“POSIX.1”)</span></dd>
@@ -3484,7 +3786,8 @@ to save the pattern space for subsequent retrieval.
       <dd>
 
 
-        <dl class="Bl-tag Bl-compact">
+
+<dl class="Bl-tag Bl-compact">
           <dt>-ieee754</dt>
           <dd>
 <p><span class="St">IEEE Std 754-1985</span>
@@ -3526,8 +3829,10 @@ to save the pattern space for subsequent retrieval.
       including whitespace.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Sx MANUAL STRUCTURE</code></div>
-    <p class="Pp">See also <code class="Ic"><b>Sh</b></code> and
+
+<div class="Bd Bd-indent"><code class="Li">.Sx MANUAL STRUCTURE</code></div>
+
+<p class="Pp">See also <code class="Ic"><b>Sh</b></code> and
         <code class="Ic"><b>Ss</b></code>.</p>
   </dd>
   <dt>
@@ -3542,9 +3847,12 @@ to save the pattern space for subsequent retrieval.
         <code class="Ic"><b>Em</b></code>). When none of the semantic macros fit, it is
         also adequate for syntax elements that have to be given or that appear
         verbatim.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent">
-    <pre>
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent">
+
+<pre>
 .Sy Warning :
 If
 .Sy s
@@ -3554,7 +3862,8 @@ This utility replaces the former
 program.
     </pre>
     </div>
-    <p class="Pp">See also <code class="Ic"><b>Em</b></code>,
+
+<p class="Pp">See also <code class="Ic"><b>Em</b></code>,
         <code class="Ic"><b>No</b></code>, and <code class="Ic"><b>Ql</b></code>.</p>
   </dd>
   <dt><code class="Ic" id="ta-2"><b>Ta</b></code></dt>
@@ -3582,9 +3891,12 @@ program.
 <p>A variable name.
     </p>
 <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Va foo</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Va const char *bar;</code></div>
-    <p class="Pp">For function arguments and parameters, use
+
+<div class="Bd Bd-indent"><code class="Li">.Va foo</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Va const char *bar;</code></div>
+
+<p class="Pp">For function arguments and parameters, use
         <code class="Ic"><b>Fa</b></code> instead. For declarations of global variables
         in the <i class="Em">SYNOPSIS</i> section, use
         <code class="Ic"><b>Vt</b></code>.</p>
@@ -3605,11 +3917,15 @@ program.
         this macro starts a new output line, and a blank line is inserted in
         front if there is a preceding function definition or include
       directive.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Vt unsigned char</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Vt extern const char * const
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Vt unsigned char</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Vt extern const char * const
       sys_signame[] ;</code></div>
-    <p class="Pp">For parameters in function prototypes, use
+
+<p class="Pp">For parameters in function prototypes, use
         <code class="Ic"><b>Fa</b></code> instead, for function return types
         <code class="Ic"><b>Ft</b></code>, and for variable names outside the
         <i class="Em">SYNOPSIS</i> section <code class="Ic"><b>Va</b></code>, even when
@@ -3635,10 +3951,14 @@ program.
     </p>
 <p class="Pp">Cross reference the <var class="Ar">name</var> and
         <var class="Ar">section</var> number of another man page.</p>
-    <p class="Pp">Examples:</p>
-    <div class="Bd Bd-indent"><code class="Li">.Xr mandoc 1</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Xr mandoc 1 ;</code></div>
-    <div class="Bd Bd-indent"><code class="Li">.Xr mandoc 1 Ns s
+
+<p class="Pp">Examples:</p>
+
+<div class="Bd Bd-indent"><code class="Li">.Xr mandoc 1</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Xr mandoc 1 ;</code></div>
+
+<div class="Bd Bd-indent"><code class="Li">.Xr mandoc 1 Ns s
       behaviour</code></div>
   </dd>
 </dl>
@@ -3662,25 +3982,31 @@ The syntax of a macro depends on its classification. In this section,
     not callable but its name appears as an argument to another macro, it is
     interpreted as opaque text. For example, ‘.Fl Sh’ produces
     ‘<code class="Fl"><b>-Sh</b></code>’.</p>
+
 <p class="Pp">The <i class="Em">Parsed</i> column indicates whether the macro
     may call other macros by receiving their names as arguments. If a macro is
     not parsed but the name of another macro appears as an argument, it is
     interpreted as opaque text.</p>
+
 <p class="Pp">The <i class="Em">Scope</i> column, if applicable, describes
     closure rules.</p>
 <section class="Ss">
 <h2 class="Ss" id="block-full-explicit">Block
   full-explicit</h2>
+<p>
 Multi-line scope closed by an explicit closing macro. All macros contains
   bodies; only <code class="Ic"><b>Bf</b></code> and (optionally)
   <code class="Ic"><b>Bl</b></code> contain a head.
+</p>
 <div class="Bd Pp Bd-indent">
+
 <pre>
 .Yo [-arg [parm...]] [head...]
 [body...]
 .Yc
 </pre>
 </div>
+
 <table class="Bl-column Bd-indent">
   <tr>
     <td><i class="Em">Macro</i></td>
@@ -3749,17 +4075,21 @@ Multi-line scope closed by an explicit closing macro. All macros contains
 <section class="Ss">
 <h2 class="Ss" id="block-full-implicit">Block
   full-implicit</h2>
+<p>
 Multi-line scope closed by end-of-file or implicitly by another macro. All
   macros have bodies; some (<code class="Ic"><b>It</b> <b>-bullet</b></code>, <code class="Fl"><b>-hyphen</b></code>,
   <code class="Fl"><b>-dash</b></code>, <code class="Fl"><b>-enum</b></code>,
   <code class="Fl"><b>-item</b></code>) don't have heads; only one
   (<code class="Ic"><b>It</b></code> in <code class="Ic"><b>Bl</b> <b>-column</b></code>) has multiple heads.
+</p>
 <div class="Bd Pp Bd-indent">
+
 <pre>
 .Yo [-arg [parm...]] [head... [Ta head...]]
 [body...]
 </pre>
 </div>
+
 <table class="Bl-column Bd-indent">
   <tr>
     <td><i class="Em">Macro</i></td>
@@ -3813,10 +4143,13 @@ Multi-line scope closed by end-of-file or implicitly by another macro. All
 <section class="Ss">
 <h2 class="Ss" id="block-partial-explicit">Block
   partial-explicit</h2>
+<p>
 Like block full-explicit, but also with single-line scope. Each has at least a
   body and, in limited circumstances, a head (<code class="Ic"><b>Fo</b></code>,
   <code class="Ic"><b>Eo</b></code>) and/or tail (<code class="Ic"><b>Ec</b></code>).
+</p>
 <div class="Bd Pp Bd-indent">
+
 <pre>
 .Yo [-arg [parm...]] [head...]
 [body...]
@@ -3825,6 +4158,7 @@ Like block full-explicit, but also with single-line scope. Each has at least a
 .Yo [-arg [parm...]] [head...] [body...] Yc [tail...]
 </pre>
 </div>
+
 <table class="Bl-column Bd-indent">
   <tr>
     <td><i class="Em">Macro</i></td>
@@ -4005,13 +4339,17 @@ Like block full-explicit, but also with single-line scope. Each has at least a
 <section class="Ss">
 <h2 class="Ss" id="block-partial-implicit">Block
   partial-implicit</h2>
+<p>
 Like block full-implicit, but with single-line scope closed by the end of the
   line.
+</p>
 <div class="Bd Pp Bd-indent">
+
 <pre>
 .Yo [-arg [val...]] [body...] [res...]
 </pre>
 </div>
+
 <table class="Bl-column Bd-indent">
   <tr>
     <td><i class="Em">Macro</i></td>
@@ -4093,9 +4431,11 @@ Like block full-implicit, but with single-line scope closed by the end of the
 <section class="Ss">
 <h2 class="Ss" id="special-block-macro">Special
   block macro</h2>
+<p>
 The <code class="Ic"><b>Ta</b></code> macro can only be used below
   <code class="Ic"><b>It</b></code> in <code class="Ic"><b>Bl</b> <b>-column</b></code> lists. It delimits blocks representing table
   cells; these blocks have bodies, but no heads.
+</p>
 <table class="Bl-column Bd-indent">
   <tr>
     <td><i class="Em">Macro</i></td>
@@ -4114,10 +4454,13 @@ The <code class="Ic"><b>Ta</b></code> macro can only be used below
 </section>
 <section class="Ss">
 <h2 class="Ss" id="in-line">In-line</h2>
+<p>
 Closed by the end of the line, fixed argument lengths, and/or subsequent macros.
   In-line macros have only text children. If a number (or inequality) of
   arguments is (n), then the macro accepts an arbitrary number of arguments.
+</p>
 <div class="Bd Pp Bd-indent">
+
 <pre>
 .Yo [-arg [val...]] [args...] [res...]
 
@@ -4126,6 +4469,7 @@ Closed by the end of the line, fixed argument lengths, and/or subsequent macros.
 .Yo [-arg [val...]] arg0 arg1 argN
 </pre>
 </div>
+
 <table class="Bl-column Bd-indent">
   <tr>
     <td><i class="Em">Macro</i></td>
@@ -4578,13 +4922,22 @@ When a macro argument consists of one single input character considered as a
     the macro scope. Spacing is suppressed after opening delimiters and before
     closing delimiters. For example,</p>
 
+
+
 <div class="Bd Bd-indent">.Aq ( [ word ] ) .</div>
+
 <p class="Pp">renders as:</p>
 
+
+
 <div class="Bd Bd-indent">([⟨word⟩]).</div>
+
 <p class="Pp">Opening delimiters are:</p>
 
+
+
 <div class="Bd-indent">
+
 <dl class="Bl-tag Bl-compact">
   <dt>(</dt>
   <dd>left parenthesis</dd>
@@ -4592,9 +4945,13 @@ When a macro argument consists of one single input character considered as a
   <dd>left bracket</dd>
 </dl>
 </div>
+
 <p class="Pp">Closing delimiters are:</p>
 
+
+
 <div class="Bd-indent">
+
 <dl class="Bl-tag Bl-compact">
   <dt>.</dt>
   <dd>period</dd>
@@ -4614,30 +4971,42 @@ When a macro argument consists of one single input character considered as a
   <dd>exclamation mark</dd>
 </dl>
 </div>
+
 <p class="Pp">Note that even a period preceded by a backslash
     (‘\.’) gets this special handling; use ‘\&amp;.’
     to prevent that.</p>
+
 <p class="Pp">Many in-line macros interrupt their scope when they encounter
     delimiters, and resume their scope when more arguments follow that are not
     delimiters. For example,</p>
 
+
+
 <div class="Bd Bd-indent">.Fl a ( b | c \*(Ba d ) e</div>
+
 <p class="Pp">renders as:</p>
+
+
 
 <div class="Bd Bd-indent">
 <code class="Fl"><b>-a</b></code> (<code class="Fl"><b>-b</b></code>
   | <code class="Fl"><b>-c</b></code> | <code class="Fl"><b>-d</b></code>)
   <code class="Fl"><b>-e</b></code>
 </div>
+
 <p class="Pp">This applies to both opening and closing delimiters, and also to
     the middle delimiter, which does not suppress spacing:</p>
 
+
+
 <div class="Bd-indent">
+
 <dl class="Bl-tag Bl-compact">
   <dt>|</dt>
   <dd>vertical bar</dd>
 </dl>
 </div>
+
 <p class="Pp">As a special case, the predefined string \*(Ba is handled and
     rendered in the same way as a plain ‘|’ character. Using this
     predefined string is not recommended in new manuals.</p>
@@ -4664,6 +5033,8 @@ This section provides an incomplete list of compatibility issues between mandoc
   and GNU troff (“groff”).
 </p>
 <p class="Pp">The following problematic behaviour is found in groff:</p>
+
+
 
 <ul class="Bl-dash Bl-compact">
   <li>
@@ -4693,7 +5064,10 @@ This section provides an incomplete list of compatibility issues between mandoc
   <li>Negative scaling units return to prior lines. Instead, mandoc truncates
       them to zero.</li>
 </ul>
+
 <p class="Pp">The following features are unimplemented in mandoc:</p>
+
+
 
 <ul class="Bl-dash Bl-compact">
   <li>

@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require "open3"
 require "nokogiri"
+require "pp"
 
 def render(filename, content, options: {})
 	source = File.read(`man -w 7 mdoc`.chomp)
@@ -8,13 +9,17 @@ def render(filename, content, options: {})
 	filter_html(out)
 end
 
-# HTML elements historically known as “inline” elements
-PHRASING_ELEMENTS = %q{
-	abbr audio b bdo br button canvas cite code command data datalist dfn em embed i
-	iframe img input kbd keygen label mark math meter noscript object output picture
-	progress q ruby samp script select small span strong sub sup svg textarea time
-	var video wbr
-}
+INLINE_ELEMENTS = %w[
+	a abbr acronym audio b bdi bdo big br button canvas cite code command data datalist
+	del dfn em embed i iframe img input ins kbd keygen label map mark math meter noscript
+	object output picture progress q ruby s samp script select slot small span strong sub
+	sup svg template textarea time tt u var video wbr
+]
+
+BLOCK_ELEMENTS = %w[
+	address article aside blockquote dd details dialog div dl dt fieldset figcaption figure
+	footer form h1 h2 h3 h4 h5 h6 header hgroup hr li main nav ol p pre section table ul
+]
 
 def filter_html(doc)
 	doc = Nokogiri::HTML(doc)
@@ -23,7 +28,7 @@ def filter_html(doc)
 	# Replace unwanted or superfluous elements with their contents
 	doc.css(".Nd, .permalink, table + br").each {|el| unwrap el}
 	
-	fix_implicit_paragraph doc
+	fix_implicit_paragraphs doc
 	fix_synopses doc
 	fix_anchors doc
 	replace_unwhitelisted_tags doc
@@ -81,9 +86,9 @@ def fix_synopses(doc)
 	doc.css("table.Nm > tr > *").each {|el| el["valign"] = "top"}
 end
 
-# Collect text-nodes that precede the first paragraph break
-def fix_implicit_paragraph(doc)
-	doc.css("p:first-of-type").each do |el|
+# Collect text-nodes that precede the first block element
+def fix_implicit_paragraphs(doc)
+	doc.css("blockquote, div, dl, ol, p, pre, table, ul").each do |el|
 		nodes = Nokogiri::XML::NodeSet.new doc
 		while inline?(prev = el.previous_sibling) do
 			nodes << el.previous_sibling.unlink
@@ -97,8 +102,8 @@ def fix_implicit_paragraph(doc)
 end
 
 def inline?(node)
-	if node.is_a? Nokogiri::XML::Node
-		PHRASING_ELEMENTS.include? node.name
+	if node.is_a? Nokogiri::XML::Element
+		INLINE_ELEMENTS.include? node.name
 	else
 		node.is_a? String or node.is_a? Nokogiri::XML::Text
 	end
