@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "open3"
 require "nokogiri"
-require "pp"
+require "set"
 
 def render(filename, content, options: {})
 	source = File.read(`man -w mdoc`.chomp)
@@ -45,6 +45,13 @@ def filter_html(doc, path = "")
 	
 	# Make indented regions more conspicuous
 	upgrade_displays doc
+	
+	# Strip redundant line-breaks for more consistent testing
+	doc.css("h1, h2, h3, h4, h5, h6, p, a").each {|el| normalise_whitespace el}
+	doc.inner_html = doc.root.to_s.gsub(%r{<p(?=\s|>)[^>]*>\K +| +(?=</p>)}, "")
+	
+	# Finally, strip CSS classes so output matches that of GitHub's HTML sanitiser
+	doc.css("[class]").remove_attr("class")
 	
 	# Return our spiffy-looking document
 	doc
@@ -181,6 +188,7 @@ def upgrade_displays(doc)
 	doc.css("div.Bd-indent").wrap "<ul></ul>"
 end
 
+# Normalise whitespace in non-monospaced elements
 def normalise_whitespace(el)
 	return unless el.ancestors("pre").empty?
 	el.children.each do |node|
