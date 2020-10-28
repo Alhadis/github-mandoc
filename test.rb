@@ -38,6 +38,7 @@ def filter_html(doc, path = "")
 	doc.inner_html = doc.root.to_s
 		.gsub(%r|</code\s*>\s+<code[^>]*>|i, " ")
 		.gsub(%r|</code\s*><code[^>]*>|i, "")
+		.gsub(%r|(?>\R[ \t]*)+</pre>|, "\n</pre>")
 	
 	# Strip empty paragraph nodes
 	doc.css("p").each {|p| p.remove unless p.content =~ /\S/}
