@@ -3,16 +3,22 @@ require "open3"
 
 module GitHub
 	module Mandoc
+		VERSION = "0.0.1"
+		
+		# Locate a man page by topic/section, then render it
+		def self.render_file(name, section = "")
+			path = `man -w #{section} #{name}`.chomp
+			return unless $?.success?
+			self.render(File.read(path), path)
+		end
+		
+		# Shell out to mandoc(1) to format man(7) or mdoc(7) markup as HTML
 		def self.render(source, filename = "")
 			out, _ = Open3.capture2("mandoc -Thtml -Ofragment,man='%N.%S;../man%S/%N.%S'", :stdin_data => source)
 			Mandoc::Rendering.new(out, filename)
 		end
 
-		def self.render_file(name, section = "")
-			path = `man -w #{section} #{name}`.chomp
-			self.render(File.read(path), path)
-		end
-
+		# Container for a rendered and filtered man page
 		class Rendering
 			attr_reader :doc, :path
 
@@ -196,6 +202,7 @@ module GitHub
 		end
 	end
 
+	# HTML elements that fit inside a <p> element. Source: https://mdn,io/Inline_elements
 	INLINE_ELEMENTS = %w[
 		a abbr acronym audio b bdi bdo big br button canvas cite code command data datalist
 		del dfn em embed i iframe img input ins kbd keygen label map mark math meter noscript
@@ -203,6 +210,7 @@ module GitHub
 		sup svg template textarea time tt u var video wbr
 	]
 
+	# HTML elements that *don't* fit inside a <p> element. Source: https://mdn.io/Block_elements
 	BLOCK_ELEMENTS = %w[
 		address article aside blockquote dd details dialog div dl dt fieldset figcaption figure
 		footer form h1 h2 h3 h4 h5 h6 header hgroup hr li main nav ol p pre section table ul

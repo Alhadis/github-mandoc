@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+require "github/mandoc"
+require "optparse"
+
+$preview = false
+OptionParser.new do |opts|
+	opts.banner = "Usage: #{$0} [-p|--preview] [section-number] topic"
+	opts.on("-p", "--preview", "Render the page as it would appear on GitHub.com") do
+		$preview = true
+	end
+end.parse!
+
+$topic, $section = ARGV.reverse
+
+if $topic.nil?
+	warn "fatal: no topic specified"
+	exit 1
+end
+
+html = GitHub::Mandoc::render_file $topic, $section
+
+if $preview
+	dir = File.expand_path("../../tests/examples", __FILE__)
+	puts File.read("#{dir}/template/header.html")
+	puts html
+	puts File.read("#{dir}/template/footer.html")
+else
+	puts html
+end
