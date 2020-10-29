@@ -3,28 +3,58 @@
 require "github/mandoc"
 require "optparse"
 
-$preview = false
+$load_method = STDIN.isatty ? :stdin : :topic
+$filter_only = false
+$preview     = false
+$results     = nil
+
 OptionParser.new do |opts|
-	opts.banner = "Usage: #{$0} [-p|--preview] [section-number] topic"
-	opts.on("-p", "--preview", "Render the page as it would appear on GitHub.com") do
+	opts.banner = "Usage: #{$0} [-Ffp] [section] subject"
+	opts.on("-F", "--filter-only", "Apply filters only; do not execute mandoc(1)") do
+		$filter_only = true
+	end
+	opts.on("-f", "--file", "Treat subject as a file specification instead of a topic") do
+		$load_method = "-" == ARGV[0] ? :stdin : :file
+	end
+	opts.on("-p", "--preview", "Replicate the look-and-feel of a rendered page on GitHub.com") do
 		$preview = true
 	end
 end.parse!
 
-$topic, $section = ARGV.reverse
 
-if $topic.nil?
-	warn "fatal: no topic specified"
-	exit 1
+# Apply HTML filters to input as though it were emitted by mandoc(1)
+if $filter_only
+	filename = ARGF.filename.sub /^-$/, "<standard input>"
+	input = ARGF.readlines.join($/)
+	$results = GitHub::Mandoc.filter input, filename
+
+# Collect the output of `mandoc -Thtml -Ofragment`
+else
+	# Resolve the source of the man(7) or mdoc(7) markup
+	case $load_method
+	when :stdin
+		$results = GitHub::Mandoc.render STDIN, "<standard input>"
+	when :file
+		$results = GitHub::Mandoc.render_file ARGV[0]
+	else
+		$topic, $section = ARGV.reverse
+		if $topic.nil?
+			warn "fatal: no topic specified"
+			exit 1
+		end
+		$results = GitHub::Mandoc.render_topic $topic, $section
+	end
 end
 
-html = GitHub::Mandoc::render_file $topic, $section
 
+# Decorate output to look like it's on GitHub
 if $preview
 	dir = File.expand_path("../../tests/examples", __FILE__)
 	puts File.read("#{dir}/template/header.html")
-	puts html
+	puts $results
 	puts File.read("#{dir}/template/footer.html")
+
+# Just the frag, ma'am
 else
-	puts html
+	puts $results
 end

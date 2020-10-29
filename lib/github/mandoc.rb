@@ -6,23 +6,39 @@ module GitHub
 		VERSION = "0.0.1"
 		
 		# Locate a man page by topic/section, then render it
-		def self.render_file(name, section = "")
+		def self.render_topic(name, section = "")
 			path = `man -w #{section} #{name}`.chomp
 			return unless $?.success?
+			self.render_file(path)
+		end
+		
+		# Load and render a man page from the designated location
+		def self.render_file(path)
 			self.render(File.read(path), path)
 		end
 		
 		# Shell out to mandoc(1) to format man(7) or mdoc(7) markup as HTML
 		def self.render(source, filename = "")
 			out, _ = Open3.capture2("mandoc -Thtml -Ofragment,man='%N.%S;../man%S/%N.%S'", :stdin_data => source)
-			Mandoc::Rendering.new(out, filename)
+			self.filter(out, filename)
 		end
+
+		# Filter preformatted HTML
+		def self.filter(source, filename = "")
+			Rendering.new(source, filename)
+		end
+
 
 		# Container for a rendered and filtered man page
 		class Rendering
 			attr_reader :doc, :path
 
-			def initialize(source, path = "")
+			def initialize(source = "", path = "")
+				filter(source, path) if source
+			end
+			
+			# Optimise the output of `mandoc -Thtml`
+			def filter(source, path = "")
 				@doc = Nokogiri::HTML(source)
 				@path = path
 				@doc.css("table.head, table.foot").remove
@@ -54,6 +70,9 @@ module GitHub
 				
 				# Finally, strip CSS classes so output matches that of GitHub's HTML sanitiser
 				@doc.css("[class]").remove_attr("class")
+				
+				# Return instance for easier chaining
+				return self
 			end
 
 			# Return the HTML source for the rendered and filtered document
