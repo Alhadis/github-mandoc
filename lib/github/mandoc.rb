@@ -77,9 +77,8 @@ module GitHub
 			end
 
 			# Compare equality based on HTML markup
-			def ==(op)
-				@doc.to_s === op.to_s
-			end
+			def ===(op) @doc.to_s === op.to_s; end
+			def ==(op)  @doc.to_s ==  op.to_s; end
 
 			# Return the HTML source for the rendered and filtered document
 			def to_s()   @doc.to_s; end
