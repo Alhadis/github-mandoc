@@ -4,7 +4,7 @@
 require "github/mandoc"
 require "optparse"
 
-load_method = $stdin.isatty ? :stdin : :topic
+load_method = $stdin.isatty ? :topic : :stdin
 filter_only = false
 preview     = false
 results     = nil
@@ -48,10 +48,10 @@ end
 
 # Decorate output to look like it's on GitHub
 if preview
-	dir = File.expand_path("../tests/examples", __dir__)
-	puts File.read("#{dir}/template/header.html")
+	dir = File.expand_path("../test/template", __dir__)
+	puts File.read("#{dir}/header.html")
 	puts results
-	puts File.read("#{dir}/template/footer.html")
+	puts File.read("#{dir}/footer.html")
 
 # Just the frag, ma'am
 else
