@@ -29,7 +29,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  sudo apt-get install mandoc
+                  sudo apt-get install mandoc build-essential patch ruby-dev zlib1g-dev liblzma-dev libgmp-dev libxslt-dev
                   bundle install
 
             - name: Run tests
