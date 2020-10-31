@@ -1,0 +1,38 @@
+name: Run tests
+on:
+    - push
+    - pull_request
+
+jobs:
+    run:
+        name: Ruby ${{ matrix.ruby }}
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                ruby:
+                    - "2.5.x"
+                    - "2.6.x"
+                    - "2.7.x"
+        steps:
+            - uses: actions/checkout@v2
+
+            - uses: actions/cache@v2
+              with:
+                  path: vendor/bundle
+                  key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+                  restore-keys: ${{ runner.os }}-gems-
+
+            - name: Setup Ruby
+              uses: actions/setup-ruby@v1
+              with:
+                  ruby-version: ${{ matrix.ruby }}
+
+            - name: Install dependencies
+              run: |
+                  sudo apt-get install mandoc
+                  bundle install
+
+            - name: Run tests
+              run: |
+                  which mandoc
+                  bundle exec rake
