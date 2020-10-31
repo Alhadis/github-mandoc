@@ -1,8 +1,6 @@
-require File.expand_path("../lib/github/mandoc", __FILE__)
-
 Gem::Specification.new do |s|
 	s.name          = "github-mandoc"
-	s.version       = GitHub::Mandoc::VERSION
+	s.version       = "0.0.1"
 	s.summary       = "Filters for optimising `mandoc -Thtml` output for display on GitHub.com"
 	s.authors       = ["Alhadis"]
 	s.homepage      = "https://github.com/Alhadis/github-mandoc"

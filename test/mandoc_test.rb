@@ -1,3 +1,4 @@
+require "github/mandoc"
 require "minitest/autorun"
 
 class MandocTest < Minitest::Test
@@ -7,7 +8,7 @@ class MandocTest < Minitest::Test
 
 	def test_filtering
 		Dir["#{@fixtures}/*.input.html"].each do |file|
-			exp = file.sub /(?<=\.)input(?=\.html$)/i, "output"
+			exp = file.sub(/(?<=\.)input(?=\.html$)/i, "output")
 			exp = File.read(exp)
 			act = GitHub::Mandoc.filter(File.read file).to_s
 			assert_equal exp, act, "Mismatch: #{file}"

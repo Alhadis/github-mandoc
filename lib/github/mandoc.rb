@@ -3,7 +3,6 @@ require "open3"
 
 module GitHub
 	module Mandoc
-		VERSION = "0.0.1"
 		
 		# Locate a man page by topic/section, then render it
 		def self.render_topic(name, section = "")
@@ -136,7 +135,7 @@ module GitHub
 				@doc.css("[href]").each do |el|
 					href = el["href"]
 					if href =~ /#([^#]+)$/ and map.has_key? $1
-						el["href"] = href.gsub /[^#]+$/, map[$1]
+						el["href"] = href.gsub(/[^#]+$/, map[$1])
 					end
 				end
 			end
@@ -209,7 +208,7 @@ module GitHub
 				return unless el.ancestors("pre").empty?
 				el.children.each do |node|
 					if node.is_a? Nokogiri::XML::Text
-						node.content= node.content.gsub /\s+/, " "
+						node.content= node.content.gsub(/\s+/, " ")
 					end
 				end
 			end
