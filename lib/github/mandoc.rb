@@ -1,32 +1,35 @@
+# frozen_string_literal: true
+
+require "english"
 require "nokogiri"
 require "open3"
 
 module GitHub
+	# Singleton class for optimising mandoc(1) HTML output
 	module Mandoc
-		
 		# Locate a man page by topic/section, then render it
 		def self.render_topic(name, section = "")
 			path = `man -w #{section} #{name}`.chomp
-			return unless $?.success?
-			self.render_file(path)
+			return unless $CHILD_STATUS.success?
+
+			render_file(path)
 		end
-		
+
 		# Load and render a man page from the designated location
 		def self.render_file(path)
-			self.render(File.read(path), path)
+			render(File.read(path), path)
 		end
-		
+
 		# Shell out to mandoc(1) to format man(7) or mdoc(7) markup as HTML
 		def self.render(source, filename = "")
-			out, _ = Open3.capture2("mandoc -Thtml -Ofragment,man='%N.%S;../man%S/%N.%S'", :stdin_data => source)
-			self.filter(out, filename)
+			out, = Open3.capture2 "mandoc -Thtml -Ofragment,man='%N.%S;../man%S/%N.%S'", stdin_data: source
+			filter(out, filename)
 		end
 
 		# Filter preformatted HTML
 		def self.filter(source, filename = "")
 			Rendering.new(source, filename)
 		end
-
 
 		# Container for a rendered and filtered man page
 		class Rendering
@@ -35,59 +38,62 @@ module GitHub
 			def initialize(source = "", path = "")
 				filter(source, path) if source
 			end
-			
+
 			# Optimise the output of `mandoc -Thtml`
 			def filter(source, path = "")
 				@doc = Nokogiri::HTML(source)
 				@path = path
 				@doc.css("table.head, table.foot").remove
-				
+
 				# Replace unwanted or superfluous elements with their contents
-				@doc.css(".Nd, .permalink, table + br").each {|el| unwrap el}
-				
+				@doc.css(".Nd, .permalink, table + br").each { |el| unwrap el }
+
 				fix_implicit_paragraphs
 				fix_synopses
 				fix_anchors
 				replace_unwhitelisted_tags
 				fix_broken_references
-				
+
 				# Merge adjacent <code> elements
 				gsub({
-					%r|</code\s*>\s+<code[^>]*>|i => " ",
-					%r|</code\s*><code[^>]*>|i    => "",
-					%r|(?>\R[ \t]*)+</pre>|       => "\n</pre>"
+					%r{</code\s*>\s+<code[^>]*>}i => " ",
+					%r{</code\s*><code[^>]*>}i    => "",
+					%r{(?>\R[ \t]*)+</pre>}       => "\n</pre>"
 				})
-				
+
 				# Strip empty paragraph nodes
-				@doc.css("p").each {|p| p.remove unless p.content =~ /\S/}
-				
+				@doc.css("p").each { |p| p.remove unless p.content =~ /\S/ }
+
 				# Make indented regions more conspicuous
 				fix_displays
-				
+
 				# Strip redundant line-breaks for more consistent testing
-				@doc.css("h1, h2, h3, h4, h5, h6, p, a").each {|el| normalise_whitespace el}
+				@doc.css("h1, h2, h3, h4, h5, h6, p, a").each { |el| normalise_whitespace el }
 				gsub %r{<p(?=\s|>)[^>]*>\K +| +(?=</p>)}
-				
+
 				# Finally, strip CSS classes so output matches that of GitHub's HTML sanitiser
 				@doc.css("[class]").remove_attr("class")
-				
-				# Return instance for easier chaining
-				return self
 			end
 
 			# Compare equality based on HTML markup
-			def ===(op) @doc.to_s === op.to_s; end
-			def ==(op)  @doc.to_s ==  op.to_s; end
+			def ==(other)
+				@doc.to_s == other.to_s
+			end
 
 			# Return the HTML source for the rendered and filtered document
-			def to_s()   @doc.to_s; end
-			def to_str() to_s;      end
+			def to_s
+				@doc.to_s
+			end
+
+			def to_str
+				to_s
+			end
 
 			# Modify the in-memory HTML tree using regular expressions
 			def gsub(pattern, replacement = "")
 				src = @doc.root.to_s
 				if pattern.is_a? Hash
-					pattern.each {|patt, repl| src.gsub!(patt, repl)}
+					pattern.each { |patt, repl| src.gsub!(patt, repl) }
 				else
 					src.gsub!(pattern, replacement)
 				end
@@ -104,38 +110,37 @@ module GitHub
 			end
 
 			# Remove an HTML tag, but not its contents
-			def unwrap(el)
-				nodes = el.children
-				el.next= nodes
-				el.remove
+			def unwrap(tag)
+				nodes = tag.children
+				tag.next= nodes
+				tag.remove
 				nodes
 			end
 
-		private
-			# Replace “SHOUTING_SNAKE_CASE” with “calm-kebab-case”
+			private
+
+			# Replace "SHOUTING_SNAKE_CASE" with "calm-kebab-case"
 			def fix_anchor(id)
 				id.downcase.gsub(/[_\W]+|-{2,}/, "-").gsub(/^-|-$/, "")
 			end
-		
+
 			# Force lowercase, dash-separated anchor names
 			def fix_anchors
 				map = {}
-				
+
 				# Normalise IDs
 				@doc.css("[id]").each do |el|
 					old = el["id"]
 					id = fix_anchor(old)
-					while map.has_value? id do
-						id.sub!(/\d*$/) {|suffix| (suffix || "1").to_i + 1}
-					end
+					id.sub!(/\d*$/) { |suffix| (suffix || "1").to_i + 1 } while map.value? id
 					map[old] = el["id"] = id
 				end
-				
+
 				# Update hrefs
 				@doc.css("[href]").each do |el|
 					href = el["href"]
-					if href =~ /#([^#]+)$/ and map.has_key? $1
-						el["href"] = href.gsub(/[^#]+$/, map[$1])
+					if href.match(/#([^#]+)$/) && map.key?(hash = Regexp.last_match(1))
+						el["href"] = href.gsub(/[^#]+$/, map[hash])
 					end
 				end
 			end
@@ -147,8 +152,8 @@ module GitHub
 					unwrap el unless File.exist?(path)
 				end
 			end
-			
-			# Replace “displays” (indented regions) with their closest HTML equivalents
+
+			# Replace "displays" (indented regions) with their closest HTML equivalents
 			def fix_displays
 				@doc.css(".Bd > pre:only-child").each do |el|
 					unwrap el.parent
@@ -156,17 +161,17 @@ module GitHub
 
 				# Concatenate element lists composed solely of <code> tags
 				@doc.css(".Bd").each do |bd|
-					if bd.children.all? {|el| "code" == el.name}
-						pre = @doc.create_element "pre", "\n", :class => "inline"
-						bd.children.each {|el| normalise_whitespace el}
-						pre.add_child bd.children
-						bd.previous= pre
-						bd.remove
-					end
+					next unless bd.children.all? { |el| el.name == "code" }
+
+					pre = @doc.create_element "pre", "\n", class: "inline"
+					bd.children.each { |el| normalise_whitespace el }
+					pre.add_child bd.children
+					bd.previous= pre
+					bd.remove
 				end
 
 				# Merge adjacent displays generated by the previous step
-				until (inline = @doc.css("pre.inline + pre.inline")).empty? do
+				until (inline = @doc.css("pre.inline + pre.inline")).empty?
 					inline.each do |el|
 						el.previous_element << el.children
 						el.remove
@@ -181,14 +186,12 @@ module GitHub
 			def fix_implicit_paragraphs
 				@doc.css("blockquote, div, dl, ol, p, pre, table, ul").each do |el|
 					nodes = Nokogiri::XML::NodeSet.new @doc
-					while inline?(prev = el.previous_sibling) do
-						nodes << el.previous_sibling.unlink
-					end
-					unless nodes.empty?
-						p = @doc.create_element "p"
-						p.children= nodes.reverse
-						el.previous= p
-					end
+					nodes << el.previous_sibling.unlink while inline? el.previous_sibling
+					next if nodes.empty?
+
+					p = @doc.create_element "p"
+					p.children= nodes.reverse
+					el.previous= p
 				end
 			end
 
@@ -199,17 +202,16 @@ module GitHub
 					row.parent.remove
 					table.add_child row
 				end
-				@doc.css("table.Nm > tr > td:first-child").each {|el| el.name = "th"}
-				@doc.css("table.Nm > tr > *").each {|el| el["valign"] = "top"}
+				@doc.css("table.Nm > tr > td:first-child").each { |el| el.name = "th" }
+				@doc.css("table.Nm > tr > *").each { |el| el["valign"] = "top" }
 			end
 
 			# Normalise whitespace in non-monospaced elements
-			def normalise_whitespace(el)
-				return unless el.ancestors("pre").empty?
-				el.children.each do |node|
-					if node.is_a? Nokogiri::XML::Text
-						node.content= node.content.gsub(/\s+/, " ")
-					end
+			def normalise_whitespace(element)
+				return unless element.ancestors("pre").empty?
+
+				element.children.each do |node|
+					node.content= node.content.gsub(/\s+/, " ") if node.is_a? Nokogiri::XML::Text
 				end
 			end
 
@@ -228,9 +230,8 @@ module GitHub
 				@doc.css(".Pa, .Xr").wrap "<code></code>"
 
 				# Fix double nesting
-				nested = []
-				until (nested = @doc.css("code code")).empty? do
-					nested.each {|el| unwrap(el)}
+				until (nested = @doc.css("code code")).empty?
+					nested.each { |el| unwrap(el) }
 				end
 			end
 		end
@@ -242,11 +243,11 @@ module GitHub
 		del dfn em embed i iframe img input ins kbd keygen label map mark math meter noscript
 		object output picture progress q ruby s samp script select slot small span strong sub
 		sup svg template textarea time tt u var video wbr
-	]
+	].freeze
 
 	# HTML elements that *don't* fit inside a <p> element. Source: https://mdn.io/Block_elements
 	BLOCK_ELEMENTS = %w[
 		address article aside blockquote dd details dialog div dl dt fieldset figcaption figure
 		footer form h1 h2 h3 h4 h5 h6 header hgroup hr li main nav ol p pre section table ul
-	]
+	].freeze
 end

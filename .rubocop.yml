@@ -1,0 +1,45 @@
+AllCops:
+    Include:
+        - "bin/github-mandoc"
+        - ".simplecov"
+    NewCops: enable
+
+Layout/AccessModifierIndentation:
+    IndentationWidth: 1
+
+Layout/FirstArrayElementIndentation:
+    EnforcedStyle: consistent
+    IndentationWidth: 1
+
+Layout/FirstHashElementIndentation:
+    EnforcedStyle: consistent
+    IndentationWidth: 1
+
+Layout/HashAlignment:
+    EnforcedHashRocketStyle: table
+
+Layout/IndentationStyle:
+    EnforcedStyle: tabs
+    IndentationWidth: 4
+
+Layout/IndentationWidth:
+    Enabled: false
+
+# TEMP: Disabled because it picks up on Nokogiri methods like `.previous=`
+Layout/SpaceAroundOperators:
+    Enabled: false
+
+Metrics/AbcSize:
+    Enabled: false
+
+Metrics/ClassLength:
+    Max: 300
+
+Metrics/CyclomaticComplexity:
+    Enabled: false
+
+Metrics/MethodLength:
+    Max: 30
+
+Style/StringLiterals:
+    Enabled: false

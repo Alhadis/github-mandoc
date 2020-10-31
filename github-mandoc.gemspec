@@ -14,4 +14,6 @@ Gem::Specification.new do |s|
 	s.add_dependency "nokogiri", "~> 1.5.6"
 	s.add_development_dependency "bundler", ">= 1.10"
 	s.add_development_dependency "minitest", ">= 5.0"
+	s.add_development_dependency "simplecov", ">= 0.19"
+	s.add_development_dependency "rubocop", "~> 1.1"
 end
