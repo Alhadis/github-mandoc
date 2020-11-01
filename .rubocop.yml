@@ -25,6 +25,9 @@ Layout/IndentationStyle:
 Layout/IndentationWidth:
     Enabled: false
 
+Layout/MultilineMethodCallIndentation:
+    Enabled: false
+
 # TEMP: Disabled because it picks up on Nokogiri methods like `.previous=`
 Layout/SpaceAroundOperators:
     Enabled: false

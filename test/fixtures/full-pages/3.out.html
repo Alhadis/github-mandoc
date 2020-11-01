@@ -1,10 +1,10 @@
 <div>
-<section>
+
 <h1 id="name">NAME</h1>
 <code><b>mdoc</b></code> —
 semantic markup language for formatting manual pages
-</section>
-<section>
+
+
 <h1 id="description">DESCRIPTION</h1>
 <p>The <code><b>mdoc</b></code> language supports authoring of manual pages for the <code>man(1)</code> utility by allowing semantic annotations of words, phrases, page sections and complete manual pages. Such annotations are used by formatting tools to achieve a uniform presentation across all manuals written in <code><b>mdoc</b></code>, and to support hyperlinking if supported by the output medium.</p>
 <p>This reference document describes the structure of manual pages and the syntax and usage of the <code><b>mdoc</b></code> language. The reference implementation of a parsing and formatting tool is <code>mandoc(1)</code>; the <a href="#compatibility">COMPATIBILITY</a> section describes compatibility with other implementations.</p>
@@ -20,10 +20,9 @@ semantic markup language for formatting manual pages
 Text lines are interpreted within the current state.
 </pre>
 
-
 <p>Many aspects of the basic syntax of the <code><b>mdoc</b></code> language are based on the <code>roff(7)</code> language; see the <i>LANGUAGE SYNTAX</i> and <i>MACRO SYNTAX</i> sections in the <code>roff(7)</code> manual for details, in particular regarding comments, escape sequences, whitespace, and quoting. However, using <code>roff(7)</code> requests in <code><b>mdoc</b></code> documents is discouraged; <code>mandoc(1)</code> supports some of them merely for backward compatibility.</p>
-</section>
-<section>
+
+
 <h1 id="manual-structure">MANUAL STRUCTURE</h1>
 <p>A well-formed <code><b>mdoc</b></code> document consists of a document prologue followed by one or more sections.</p>
 <p>The prologue, which consists of the <code><b>Dd</b></code>, <code><b>Dt</b></code>, and <code><b>Os</b></code> macros in that order, is required for every document.</p>
@@ -81,12 +80,11 @@ utility processes files ...
 .\" Not used in OpenBSD.
 </pre>
 
-
 <p>The sections in an <code><b>mdoc</b></code> document are conventionally ordered as they appear above. Sections should be composed as follows:</p>
 
 <dl>
-  <dt><i>NAME</i></dt>
-  <dd>
+<dt><i>NAME</i></dt>
+<dd>
 <p>The name(s) and a one line description of the documented material. The syntax for this as follows:</p>
 
 
@@ -96,28 +94,26 @@ utility processes files ...
 .Nm name2
 .Nd a one line description
 </pre>
-    
 
 <p>Multiple ‘Nm’ names should be separated by commas.</p>
 
 <p>The <code><b>Nm</b></code> macro(s) must precede the <code><b>Nd</b></code> macro.</p>
 
 <p>See <code><b>Nm</b></code> and <code><b>Nd</b></code>.</p>
-  </dd>
-  <dt><i>LIBRARY</i></dt>
-  <dd>
+</dd>
+<dt><i>LIBRARY</i></dt>
+<dd>
 <p>The name of the library containing the documented material, which is assumed to be a function in a section 2, 3, or 9 manual. The syntax for this is as follows:</p>
 
 
 <pre>
 .Lb libarm
 </pre>
-    
 
 <p>See <code><b>Lb</b></code>.</p>
-  </dd>
-  <dt><i>SYNOPSIS</i></dt>
-  <dd>
+</dd>
+<dt><i>SYNOPSIS</i></dt>
+<dd>
 <p>Documents the utility invocation syntax, function call syntax, or device configuration.</p>
 <p>For the first, utilities (sections 1, 6, and 8), this is generally structured as follows:</p>
 
@@ -133,7 +129,6 @@ utility processes files ...
 .Op Fl o Ar file
 .Op Ar
 </pre>
-    
 
 <p>Commands should be ordered alphabetically.</p>
 
@@ -149,7 +144,6 @@ utility processes files ...
 .Ft "char *"
 .Fn bar "const char *src"
 </pre>
-    
 
 <p>Ordering of <code><b>In</b></code>, <code><b>Vt</b></code>, <code><b>Fn</b></code>, and <code><b>Fo</b></code> macros should follow C header-file conventions.</p>
 
@@ -161,16 +155,15 @@ utility processes files ...
 .Cd "it* at isa? port 0x2e"
 .Cd "it* at isa? port 0x4e"
 </pre>
-    
 
 <p>Manuals not in these sections generally don't need a <i>SYNOPSIS</i>.</p>
 
 <p>Some macros are displayed differently in the <i>SYNOPSIS</i> section, particularly <code><b>Nm</b></code>, <code><b>Cd</b></code>, <code><b>Fd</b></code>, <code><b>Fn</b></code>, <code><b>Fo</b></code>, <code><b>In</b></code>, <code><b>Vt</b></code>, and <code><b>Ft</b></code>. All of these macros are output on their own line. If two such dissimilar macros are pairwise invoked (except for <code><b>Ft</b></code> before <code><b>Fo</b></code> or <code><b>Fn</b></code>), they are separated by a vertical space, unless in the case of <code><b>Fo</b></code>, <code><b>Fn</b></code>, and <code><b>Ft</b></code>, which are always separated by vertical space.</p>
 
 <p>When text and macros following an <code><b>Nm</b></code> macro starting an input line span multiple output lines, all output lines but the first will be indented to align with the text immediately following the <code><b>Nm</b></code> macro, up to the next <code><b>Nm</b></code>, <code><b>Sh</b></code>, or <code><b>Ss</b></code> macro or the end of an enclosing block, whichever comes first.</p>
-  </dd>
-  <dt><i>DESCRIPTION</i></dt>
-  <dd>
+</dd>
+<dt><i>DESCRIPTION</i></dt>
+<dd>
 <p>This begins with an expansion of the brief, one line description in <i>NAME</i>:</p>
 
 
@@ -179,7 +172,6 @@ The
 .Nm
 utility does this, that, and the other.
 </pre>
-    
 
 <p>It usually follows with a breakdown of the options (if documenting a command), such as:</p>
 
@@ -192,606 +184,605 @@ The arguments are as follows:
 Print verbose information.
 .El
 </pre>
-    
 
 <p>List the options in alphabetical order, uppercase before lowercase for each letter and with no regard to whether an option takes an argument. Put digits in ascending order before all letter options.</p>
 
 <p>Manuals not documenting a command won't include the above fragment.</p>
 
 <p>Since the <i>DESCRIPTION</i> section usually contains most of the text of a manual, longer manuals often use the <code><b>Ss</b></code> macro to form subsections. In very long manuals, the <i>DESCRIPTION</i> may be split into multiple sections, each started by an <code><b>Sh</b></code> macro followed by a non-standard section name, and each having several subsections, like in the present <code><b>mdoc</b></code> manual.</p>
-  </dd>
-  <dt><i>CONTEXT</i></dt>
-  <dd>This section lists the contexts in which functions can be called in
-      section 9. The contexts are autoconf, process, or interrupt.</dd>
-  <dt><i>IMPLEMENTATION NOTES</i></dt>
-  <dd>Implementation-specific notes should be kept here. This is useful when
-      implementing standard functions that may have side effects or notable
-      algorithmic implications.</dd>
-  <dt><i>RETURN VALUES</i></dt>
-  <dd>
+</dd>
+<dt><i>CONTEXT</i></dt>
+<dd>This section lists the contexts in which functions can be called in
+section 9. The contexts are autoconf, process, or interrupt.</dd>
+<dt><i>IMPLEMENTATION NOTES</i></dt>
+<dd>Implementation-specific notes should be kept here. This is useful when
+implementing standard functions that may have side effects or notable
+algorithmic implications.</dd>
+<dt><i>RETURN VALUES</i></dt>
+<dd>
 <p>This section documents the return values of functions in sections 2, 3, and 9.</p>
 <p>See <code><b>Rv</b></code>.</p>
-  </dd>
-  <dt><i>ENVIRONMENT</i></dt>
-  <dd>
+</dd>
+<dt><i>ENVIRONMENT</i></dt>
+<dd>
 <p>Lists the environment variables used by the utility, and explains the syntax and semantics of their values. The <code>environ(7)</code> manual provides examples of typical content and formatting.</p>
 <p>See <code><b>Ev</b></code>.</p>
-  </dd>
-  <dt><i>FILES</i></dt>
-  <dd>
+</dd>
+<dt><i>FILES</i></dt>
+<dd>
 <p>Documents files used. It's helpful to document both the file name and a short description of how the file is used (created, modified, etc.).</p>
 <p>See <code><b>Pa</b></code>.</p>
-  </dd>
-  <dt><i>EXIT STATUS</i></dt>
-  <dd>
+</dd>
+<dt><i>EXIT STATUS</i></dt>
+<dd>
 <p>This section documents the command exit status for section 1, 6, and 8 utilities. Historically, this information was described in <i>DIAGNOSTICS</i>, a practise that is now discouraged.</p>
 <p>See <code><b>Ex</b></code>.</p>
-  </dd>
-  <dt><i>EXAMPLES</i></dt>
-  <dd>Example usages. This often contains snippets of well-formed, well-tested
-      invocations. Make sure that examples work properly!</dd>
-  <dt><i>DIAGNOSTICS</i></dt>
-  <dd>
+</dd>
+<dt><i>EXAMPLES</i></dt>
+<dd>Example usages. This often contains snippets of well-formed, well-tested
+invocations. Make sure that examples work properly!</dd>
+<dt><i>DIAGNOSTICS</i></dt>
+<dd>
 <p>Documents error messages. In section 4 and 9 manuals, these are usually messages printed by the kernel to the console and to the kernel log. In section 1, 6, 7, and 8, these are usually messages printed by userland programs to the standard error output.</p>
 <p>Historically, this section was used in place of <i>EXIT STATUS</i> for manuals in sections 1, 6, and 8; however, this practise is discouraged.</p>
 
 <p>See <code><b>Bl</b> <b>-diag</b></code>.</p>
-  </dd>
-  <dt><i>ERRORS</i></dt>
-  <dd>
+</dd>
+<dt><i>ERRORS</i></dt>
+<dd>
 <p>Documents <code>errno(2)</code> settings in sections 2, 3, 4, and 9.</p>
 <p>See <code><b>Er</b></code>.</p>
-  </dd>
-  <dt><i>SEE ALSO</i></dt>
-  <dd>
+</dd>
+<dt><i>SEE ALSO</i></dt>
+<dd>
 <p>References other manuals with related topics. This section should exist for most manuals. Cross-references should conventionally be ordered first by section, then alphabetically (ignoring case).</p>
 <p>References to other documentation concerning the topic of the manual page, for example authoritative books or journal articles, may also be provided in this section.</p>
 
 <p>See <code><b>Rs</b></code> and <code><b>Xr</b></code>.</p>
-  </dd>
-  <dt><i>STANDARDS</i></dt>
-  <dd>
+</dd>
+<dt><i>STANDARDS</i></dt>
+<dd>
 <p>References any standards implemented or used. If not adhering to any standards, the <i>HISTORY</i> section should be used instead.</p>
 <p>See <code><b>St</b></code>.</p>
-  </dd>
-  <dt><i>HISTORY</i></dt>
-  <dd>A brief history of the subject, including where it was first implemented,
-      and when it was ported to or reimplemented for the operating system at
-      hand.</dd>
-  <dt><i>AUTHORS</i></dt>
-  <dd>
+</dd>
+<dt><i>HISTORY</i></dt>
+<dd>A brief history of the subject, including where it was first implemented,
+and when it was ported to or reimplemented for the operating system at
+hand.</dd>
+<dt><i>AUTHORS</i></dt>
+<dd>
 <p>Credits to the person or persons who wrote the code and/or documentation. Authors should generally be noted by both name and email address.</p>
 <p>See <code><b>An</b></code>.</p>
-  </dd>
-  <dt><i>CAVEATS</i></dt>
-  <dd>Common misuses and misunderstandings should be explained in this
-    section.</dd>
-  <dt><i>BUGS</i></dt>
-  <dd>Known bugs, limitations, and work-arounds should be described in this
-      section.</dd>
-  <dt><i>SECURITY CONSIDERATIONS</i></dt>
-  <dd>Documents any security precautions that operators should consider.</dd>
+</dd>
+<dt><i>CAVEATS</i></dt>
+<dd>Common misuses and misunderstandings should be explained in this
+section.</dd>
+<dt><i>BUGS</i></dt>
+<dd>Known bugs, limitations, and work-arounds should be described in this
+section.</dd>
+<dt><i>SECURITY CONSIDERATIONS</i></dt>
+<dd>Documents any security precautions that operators should consider.</dd>
 </dl>
-</section>
-<section>
+
+
 <h1 id="macro-overview">MACRO OVERVIEW</h1>
 This overview is sorted such that macros of similar purpose are listed together,
-  to help find the best macro for any given purpose. Deprecated macros are not
-  included in the overview, but can be found below in the alphabetical
-  <a href="#macro-reference">MACRO REFERENCE</a>.
-<section>
+to help find the best macro for any given purpose. Deprecated macros are not
+included in the overview, but can be found below in the alphabetical
+<a href="#macro-reference">MACRO REFERENCE</a>.
+
 <h2 id="document-preamble-and-name-section-macros">Document preamble and NAME section macros</h2>
 
 <table>
-  <tr>
-    <td><code id="dd"><b>Dd</b></code></td>
-    <td>document date: <code><b>$Mdocdate$</b></code> |
-      <var>month day</var>, <var>year</var>
+<tr>
+<td><code id="dd"><b>Dd</b></code></td>
+<td>document date: <code><b>$Mdocdate$</b></code> |
+<var>month day</var>, <var>year</var>
 </td>
-  </tr>
-  <tr>
-    <td><code id="dt"><b>Dt</b></code></td>
-    <td>document title: <var>TITLE section</var>
-      [<var>arch</var>]</td>
-  </tr>
-  <tr>
-    <td><code id="os"><b>Os</b></code></td>
-    <td>operating system version: [<var>system</var>
-      [<var>version</var>]]</td>
-  </tr>
-  <tr>
-    <td><code id="nm"><b>Nm</b></code></td>
-    <td>document name (one argument)</td>
-  </tr>
-  <tr>
-    <td><code id="nd"><b>Nd</b></code></td>
-    <td>document description (one line)</td>
-  </tr>
+</tr>
+<tr>
+<td><code id="dt"><b>Dt</b></code></td>
+<td>document title: <var>TITLE section</var>
+[<var>arch</var>]</td>
+</tr>
+<tr>
+<td><code id="os"><b>Os</b></code></td>
+<td>operating system version: [<var>system</var>
+[<var>version</var>]]</td>
+</tr>
+<tr>
+<td><code id="nm"><b>Nm</b></code></td>
+<td>document name (one argument)</td>
+</tr>
+<tr>
+<td><code id="nd"><b>Nd</b></code></td>
+<td>document description (one line)</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="sections-and-cross-references">Sections and cross references</h2>
 
 <table>
-  <tr>
-    <td><code id="sh"><b>Sh</b></code></td>
-    <td>section header (one line)</td>
-  </tr>
-  <tr>
-    <td><code id="ss"><b>Ss</b></code></td>
-    <td>subsection header (one line)</td>
-  </tr>
-  <tr>
-    <td><code id="sx"><b>Sx</b></code></td>
-    <td>internal cross reference to a section or subsection</td>
-  </tr>
-  <tr>
-    <td><code id="xr"><b>Xr</b></code></td>
-    <td>cross reference to another manual page: <var>name
-      section</var>
+<tr>
+<td><code id="sh"><b>Sh</b></code></td>
+<td>section header (one line)</td>
+</tr>
+<tr>
+<td><code id="ss"><b>Ss</b></code></td>
+<td>subsection header (one line)</td>
+</tr>
+<tr>
+<td><code id="sx"><b>Sx</b></code></td>
+<td>internal cross reference to a section or subsection</td>
+</tr>
+<tr>
+<td><code id="xr"><b>Xr</b></code></td>
+<td>cross reference to another manual page: <var>name
+section</var>
 </td>
-  </tr>
-  <tr>
-    <td><code id="pp"><b>Pp</b></code></td>
-    <td>start a text paragraph (no arguments)</td>
-  </tr>
+</tr>
+<tr>
+<td><code id="pp"><b>Pp</b></code></td>
+<td>start a text paragraph (no arguments)</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="displays-and-lists">Displays and lists</h2>
 
 <table>
-  <tr>
-    <td>
+<tr>
+<td>
 <code id="bd"><b>Bd</b></code>,
-      <code><b>Ed</b></code>
+<code><b>Ed</b></code>
 </td>
-    <td>display block: <code><b>-</b></code><var>type</var>
-      [<code><b>-offset</b></code> <var>width</var>]
-      [<code><b>-compact</b></code>]</td>
-  </tr>
-  <tr>
-    <td><code id="d1"><b>D1</b></code></td>
-    <td>indented display (one line)</td>
-  </tr>
-  <tr>
-    <td><code id="dl"><b>Dl</b></code></td>
-    <td>indented literal display (one line)</td>
-  </tr>
-  <tr>
-    <td><code id="ql"><b>Ql</b></code></td>
-    <td>in-line literal display:
-      ‘<code>text</code>’</td>
-  </tr>
-  <tr>
-    <td>
+<td>display block: <code><b>-</b></code><var>type</var>
+[<code><b>-offset</b></code> <var>width</var>]
+[<code><b>-compact</b></code>]</td>
+</tr>
+<tr>
+<td><code id="d1"><b>D1</b></code></td>
+<td>indented display (one line)</td>
+</tr>
+<tr>
+<td><code id="dl"><b>Dl</b></code></td>
+<td>indented literal display (one line)</td>
+</tr>
+<tr>
+<td><code id="ql"><b>Ql</b></code></td>
+<td>in-line literal display:
+‘<code>text</code>’</td>
+</tr>
+<tr>
+<td>
 <code id="bl"><b>Bl</b></code>,
-      <code><b>El</b></code>
+<code><b>El</b></code>
 </td>
-    <td>list block: <code><b>-</b></code><var>type</var>
-      [<code><b>-width</b></code> <var>val</var>]
-      [<code><b>-offset</b></code> <var>val</var>]
-      [<code><b>-compact</b></code>]</td>
-  </tr>
-  <tr>
-    <td><code id="it"><b>It</b></code></td>
-    <td>list item (syntax depends on
-      <code><b>-</b></code><var>type</var>)</td>
-  </tr>
-  <tr>
-    <td><code id="ta"><b>Ta</b></code></td>
-    <td>table cell separator in <code><b>Bl</b> <b>-column</b></code> <span>lists</span>
+<td>list block: <code><b>-</b></code><var>type</var>
+[<code><b>-width</b></code> <var>val</var>]
+[<code><b>-offset</b></code> <var>val</var>]
+[<code><b>-compact</b></code>]</td>
+</tr>
+<tr>
+<td><code id="it"><b>It</b></code></td>
+<td>list item (syntax depends on
+<code><b>-</b></code><var>type</var>)</td>
+</tr>
+<tr>
+<td><code id="ta"><b>Ta</b></code></td>
+<td>table cell separator in <code><b>Bl</b> <b>-column</b></code> <span>lists</span>
 </td>
-  </tr>
-  <tr>
-    <td>
+</tr>
+<tr>
+<td>
 <code id="rs"><b>Rs</b></code>,
-      <code><b>%*</b></code>, <code><b>Re</b></code>
+<code><b>%*</b></code>, <code><b>Re</b></code>
 </td>
-    <td>bibliographic block (references)</td>
-  </tr>
+<td>bibliographic block (references)</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="spacing-control">Spacing control</h2>
 
 <table>
-  <tr>
-    <td><code id="pf"><b>Pf</b></code></td>
-    <td>prefix, no following horizontal space (one argument)</td>
-  </tr>
-  <tr>
-    <td><code id="ns"><b>Ns</b></code></td>
-    <td>roman font, no preceding horizontal space (no arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="ap"><b>Ap</b></code></td>
-    <td>apostrophe without surrounding whitespace (no arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="sm"><b>Sm</b></code></td>
-    <td>switch horizontal spacing mode: [<code><b>on</b></code> |
-      <code><b>off</b></code>]</td>
-  </tr>
-  <tr>
-    <td>
+<tr>
+<td><code id="pf"><b>Pf</b></code></td>
+<td>prefix, no following horizontal space (one argument)</td>
+</tr>
+<tr>
+<td><code id="ns"><b>Ns</b></code></td>
+<td>roman font, no preceding horizontal space (no arguments)</td>
+</tr>
+<tr>
+<td><code id="ap"><b>Ap</b></code></td>
+<td>apostrophe without surrounding whitespace (no arguments)</td>
+</tr>
+<tr>
+<td><code id="sm"><b>Sm</b></code></td>
+<td>switch horizontal spacing mode: [<code><b>on</b></code> |
+<code><b>off</b></code>]</td>
+</tr>
+<tr>
+<td>
 <code id="bk"><b>Bk</b></code>,
-      <code><b>Ek</b></code>
+<code><b>Ek</b></code>
 </td>
-    <td>keep block: <code><b>-words</b></code>
+<td>keep block: <code><b>-words</b></code>
 </td>
-  </tr>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="semantic-markup-for-command-line-utilities">Semantic markup for command line utilities</h2>
 
 <table>
-  <tr>
-    <td><code id="nm-2"><b>Nm</b></code></td>
-    <td>start a SYNOPSIS block with the name of a utility</td>
-  </tr>
-  <tr>
-    <td><code id="fl"><b>Fl</b></code></td>
-    <td>command line options (flags) (&gt;=0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="cm"><b>Cm</b></code></td>
-    <td>command modifier (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="ar"><b>Ar</b></code></td>
-    <td>command arguments (&gt;=0 arguments)</td>
-  </tr>
-  <tr>
-    <td>
+<tr>
+<td><code id="nm-2"><b>Nm</b></code></td>
+<td>start a SYNOPSIS block with the name of a utility</td>
+</tr>
+<tr>
+<td><code id="fl"><b>Fl</b></code></td>
+<td>command line options (flags) (&gt;=0 arguments)</td>
+</tr>
+<tr>
+<td><code id="cm"><b>Cm</b></code></td>
+<td>command modifier (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="ar"><b>Ar</b></code></td>
+<td>command arguments (&gt;=0 arguments)</td>
+</tr>
+<tr>
+<td>
 <code id="op"><b>Op</b></code>,
-      <code><b>Oo</b></code>, <code><b>Oc</b></code>
+<code><b>Oo</b></code>, <code><b>Oc</b></code>
 </td>
-    <td>optional syntax elements (enclosure)</td>
-  </tr>
-  <tr>
-    <td><code id="ic"><b>Ic</b></code></td>
-    <td>internal or interactive command (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="ev"><b>Ev</b></code></td>
-    <td>environmental variable (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="pa"><b>Pa</b></code></td>
-    <td>file system path (&gt;=0 arguments)</td>
-  </tr>
+<td>optional syntax elements (enclosure)</td>
+</tr>
+<tr>
+<td><code id="ic"><b>Ic</b></code></td>
+<td>internal or interactive command (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="ev"><b>Ev</b></code></td>
+<td>environmental variable (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="pa"><b>Pa</b></code></td>
+<td>file system path (&gt;=0 arguments)</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="semantic-markup-for-function-libraries">Semantic markup for function libraries</h2>
 
 <table>
-  <tr>
-    <td><code id="lb"><b>Lb</b></code></td>
-    <td>function library (one argument)</td>
-  </tr>
-  <tr>
-    <td><code id="in"><b>In</b></code></td>
-    <td>include file (one argument)</td>
-  </tr>
-  <tr>
-    <td><code id="fd"><b>Fd</b></code></td>
-    <td>other preprocessor directive (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="ft"><b>Ft</b></code></td>
-    <td>function type (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td>
+<tr>
+<td><code id="lb"><b>Lb</b></code></td>
+<td>function library (one argument)</td>
+</tr>
+<tr>
+<td><code id="in"><b>In</b></code></td>
+<td>include file (one argument)</td>
+</tr>
+<tr>
+<td><code id="fd"><b>Fd</b></code></td>
+<td>other preprocessor directive (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="ft"><b>Ft</b></code></td>
+<td>function type (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td>
 <code id="fo"><b>Fo</b></code>,
-      <code><b>Fc</b></code>
+<code><b>Fc</b></code>
 </td>
-    <td>function block: <var>funcname</var>
+<td>function block: <var>funcname</var>
 </td>
-  </tr>
-  <tr>
-    <td><code id="fn"><b>Fn</b></code></td>
-    <td>function name: <var>funcname</var> [<var>argument
-      ...</var>]</td>
-  </tr>
-  <tr>
-    <td><code id="fa"><b>Fa</b></code></td>
-    <td>function argument (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="vt"><b>Vt</b></code></td>
-    <td>variable type (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="va"><b>Va</b></code></td>
-    <td>variable name (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="dv"><b>Dv</b></code></td>
-    <td>defined variable or preprocessor constant (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="er"><b>Er</b></code></td>
-    <td>error constant (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="ev-2"><b>Ev</b></code></td>
-    <td>environmental variable (&gt;0 arguments)</td>
-  </tr>
+</tr>
+<tr>
+<td><code id="fn"><b>Fn</b></code></td>
+<td>function name: <var>funcname</var> [<var>argument
+...</var>]</td>
+</tr>
+<tr>
+<td><code id="fa"><b>Fa</b></code></td>
+<td>function argument (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="vt"><b>Vt</b></code></td>
+<td>variable type (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="va"><b>Va</b></code></td>
+<td>variable name (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="dv"><b>Dv</b></code></td>
+<td>defined variable or preprocessor constant (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="er"><b>Er</b></code></td>
+<td>error constant (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="ev-2"><b>Ev</b></code></td>
+<td>environmental variable (&gt;0 arguments)</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="various-semantic-markup">Various semantic markup</h2>
 
 <table>
-  <tr>
-    <td><code id="an"><b>An</b></code></td>
-    <td>author name (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="lk"><b>Lk</b></code></td>
-    <td>hyperlink: <var>uri</var>
-      [<var>display_name</var>]</td>
-  </tr>
-  <tr>
-    <td><code id="mt"><b>Mt</b></code></td>
-    <td>“mailto” hyperlink:
-      <var>localpart</var>@<var>domain</var>
+<tr>
+<td><code id="an"><b>An</b></code></td>
+<td>author name (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="lk"><b>Lk</b></code></td>
+<td>hyperlink: <var>uri</var>
+[<var>display_name</var>]</td>
+</tr>
+<tr>
+<td><code id="mt"><b>Mt</b></code></td>
+<td>“mailto” hyperlink:
+<var>localpart</var>@<var>domain</var>
 </td>
-  </tr>
-  <tr>
-    <td><code id="cd"><b>Cd</b></code></td>
-    <td>kernel configuration declaration (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="ad"><b>Ad</b></code></td>
-    <td>memory address (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="ms"><b>Ms</b></code></td>
-    <td>mathematical symbol (&gt;0 arguments)</td>
-  </tr>
+</tr>
+<tr>
+<td><code id="cd"><b>Cd</b></code></td>
+<td>kernel configuration declaration (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="ad"><b>Ad</b></code></td>
+<td>memory address (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="ms"><b>Ms</b></code></td>
+<td>mathematical symbol (&gt;0 arguments)</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="physical-markup">Physical markup</h2>
 
 <table>
-  <tr>
-    <td><code id="em"><b>Em</b></code></td>
-    <td>italic font or underline (emphasis) (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="sy"><b>Sy</b></code></td>
-    <td>boldface font (symbolic) (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td><code id="no"><b>No</b></code></td>
-    <td>return to roman font (normal) (&gt;0 arguments)</td>
-  </tr>
-  <tr>
-    <td>
+<tr>
+<td><code id="em"><b>Em</b></code></td>
+<td>italic font or underline (emphasis) (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="sy"><b>Sy</b></code></td>
+<td>boldface font (symbolic) (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td><code id="no"><b>No</b></code></td>
+<td>return to roman font (normal) (&gt;0 arguments)</td>
+</tr>
+<tr>
+<td>
 <code id="bf"><b>Bf</b></code>,
-      <code><b>Ef</b></code>
+<code><b>Ef</b></code>
 </td>
-    <td>font block: <code><b>-</b></code><var>type</var> |
-      <code id="em-2"><b>Em</b></code>
-      | <code id="li"><b>Li</b></code> |
-      <code id="sy-2"><b>Sy</b></code>
+<td>font block: <code><b>-</b></code><var>type</var> |
+<code id="em-2"><b>Em</b></code>
+| <code id="li"><b>Li</b></code> |
+<code id="sy-2"><b>Sy</b></code>
 </td>
-  </tr>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="physical-enclosures">Physical enclosures</h2>
 
 <table>
-  <tr>
-    <td>
+<tr>
+<td>
 <code id="dq"><b>Dq</b></code>,
-      <code><b>Do</b></code>, <code><b>Dc</b></code>
+<code><b>Do</b></code>, <code><b>Dc</b></code>
 </td>
-    <td>enclose in typographic double quotes: “text”</td>
-  </tr>
-  <tr>
-    <td>
+<td>enclose in typographic double quotes: “text”</td>
+</tr>
+<tr>
+<td>
 <code id="qq"><b>Qq</b></code>,
-      <code><b>Qo</b></code>, <code><b>Qc</b></code>
+<code><b>Qo</b></code>, <code><b>Qc</b></code>
 </td>
-    <td>enclose in typewriter double quotes: “text”</td>
-  </tr>
-  <tr>
-    <td>
+<td>enclose in typewriter double quotes: “text”</td>
+</tr>
+<tr>
+<td>
 <code id="sq"><b>Sq</b></code>,
-      <code><b>So</b></code>, <code><b>Sc</b></code>
+<code><b>So</b></code>, <code><b>Sc</b></code>
 </td>
-    <td>enclose in single quotes: ‘text’</td>
-  </tr>
-  <tr>
-    <td>
+<td>enclose in single quotes: ‘text’</td>
+</tr>
+<tr>
+<td>
 <code id="pq"><b>Pq</b></code>,
-      <code><b>Po</b></code>, <code><b>Pc</b></code>
+<code><b>Po</b></code>, <code><b>Pc</b></code>
 </td>
-    <td>enclose in parentheses: (text)</td>
-  </tr>
-  <tr>
-    <td>
+<td>enclose in parentheses: (text)</td>
+</tr>
+<tr>
+<td>
 <code id="bq"><b>Bq</b></code>,
-      <code><b>Bo</b></code>, <code><b>Bc</b></code>
+<code><b>Bo</b></code>, <code><b>Bc</b></code>
 </td>
-    <td>enclose in square brackets: [text]</td>
-  </tr>
-  <tr>
-    <td>
+<td>enclose in square brackets: [text]</td>
+</tr>
+<tr>
+<td>
 <code id="brq"><b>Brq</b></code>,
-      <code><b>Bro</b></code>, <code><b>Brc</b></code>
+<code><b>Bro</b></code>, <code><b>Brc</b></code>
 </td>
-    <td>enclose in curly braces: {text}</td>
-  </tr>
-  <tr>
-    <td>
+<td>enclose in curly braces: {text}</td>
+</tr>
+<tr>
+<td>
 <code id="aq"><b>Aq</b></code>,
-      <code><b>Ao</b></code>, <code><b>Ac</b></code>
+<code><b>Ao</b></code>, <code><b>Ac</b></code>
 </td>
-    <td>enclose in angle brackets: ⟨text⟩</td>
-  </tr>
-  <tr>
-    <td>
+<td>enclose in angle brackets: ⟨text⟩</td>
+</tr>
+<tr>
+<td>
 <code id="eo"><b>Eo</b></code>,
-      <code><b>Ec</b></code>
+<code><b>Ec</b></code>
 </td>
-    <td>generic enclosure</td>
-  </tr>
+<td>generic enclosure</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="text-production">Text production</h2>
 
 <table>
-  <tr>
-    <td>
+<tr>
+<td>
 <code id="ex"><b>Ex</b> <b>-std</b></code>
 </td>
-    <td>standard command exit values: [<var>utility ...</var>]</td>
-  </tr>
-  <tr>
-    <td>
+<td>standard command exit values: [<var>utility ...</var>]</td>
+</tr>
+<tr>
+<td>
 <code id="rv"><b>Rv</b> <b>-std</b></code>
 </td>
-    <td>standard function return values: [<var>function
-      ...</var>]</td>
-  </tr>
-  <tr>
-    <td><code id="st"><b>St</b></code></td>
-    <td>reference to a standards document (one argument)</td>
-  </tr>
-  <tr>
-    <td><code id="at"><b>At</b></code></td>
-    <td><span>AT&amp;T UNIX</span></td>
-  </tr>
-  <tr>
-    <td><code id="bx"><b>Bx</b></code></td>
-    <td><span>BSD</span></td>
-  </tr>
-  <tr>
-    <td><code id="bsx"><b>Bsx</b></code></td>
-    <td><span>BSD/OS</span></td>
-  </tr>
-  <tr>
-    <td><code id="nx"><b>Nx</b></code></td>
-    <td><span>NetBSD</span></td>
-  </tr>
-  <tr>
-    <td><code id="fx"><b>Fx</b></code></td>
-    <td><span>FreeBSD</span></td>
-  </tr>
-  <tr>
-    <td><code id="ox"><b>Ox</b></code></td>
-    <td><span>OpenBSD</span></td>
-  </tr>
-  <tr>
-    <td><code id="dx"><b>Dx</b></code></td>
-    <td><span>DragonFly</span></td>
-  </tr>
+<td>standard function return values: [<var>function
+...</var>]</td>
+</tr>
+<tr>
+<td><code id="st"><b>St</b></code></td>
+<td>reference to a standards document (one argument)</td>
+</tr>
+<tr>
+<td><code id="at"><b>At</b></code></td>
+<td><span>AT&amp;T UNIX</span></td>
+</tr>
+<tr>
+<td><code id="bx"><b>Bx</b></code></td>
+<td><span>BSD</span></td>
+</tr>
+<tr>
+<td><code id="bsx"><b>Bsx</b></code></td>
+<td><span>BSD/OS</span></td>
+</tr>
+<tr>
+<td><code id="nx"><b>Nx</b></code></td>
+<td><span>NetBSD</span></td>
+</tr>
+<tr>
+<td><code id="fx"><b>Fx</b></code></td>
+<td><span>FreeBSD</span></td>
+</tr>
+<tr>
+<td><code id="ox"><b>Ox</b></code></td>
+<td><span>OpenBSD</span></td>
+</tr>
+<tr>
+<td><code id="dx"><b>Dx</b></code></td>
+<td><span>DragonFly</span></td>
+</tr>
 </table>
-</section>
-</section>
-<section>
+
+
+
 <h1 id="macro-reference">MACRO REFERENCE</h1>
 <p>This section is a canonical reference of all macros, arranged alphabetically. For the scoping of individual macros, see <a href="#macro-syntax">MACRO SYNTAX</a>.</p>
 <dl>
-  <dt>
+<dt>
 <code id="a"><b>%A</b></code>
-    <var>first_name ... last_name</var>
+<var>first_name ... last_name</var>
 </dt>
-  <dd>Author name of an <code><b>Rs</b></code> block. Multiple authors
-      should each be accorded their own <code><b>%A</b></code> line. Author
-      names should be ordered with full or abbreviated forename(s) first, then
-      full surname.</dd>
-  <dt>
+<dd>Author name of an <code><b>Rs</b></code> block. Multiple authors
+should each be accorded their own <code><b>%A</b></code> line. Author
+names should be ordered with full or abbreviated forename(s) first, then
+full surname.</dd>
+<dt>
 <code id="b"><b>%B</b></code>
-    <var>title</var>
+<var>title</var>
 </dt>
-  <dd>Book title of an <code><b>Rs</b></code> block. This macro may also be
-      used in a non-bibliographic context when referring to book titles.</dd>
-  <dt>
+<dd>Book title of an <code><b>Rs</b></code> block. This macro may also be
+used in a non-bibliographic context when referring to book titles.</dd>
+<dt>
 <code id="c"><b>%C</b></code>
-    <var>location</var>
+<var>location</var>
 </dt>
-  <dd>Publication city or location of an <code><b>Rs</b></code> block.</dd>
-  <dt>
+<dd>Publication city or location of an <code><b>Rs</b></code> block.</dd>
+<dt>
 <code id="d"><b>%D</b></code>
-    [<var>month day</var>,] <var>year</var>
+[<var>month day</var>,] <var>year</var>
 </dt>
-  <dd>Publication date of an <code><b>Rs</b></code> block. Provide the full
-      English name of the <var>month</var> and all four digits of the
-      <var>year</var>.</dd>
-  <dt>
+<dd>Publication date of an <code><b>Rs</b></code> block. Provide the full
+English name of the <var>month</var> and all four digits of the
+<var>year</var>.</dd>
+<dt>
 <code id="i"><b>%I</b></code>
-    <var>name</var>
+<var>name</var>
 </dt>
-  <dd>Publisher or issuer name of an <code><b>Rs</b></code> block.</dd>
-  <dt>
+<dd>Publisher or issuer name of an <code><b>Rs</b></code> block.</dd>
+<dt>
 <code id="j"><b>%J</b></code>
-    <var>name</var>
+<var>name</var>
 </dt>
-  <dd>Journal name of an <code><b>Rs</b></code> block.</dd>
-  <dt>
+<dd>Journal name of an <code><b>Rs</b></code> block.</dd>
+<dt>
 <code id="n"><b>%N</b></code>
-    <var>number</var>
+<var>number</var>
 </dt>
-  <dd>Issue number (usually for journals) of an <code><b>Rs</b></code>
-      block.</dd>
-  <dt>
+<dd>Issue number (usually for journals) of an <code><b>Rs</b></code>
+block.</dd>
+<dt>
 <code id="o"><b>%O</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>Optional information of an <code><b>Rs</b></code> block.</dd>
-  <dt>
+<dd>Optional information of an <code><b>Rs</b></code> block.</dd>
+<dt>
 <code id="p"><b>%P</b></code>
-    <var>number</var>
+<var>number</var>
 </dt>
-  <dd>Book or journal page number of an <code><b>Rs</b></code> block.</dd>
-  <dt>
+<dd>Book or journal page number of an <code><b>Rs</b></code> block.</dd>
+<dt>
 <code id="q"><b>%Q</b></code>
-    <var>name</var>
+<var>name</var>
 </dt>
-  <dd>Institutional author (school, government, etc.) of an
-      <code><b>Rs</b></code> block. Multiple institutional authors should
-      each be accorded their own <code><b>%Q</b></code> line.</dd>
-  <dt>
+<dd>Institutional author (school, government, etc.) of an
+<code><b>Rs</b></code> block. Multiple institutional authors should
+each be accorded their own <code><b>%Q</b></code> line.</dd>
+<dt>
 <code id="r"><b>%R</b></code>
-    <var>name</var>
+<var>name</var>
 </dt>
-  <dd>Technical report name of an <code><b>Rs</b></code> block.</dd>
-  <dt>
+<dd>Technical report name of an <code><b>Rs</b></code> block.</dd>
+<dt>
 <code id="t"><b>%T</b></code>
-    <var>title</var>
+<var>title</var>
 </dt>
-  <dd>Article title of an <code><b>Rs</b></code> block. This macro may also
-      be used in a non-bibliographical context when referring to article
-    titles.</dd>
-  <dt>
+<dd>Article title of an <code><b>Rs</b></code> block. This macro may also
+be used in a non-bibliographical context when referring to article
+titles.</dd>
+<dt>
 <code id="u"><b>%U</b></code>
-    <var>protocol</var>://<var>path</var>
+<var>protocol</var>://<var>path</var>
 </dt>
-  <dd>URI of reference document.</dd>
-  <dt>
+<dd>URI of reference document.</dd>
+<dt>
 <code id="v"><b>%V</b></code>
-    <var>number</var>
+<var>number</var>
 </dt>
-  <dd>Volume number of an <code><b>Rs</b></code> block.</dd>
-  <dt><code id="ac"><b>Ac</b></code></dt>
-  <dd>Close an <code><b>Ao</b></code> block. Does not have any tail
-      arguments.</dd>
-  <dt>
+<dd>Volume number of an <code><b>Rs</b></code> block.</dd>
+<dt><code id="ac"><b>Ac</b></code></dt>
+<dd>Close an <code><b>Ao</b></code> block. Does not have any tail
+arguments.</dd>
+<dt>
 <code id="ad-2"><b>Ad</b></code>
-    <var>address</var>
+<var>address</var>
 </dt>
-  <dd>
+<dd>
 <p>Memory address. Do not use this for postal addresses.</p>
 <p>Examples:</p>
 
@@ -800,26 +791,26 @@ This overview is sorted such that macros of similar purpose are listed together,
 <code>.Ad 0x00000000</code></pre>
 
 
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="an-2"><b>An</b> <b>-split</b></code> |
-    <code id="nosplit"><b>-nosplit</b></code>
-    | <var>first_name ... last_name</var>
+<code id="nosplit"><b>-nosplit</b></code>
+| <var>first_name ... last_name</var>
 </dt>
-  <dd>
+<dd>
 <p>Author name. Can be used both for the authors of the program, function, or driver documented in the manual, or for the authors of the manual itself. Requires either the name of an author or one of the following arguments:</p>
 
 
 <ul><div>
 
 <dl>
-      <dt><code id="split"><b>-split</b></code></dt>
-      <dd>Start a new output line before each subsequent invocation of
-          <code><b>An</b></code>.</dd>
-      <dt><code id="nosplit-2"><b>-nosplit</b></code></dt>
-      <dd>The opposite of <code><b>-split</b></code>.</dd>
-    </dl>
-    </div></ul>
+<dt><code id="split"><b>-split</b></code></dt>
+<dd>Start a new output line before each subsequent invocation of
+<code><b>An</b></code>.</dd>
+<dt><code id="nosplit-2"><b>-nosplit</b></code></dt>
+<dd>The opposite of <code><b>-split</b></code>.</dd>
+</dl>
+</div></ul>
 
 <p>The default is <code><b>-nosplit</b></code>. The effect of selecting either of the <code><b>-split</b></code> modes ends at the beginning of the <i>AUTHORS</i> section. In the <i>AUTHORS</i> section, the default is <code><b>-nosplit</b></code> for the first author listing and <code><b>-split</b></code> for all other author listings.</p>
 
@@ -830,27 +821,27 @@ This overview is sorted such that macros of similar purpose are listed together,
 <code>.An Kristaps Dzonsons Aq Mt kristaps@bsd.lv</code></pre>
 
 
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ao"><b>Ao</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>Begin a block enclosed by angle brackets. Does not have any head
-      arguments. This macro is almost never useful. See
-      <code><b>Aq</b></code> for more details.</dd>
-  <dt><code id="ap-2"><b>Ap</b></code></dt>
-  <dd>
+<dd>Begin a block enclosed by angle brackets. Does not have any head
+arguments. This macro is almost never useful. See
+<code><b>Aq</b></code> for more details.</dd>
+<dt><code id="ap-2"><b>Ap</b></code></dt>
+<dd>
 <p>Inserts an apostrophe without any surrounding whitespace. This is generally used as a grammatical device when referring to the verb form of a function.</p>
 <p>Examples:</p>
 
 <pre>
 <code>.Fn execve Ap d</code></pre>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="aq-2"><b>Aq</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Enclose the rest of the input line in angle brackets. The only important use case is for email addresses. See <code><b>Mt</b></code> for an example.</p>
 <p>Occasionally, it is used for names of characters and keys, for example:</p>
 
@@ -861,18 +852,17 @@ Press the
 .Aq escape
 key to ...
 </pre>
-    
 
 <p>For URIs, use <code><b>Lk</b></code> instead, and <code><b>In</b></code> for “#include” directives. Never wrap <code><b>Ar</b></code> in <code><b>Aq</b></code>.</p>
 
 <p>Since <code><b>Aq</b></code> usually renders with non-ASCII characters in non-ASCII output modes, do not use it where the ASCII characters ‘&lt;’ and ‘&gt;’ are required as syntax elements. Instead, use these characters directly in such cases, combining them with the macros <code><b>Pf</b></code>, <code><b>Ns</b></code>, or <code><b>Eo</b></code> as needed.</p>
 
 <p>See also <code><b>Ao</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ar-2"><b>Ar</b></code>
-    [<var>placeholder ...</var>]</dt>
-  <dd>
+[<var>placeholder ...</var>]</dt>
+<dd>
 <p>Command arguments. If an argument is not provided, the string “file ...” is used as a default.</p>
 <p>Examples:</p>
 
@@ -886,34 +876,34 @@ key to ...
 
 
 <p>The arguments to the <code><b>Ar</b></code> macro are names and placeholders for command arguments; for fixed strings to be passed verbatim as arguments, use <code><b>Fl</b></code> or <code><b>Cm</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="at-2"><b>At</b></code>
-    [<var>version</var>]</dt>
-  <dd>
+[<var>version</var>]</dt>
+<dd>
 <p>Formats an <span>AT&amp;T UNIX</span> version. Accepts one optional argument:</p>
 
 
 <ul><div>
 
 <dl>
-      <dt>
+<dt>
 <code id="v-1-7"><b>v[1-7]</b></code>
-        |
-        <code id="32v"><b>32v</b></code>
+|
+<code id="32v"><b>32v</b></code>
 </dt>
-      <dd>A version of <span>AT&amp;T UNIX</span>.</dd>
-      <dt><code id="iii"><b>III</b></code></dt>
-      <dd>
+<dd>A version of <span>AT&amp;T UNIX</span>.</dd>
+<dt><code id="iii"><b>III</b></code></dt>
+<dd>
 <span>AT&amp;T System III UNIX</span>.</dd>
-      <dt>
+<dt>
 <code id="v1"><b>V</b></code> |
-        <code id="v-1-4"><b>V.[1-4]</b></code>
+<code id="v-1-4"><b>V.[1-4]</b></code>
 </dt>
-      <dd>A version of <span>AT&amp;T System V
-        UNIX</span>.</dd>
-    </dl>
-    </div></ul>
+<dd>A version of <span>AT&amp;T System V
+UNIX</span>.</dd>
+</dl>
+</div></ul>
 
 <p>Note that these arguments do not begin with a hyphen.</p>
 
@@ -929,77 +919,77 @@ key to ...
 
 
 <p>See also <code><b>Bsx</b></code>, <code><b>Bx</b></code>, <code><b>Dx</b></code>, <code><b>Fx</b></code>, <code><b>Nx</b></code>, and <code><b>Ox</b></code>.</p>
-  </dd>
-  <dt><code id="bc"><b>Bc</b></code></dt>
-  <dd>Close a <code><b>Bo</b></code> block. Does not have any tail
-      arguments.</dd>
-  <dt>
+</dd>
+<dt><code id="bc"><b>Bc</b></code></dt>
+<dd>Close a <code><b>Bo</b></code> block. Does not have any tail
+arguments.</dd>
+<dt>
 <code id="bd-2"><b>Bd</b> <b>-</b></code><var>type</var>
-    [<code><b>-offset</b></code> <var>width</var>]
-    [<code><b>-compact</b></code>]</dt>
-  <dd>
+[<code><b>-offset</b></code> <var>width</var>]
+[<code><b>-compact</b></code>]</dt>
+<dd>
 <p>Begin a display block. Display blocks are used to select a different indentation and justification than the one used by the surrounding text. They may contain both macro lines and text lines. By default, a display block is preceded by a vertical space.</p>
 <p>The <var>type</var> must be one of the following:</p>
 
 <ul><div>
 
 <dl>
-      <dt><code id="centered"><b>-centered</b></code></dt>
-      <dd>Produce one output line from each input line, and center-justify each
-          line. Using this display type is not recommended; many
-          <code><b>mdoc</b></code> implementations render it poorly.</dd>
-      <dt><code id="filled"><b>-filled</b></code></dt>
-      <dd>Change the positions of line breaks to fill each line, and left- and
-          right-justify the resulting block.</dd>
-      <dt><code id="literal"><b>-literal</b></code></dt>
-      <dd>Produce one output line from each input line, and do not justify the
-          block at all. Preserve white space as it appears in the input. Always
-          use a constant-width font. Use this for displaying source code.</dd>
-      <dt><code id="ragged"><b>-ragged</b></code></dt>
-      <dd>Change the positions of line breaks to fill each line, and
-          left-justify the resulting block.</dd>
-      <dt><code id="unfilled"><b>-unfilled</b></code></dt>
-      <dd>The same as <code><b>-literal</b></code>, but using the same font
-          as for normal text, which is a variable width font if supported by the
-          output device.</dd>
-    </dl>
-    </div></ul>
+<dt><code id="centered"><b>-centered</b></code></dt>
+<dd>Produce one output line from each input line, and center-justify each
+line. Using this display type is not recommended; many
+<code><b>mdoc</b></code> implementations render it poorly.</dd>
+<dt><code id="filled"><b>-filled</b></code></dt>
+<dd>Change the positions of line breaks to fill each line, and left- and
+right-justify the resulting block.</dd>
+<dt><code id="literal"><b>-literal</b></code></dt>
+<dd>Produce one output line from each input line, and do not justify the
+block at all. Preserve white space as it appears in the input. Always
+use a constant-width font. Use this for displaying source code.</dd>
+<dt><code id="ragged"><b>-ragged</b></code></dt>
+<dd>Change the positions of line breaks to fill each line, and
+left-justify the resulting block.</dd>
+<dt><code id="unfilled"><b>-unfilled</b></code></dt>
+<dd>The same as <code><b>-literal</b></code>, but using the same font
+as for normal text, which is a variable width font if supported by the
+output device.</dd>
+</dl>
+</div></ul>
 
 <p>The <var>type</var> must be provided first. Additional arguments may follow:</p>
 
 <ul><div>
 
 <dl>
-      <dt>
+<dt>
 <code id="offset"><b>-offset</b></code>
-        <var>width</var>
+<var>width</var>
 </dt>
-      <dd>
+<dd>
 <p>Indent the display by the <var>width</var>, which may be one of the following:</p>
 <ul>
-          <li>One of the pre-defined strings <code><b>indent</b></code>, the
-              width of a standard indentation (six constant width characters);
-              <code><b>indent-two</b></code>, twice
-              <code><b>indent</b></code>; <code><b>left</b></code>,
-              which has no effect; <code><b>right</b></code>, which
-              justifies to the right margin; or <code><b>center</b></code>,
-              which aligns around an imagined center axis.</li>
-          <li>A macro invocation, which selects a predefined width associated
-              with that macro. The most popular is the imaginary macro
-              <var>Ds</var>, which resolves to
-            <b>6n</b>.</li>
-          <li>A scaling width as described in
-              <code>roff(7)</code>.</li>
-          <li>An arbitrary string, which indents by the length of this
-            string.</li>
-        </ul>
+<li>One of the pre-defined strings <code><b>indent</b></code>, the
+width of a standard indentation (six constant width characters);
+<code><b>indent-two</b></code>, twice
+<code><b>indent</b></code>; <code><b>left</b></code>,
+which has no effect; <code><b>right</b></code>, which
+justifies to the right margin; or <code><b>center</b></code>,
+which aligns around an imagined center axis.</li>
+<li>A macro invocation, which selects a predefined width associated
+with that macro. The most popular is the imaginary macro
+<var>Ds</var>, which resolves to
+<b>6n</b>.</li>
+<li>A scaling width as described in
+<code>roff(7)</code>.</li>
+<li>An arbitrary string, which indents by the length of this
+string.</li>
+</ul>
 
 <p>When the argument is missing, <code><b>-offset</b></code> is ignored.</p>
-      </dd>
-      <dt><code id="compact"><b>-compact</b></code></dt>
-      <dd>Do not assert vertical space before the display.</dd>
-    </dl>
-    </div></ul>
+</dd>
+<dt><code id="compact"><b>-compact</b></code></dt>
+<dd>Do not assert vertical space before the display.</dd>
+</dl>
+</div></ul>
 
 <p>Examples:</p>
 
@@ -1010,28 +1000,27 @@ key to ...
    Hello       world.
 .Ed
 </pre>
-    
 
 <p>See also <code><b>D1</b></code> and <code><b>Dl</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="bf-2"><b>Bf</b> <b>-emphasis</b></code> |
-    <code id="literal-2"><b>-literal</b></code>
-    |
-    <code id="symbolic"><b>-symbolic</b></code>
-    | <code id="em-3"><b>Em</b></code>
-    | <code id="li-2"><b>Li</b></code>
-    |
-    <code id="sy-3"><b>Sy</b></code>
+<code id="literal-2"><b>-literal</b></code>
+|
+<code id="symbolic"><b>-symbolic</b></code>
+| <code id="em-3"><b>Em</b></code>
+| <code id="li-2"><b>Li</b></code>
+|
+<code id="sy-3"><b>Sy</b></code>
 </dt>
-  <dd>
+<dd>
 <p>Change the font mode for a scoped block of text. The <code><b>-emphasis</b></code> and <code><b>Em</b></code> argument are equivalent, as are <code><b>-symbolic</b></code> and <code><b>Sy</b></code>, and <code><b>-literal</b></code> and <code><b>Li</b></code>. Without an argument, this macro does nothing. The font mode continues until broken by a new font mode in a nested scope or <code><b>Ef</b></code> is encountered.</p>
 <p>See also <code><b>Li</b></code>, <code><b>Ef</b></code>, <code><b>Em</b></code>, and <code><b>Sy</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="bk-2"><b>Bk</b> <b>-words</b></code>
 </dt>
-  <dd>
+<dd>
 <p>For each macro, keep its output together on the same output line, until the end of the macro or the end of the input line is reached, whichever comes first. Line breaks in text lines are unaffected.</p>
 <p>The <code><b>-words</b></code> argument is required; additional arguments are ignored.</p>
 
@@ -1045,16 +1034,15 @@ key to ...
 .Op Fl o Ar output
 .Ek
 </pre>
-    
 
 <p>Be careful in using over-long lines within a keep block! Doing so will clobber the right margin.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="bl-2"><b>Bl</b> <b>-</b></code><var>type</var>
-    [<code><b>-width</b></code> <var>val</var>]
-    [<code><b>-offset</b></code> <var>val</var>]
-    [<code><b>-compact</b></code>] [<var>col ...</var>]</dt>
-  <dd>
+[<code><b>-width</b></code> <var>val</var>]
+[<code><b>-offset</b></code> <var>val</var>]
+[<code><b>-compact</b></code>] [<var>col ...</var>]</dt>
+<dd>
 <p>Begin a list. Lists consist of items specified using the <code><b>It</b></code> macro, containing a head or a body or both.</p>
 <p>The list <var>type</var> is mandatory and must be specified first. The <code><b>-width</b></code> and <code><b>-offset</b></code> arguments accept macro names as described for <code><b>Bd</b> <b>-offset</b></code>, scaling widths as described in <code>roff(7)</code>, or use the length of the given string. The <code><b>-offset</b></code> is a global indentation for the whole list, affecting both item heads and bodies. For those list types supporting it, the <code><b>-width</b></code> argument requests an additional indentation of item bodies, to be added to the <code><b>-offset</b></code>. Unless the <code><b>-compact</b></code> argument is specified, list entries are separated by vertical space.</p>
 
@@ -1063,68 +1051,68 @@ key to ...
 <ul><div>
 
 <dl>
-      <dt><code id="bullet"><b>-bullet</b></code></dt>
-      <dd>No item heads can be specified, but a bullet will be printed at the
-          head of each item. Item bodies start on the same output line as the
-          bullet and are indented according to the
-          <code><b>-width</b></code> argument.</dd>
-      <dt><code id="column"><b>-column</b></code></dt>
-      <dd>A columnated list. The <code><b>-width</b></code> argument has no
-          effect; instead, the string length of each argument specifies the
-          width of one column. If the first line of the body of a
-          <code><b>-column</b></code> list is not an
-          <code><b>It</b></code> macro line, <code><b>It</b></code>
-          contexts spanning one input line each are implied until an
-          <code><b>It</b></code> macro line is encountered, at which point
-          items start being interpreted as described in the
-          <code><b>It</b></code> documentation.</dd>
-      <dt><code id="dash"><b>-dash</b></code></dt>
-      <dd>Like <code><b>-bullet</b></code>, except that dashes are used in
-          place of bullets.</dd>
-      <dt><code id="diag"><b>-diag</b></code></dt>
-      <dd>Like <code><b>-inset</b></code>, except that item heads are not
-          parsed for macro invocations. Most often used in the
-          <i>DIAGNOSTICS</i> section with error constants in the item
-          heads.</dd>
-      <dt><code id="enum"><b>-enum</b></code></dt>
-      <dd>A numbered list. No item heads can be specified. Formatted like
-          <code><b>-bullet</b></code>, except that cardinal numbers are used
-          in place of bullets, starting at 1.</dd>
-      <dt><code id="hang"><b>-hang</b></code></dt>
-      <dd>Like <code><b>-tag</b></code>, except that the first lines of item
-          bodies are not indented, but follow the item heads like in
-          <code><b>-inset</b></code> lists.</dd>
-      <dt><code id="hyphen"><b>-hyphen</b></code></dt>
-      <dd>Synonym for <code><b>-dash</b></code>.</dd>
-      <dt><code id="inset"><b>-inset</b></code></dt>
-      <dd>Item bodies follow items heads on the same line, using normal
-          inter-word spacing. Bodies are not indented, and the
-          <code><b>-width</b></code> argument is ignored.</dd>
-      <dt><code id="item"><b>-item</b></code></dt>
-      <dd>No item heads can be specified, and none are printed. Bodies are not
-          indented, and the <code><b>-width</b></code> argument is
-        ignored.</dd>
-      <dt><code id="ohang"><b>-ohang</b></code></dt>
-      <dd>Item bodies start on the line following item heads and are not
-          indented. The <code><b>-width</b></code> argument is ignored.</dd>
-      <dt><code id="tag"><b>-tag</b></code></dt>
-      <dd>Item bodies are indented according to the
-          <code><b>-width</b></code> argument. When an item head fits inside
-          the indentation, the item body follows this head on the same output
-          line. Otherwise, the body starts on the output line following the
-          head.</dd>
-    </dl>
-    </div></ul>
+<dt><code id="bullet"><b>-bullet</b></code></dt>
+<dd>No item heads can be specified, but a bullet will be printed at the
+head of each item. Item bodies start on the same output line as the
+bullet and are indented according to the
+<code><b>-width</b></code> argument.</dd>
+<dt><code id="column"><b>-column</b></code></dt>
+<dd>A columnated list. The <code><b>-width</b></code> argument has no
+effect; instead, the string length of each argument specifies the
+width of one column. If the first line of the body of a
+<code><b>-column</b></code> list is not an
+<code><b>It</b></code> macro line, <code><b>It</b></code>
+contexts spanning one input line each are implied until an
+<code><b>It</b></code> macro line is encountered, at which point
+items start being interpreted as described in the
+<code><b>It</b></code> documentation.</dd>
+<dt><code id="dash"><b>-dash</b></code></dt>
+<dd>Like <code><b>-bullet</b></code>, except that dashes are used in
+place of bullets.</dd>
+<dt><code id="diag"><b>-diag</b></code></dt>
+<dd>Like <code><b>-inset</b></code>, except that item heads are not
+parsed for macro invocations. Most often used in the
+<i>DIAGNOSTICS</i> section with error constants in the item
+heads.</dd>
+<dt><code id="enum"><b>-enum</b></code></dt>
+<dd>A numbered list. No item heads can be specified. Formatted like
+<code><b>-bullet</b></code>, except that cardinal numbers are used
+in place of bullets, starting at 1.</dd>
+<dt><code id="hang"><b>-hang</b></code></dt>
+<dd>Like <code><b>-tag</b></code>, except that the first lines of item
+bodies are not indented, but follow the item heads like in
+<code><b>-inset</b></code> lists.</dd>
+<dt><code id="hyphen"><b>-hyphen</b></code></dt>
+<dd>Synonym for <code><b>-dash</b></code>.</dd>
+<dt><code id="inset"><b>-inset</b></code></dt>
+<dd>Item bodies follow items heads on the same line, using normal
+inter-word spacing. Bodies are not indented, and the
+<code><b>-width</b></code> argument is ignored.</dd>
+<dt><code id="item"><b>-item</b></code></dt>
+<dd>No item heads can be specified, and none are printed. Bodies are not
+indented, and the <code><b>-width</b></code> argument is
+ignored.</dd>
+<dt><code id="ohang"><b>-ohang</b></code></dt>
+<dd>Item bodies start on the line following item heads and are not
+indented. The <code><b>-width</b></code> argument is ignored.</dd>
+<dt><code id="tag"><b>-tag</b></code></dt>
+<dd>Item bodies are indented according to the
+<code><b>-width</b></code> argument. When an item head fits inside
+the indentation, the item body follows this head on the same output
+line. Otherwise, the body starts on the output line following the
+head.</dd>
+</dl>
+</div></ul>
 
 <p>Lists may be nested within lists and displays. Nesting of <code><b>-column</b></code> and <code><b>-enum</b></code> lists may not be portable.</p>
 
 <p>See also <code><b>El</b></code> and <code><b>It</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="bo"><b>Bo</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>
+<dd>
 <p>Begin a block enclosed by square brackets. Does not have any head arguments.</p>
 <p>Examples:</p>
 
@@ -1134,15 +1122,14 @@ key to ...
 .Bo 1 ,
 .Dv BUFSIZ Bc
 </pre>
-    
 
 <p>See also <code><b>Bq</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="bq-2"><b>Bq</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Encloses its arguments in square brackets.</p>
 <p>Examples:</p>
 
@@ -1152,15 +1139,15 @@ key to ...
 <p><i>Remarks</i>: this macro is sometimes abused to emulate optional arguments for commands; the correct macros to use for this purpose are <code><b>Op</b></code>, <code><b>Oo</b></code>, and <code><b>Oc</b></code>.</p>
 
 <p>See also <code><b>Bo</b></code>.</p>
-  </dd>
-  <dt><code id="brc"><b>Brc</b></code></dt>
-  <dd>Close a <code><b>Bro</b></code> block. Does not have any tail
-      arguments.</dd>
-  <dt>
+</dd>
+<dt><code id="brc"><b>Brc</b></code></dt>
+<dd>Close a <code><b>Bro</b></code> block. Does not have any tail
+arguments.</dd>
+<dt>
 <code id="bro"><b>Bro</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>
+<dd>
 <p>Begin a block enclosed by curly braces. Does not have any head arguments.</p>
 <p>Examples:</p>
 
@@ -1170,15 +1157,14 @@ key to ...
 .Bro 1 , ... ,
 .Va n Brc
 </pre>
-    
 
 <p>See also <code><b>Brq</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="brq-2"><b>Brq</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Encloses its arguments in curly braces.</p>
 <p>Examples:</p>
 
@@ -1186,11 +1172,11 @@ key to ...
 <code>.Brq 1, ..., Va n</code></pre>
 
 <p>See also <code><b>Bro</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="bsx-2"><b>Bsx</b></code>
-    [<var>version</var>]</dt>
-  <dd>
+[<var>version</var>]</dt>
+<dd>
 <p>Format the <span>BSD/OS</span> version provided as an argument, or a default value if no argument is provided.</p>
 <p>Examples:</p>
 
@@ -1201,14 +1187,14 @@ key to ...
 
 
 <p>See also <code><b>At</b></code>, <code><b>Bx</b></code>, <code><b>Dx</b></code>, <code><b>Fx</b></code>, <code><b>Nx</b></code>, and <code><b>Ox</b></code>.</p>
-  </dd>
-  <dt><code id="bt"><b>Bt</b></code></dt>
-  <dd>Supported only for compatibility, do not use this in new manuals. Prints
-      “is currently in beta test.”</dd>
-  <dt>
+</dd>
+<dt><code id="bt"><b>Bt</b></code></dt>
+<dd>Supported only for compatibility, do not use this in new manuals. Prints
+“is currently in beta test.”</dd>
+<dt>
 <code id="bx-2"><b>Bx</b></code>
-    [<var>version</var> [<var>variant</var>]]</dt>
-  <dd>
+[<var>version</var> [<var>variant</var>]]</dt>
+<dd>
 <p>Format the <span>BSD</span> version provided as an argument, or a default value if no argument is provided.</p>
 <p>Examples:</p>
 
@@ -1222,12 +1208,12 @@ key to ...
 
 
 <p>See also <code><b>At</b></code>, <code><b>Bsx</b></code>, <code><b>Dx</b></code>, <code><b>Fx</b></code>, <code><b>Nx</b></code>, and <code><b>Ox</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="cd-2"><b>Cd</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Kernel configuration declaration. This denotes strings accepted by <code>config(8)</code>. It is most often used in section 4 manual pages.</p>
 <p>Examples:</p>
 
@@ -1235,12 +1221,12 @@ key to ...
 <code>.Cd device le0 at scode?</code></pre>
 
 <p><i>Remarks</i>: this macro is commonly abused by using quoted literals to retain whitespace and align consecutive <code><b>Cd</b></code> declarations. This practise is discouraged.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="cm-2"><b>Cm</b></code>
-    <var>keyword ...</var>
+<var>keyword ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Command modifiers. Typically used for fixed strings passed as arguments, unless <code><b>Fl</b></code> is more appropriate. Also useful when specifying configuration options or keys.</p>
 <p>Examples:</p>
 
@@ -1258,12 +1244,12 @@ key to ...
 
 
 
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="d1-2"><b>D1</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>One-line indented display. This is formatted by the default rules and is useful for simple indented statements. It is followed by a newline.</p>
 <p>Examples:</p>
 
@@ -1271,36 +1257,36 @@ key to ...
 <code>.D1 Fl abcdefgh</code></pre>
 
 <p>See also <code><b>Bd</b></code> and <code><b>Dl</b></code>.</p>
-  </dd>
-  <dt><code id="db"><b>Db</b></code></dt>
-  <dd>This macro is obsolete. No replacement is needed. It is ignored by
-      <code>mandoc(1)</code> and groff including
-      its arguments. It was formerly used to toggle a debugging mode.</dd>
-  <dt><code id="dc"><b>Dc</b></code></dt>
-  <dd>Close a <code><b>Do</b></code> block. Does not have any tail
-      arguments.</dd>
-  <dt>
+</dd>
+<dt><code id="db"><b>Db</b></code></dt>
+<dd>This macro is obsolete. No replacement is needed. It is ignored by
+<code>mandoc(1)</code> and groff including
+its arguments. It was formerly used to toggle a debugging mode.</dd>
+<dt><code id="dc"><b>Dc</b></code></dt>
+<dd>Close a <code><b>Do</b></code> block. Does not have any tail
+arguments.</dd>
+<dt>
 <code id="dd-2"><b>Dd</b> <b>$Mdocdate$</b></code> | <var>month day</var>,
-    <var>year</var>
+<var>year</var>
 </dt>
-  <dd>
+<dd>
 <p>Document date for display in the page footer. This is the mandatory first macro of any <code><b>mdoc</b></code> manual.</p>
 <p>The <var>month</var> is the full English month name, the <var>day</var> is an integer number, and the <var>year</var> is the full four-digit year.</p>
 
 <p>Other arguments are not portable; the <code>mandoc(1)</code> utility handles them as follows:</p>
 
 <ul>
-      <li>To have the date automatically filled in by the
-          <span>OpenBSD</span> version of
-          <code>cvs(1)</code>, the special string
-          “$Mdocdate$” can be given as an argument.</li>
-      <li>The traditional, purely numeric
-          <code>man(7)</code> format
-          <var>year</var>–<var>month</var>–<var>day</var>
-          is accepted, too.</li>
-      <li>If a date string cannot be parsed, it is used verbatim.</li>
-      <li>If no date string is given, the current date is used.</li>
-    </ul>
+<li>To have the date automatically filled in by the
+<span>OpenBSD</span> version of
+<code>cvs(1)</code>, the special string
+“$Mdocdate$” can be given as an argument.</li>
+<li>The traditional, purely numeric
+<code>man(7)</code> format
+<var>year</var>–<var>month</var>–<var>day</var>
+is accepted, too.</li>
+<li>If a date string cannot be parsed, it is used verbatim.</li>
+<li>If no date string is given, the current date is used.</li>
+</ul>
 
 <p>Examples:</p>
 
@@ -1314,12 +1300,12 @@ key to ...
 
 
 <p>See also <code><b>Dt</b></code> and <code><b>Os</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="dl-2"><b>Dl</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>One-line indented display. This is formatted as literal text and is useful for commands and invocations. It is followed by a newline.</p>
 <p>Examples:</p>
 
@@ -1327,12 +1313,12 @@ key to ...
 <code>.Dl % mandoc mdoc.7 \(ba less</code></pre>
 
 <p>See also <code><b>Ql</b></code>, <code><b>Bd</b> <b>-literal</b></code>, and <code><b>D1</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="do"><b>Do</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>
+<dd>
 <p>Begin a block enclosed by double quotes. Does not have any head arguments.</p>
 <p>Examples:</p>
 
@@ -1344,15 +1330,14 @@ April is the cruellest month
 .Dc
 \(em T.S. Eliot
 </pre>
-    
 
 <p>See also <code><b>Dq</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="dq-2"><b>Dq</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Encloses its arguments in “typographic” double-quotes.</p>
 <p>Examples:</p>
 
@@ -1362,43 +1347,42 @@ April is the cruellest month
 .Dq April is the cruellest month
 \(em T.S. Eliot
 </pre>
-    
 
 <p>See also <code><b>Qq</b></code>, <code><b>Sq</b></code>, and <code><b>Do</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="dt-2"><b>Dt</b></code>
-    <var>TITLE section</var> [<var>arch</var>]</dt>
-  <dd>
+<var>TITLE section</var> [<var>arch</var>]</dt>
+<dd>
 <p>Document title for display in the page header. This is the mandatory second macro of any <code><b>mdoc</b></code> file.</p>
 <p>Its arguments are as follows:</p>
 
 <ul><div>
 
 <dl>
-      <dt><var>TITLE</var></dt>
-      <dd>The document's title (name), defaulting to “UNTITLED” if
-          unspecified. To achieve a uniform appearance of page header lines, it
-          should by convention be all caps.</dd>
-      <dt><var>section</var></dt>
-      <dd>The manual section. This may be one of <code><b>1</b></code>
-          (General Commands), <code><b>2</b></code> (System Calls),
-          <code><b>3</b></code> (Library Functions),
-          <code><b>3p</b></code> (Perl Library), <code><b>4</b></code>
-          (Device Drivers), <code><b>5</b></code> (File Formats),
-          <code><b>6</b></code> (Games), <code><b>7</b></code>
-          (Miscellaneous Information), <code><b>8</b></code> (System
-          Manager's Manual), or <code><b>9</b></code> (Kernel Developer's
-          Manual). It should correspond to the manual's filename suffix and
-          defaults to the empty string if unspecified.</dd>
-      <dt><var>arch</var></dt>
-      <dd>This specifies the machine architecture a manual page applies to,
-          where relevant, for example <code><b>alpha</b></code>,
-          <code><b>amd64</b></code>, <code><b>i386</b></code>, or
-          <code><b>sparc64</b></code>. The list of valid architectures
-          varies by operating system.</dd>
-    </dl>
-    </div></ul>
+<dt><var>TITLE</var></dt>
+<dd>The document's title (name), defaulting to “UNTITLED” if
+unspecified. To achieve a uniform appearance of page header lines, it
+should by convention be all caps.</dd>
+<dt><var>section</var></dt>
+<dd>The manual section. This may be one of <code><b>1</b></code>
+(General Commands), <code><b>2</b></code> (System Calls),
+<code><b>3</b></code> (Library Functions),
+<code><b>3p</b></code> (Perl Library), <code><b>4</b></code>
+(Device Drivers), <code><b>5</b></code> (File Formats),
+<code><b>6</b></code> (Games), <code><b>7</b></code>
+(Miscellaneous Information), <code><b>8</b></code> (System
+Manager's Manual), or <code><b>9</b></code> (Kernel Developer's
+Manual). It should correspond to the manual's filename suffix and
+defaults to the empty string if unspecified.</dd>
+<dt><var>arch</var></dt>
+<dd>This specifies the machine architecture a manual page applies to,
+where relevant, for example <code><b>alpha</b></code>,
+<code><b>amd64</b></code>, <code><b>i386</b></code>, or
+<code><b>sparc64</b></code>. The list of valid architectures
+varies by operating system.</dd>
+</dl>
+</div></ul>
 
 <p>Examples:</p>
 
@@ -1409,12 +1393,12 @@ April is the cruellest month
 
 
 <p>See also <code><b>Dd</b></code> and <code><b>Os</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="dv-2"><b>Dv</b></code>
-    <var>identifier ...</var>
+<var>identifier ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Defined variables such as preprocessor constants, constant symbols, enumeration values, and so on.</p>
 <p>Examples:</p>
 
@@ -1428,11 +1412,11 @@ April is the cruellest month
 
 
 <p>See also <code><b>Er</b></code> and <code><b>Ev</b></code> for special-purpose constants, <code><b>Va</b></code> for variable symbols, and <code><b>Fd</b></code> for listing preprocessor variable definitions in the <i>SYNOPSIS</i>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="dx-2"><b>Dx</b></code>
-    [<var>version</var>]</dt>
-  <dd>
+[<var>version</var>]</dt>
+<dd>
 <p>Format the <span>DragonFly</span> version provided as an argument, or a default value if no argument is provided.</p>
 <p>Examples:</p>
 
@@ -1443,28 +1427,28 @@ April is the cruellest month
 
 
 <p>See also <code><b>At</b></code>, <code><b>Bsx</b></code>, <code><b>Bx</b></code>, <code><b>Fx</b></code>, <code><b>Nx</b></code>, and <code><b>Ox</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ec"><b>Ec</b></code>
-    [<var>closing_delimiter</var>]</dt>
-  <dd>
+[<var>closing_delimiter</var>]</dt>
+<dd>
 <p>Close a scope started by <code><b>Eo</b></code>.</p>
 <p>The <var>closing_delimiter</var> argument is used as the enclosure tail, for example, specifying \(rq will emulate <code><b>Dc</b></code>.</p>
-  </dd>
-  <dt><code id="ed"><b>Ed</b></code></dt>
-  <dd>End a display context started by <code><b>Bd</b></code>.</dd>
-  <dt><code id="ef"><b>Ef</b></code></dt>
-  <dd>End a font mode context started by <code><b>Bf</b></code>.</dd>
-  <dt><code id="ek"><b>Ek</b></code></dt>
-  <dd>End a keep context started by <code><b>Bk</b></code>.</dd>
-  <dt><code id="el"><b>El</b></code></dt>
-  <dd>End a list context started by <code><b>Bl</b></code>. See also
-      <code><b>It</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="ed"><b>Ed</b></code></dt>
+<dd>End a display context started by <code><b>Bd</b></code>.</dd>
+<dt><code id="ef"><b>Ef</b></code></dt>
+<dd>End a font mode context started by <code><b>Bf</b></code>.</dd>
+<dt><code id="ek"><b>Ek</b></code></dt>
+<dd>End a keep context started by <code><b>Bk</b></code>.</dd>
+<dt><code id="el"><b>El</b></code></dt>
+<dd>End a list context started by <code><b>Bl</b></code>. See also
+<code><b>It</b></code>.</dd>
+<dt>
 <code id="em-4"><b>Em</b></code>
-    <var>word ...</var>
+<var>word ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Request an italic font. If the output device does not provide that, underline.</p>
 <p>This is most often used for stress emphasis (not to be confused with importance, see <code><b>Sy</b></code>). In the rare cases where none of the semantic markup macros fit, it can also be used for technical terms and placeholders, except that for syntax elements, <code><b>Sy</b></code> and <code><b>Ar</b></code> are preferred, respectively.</p>
 
@@ -1480,29 +1464,28 @@ Some of the functions use a
 .Em hold space
 to save the pattern space for subsequent retrieval.
 </pre>
-    
 
 <p>See also <code><b>No</b></code>, <code><b>Ql</b></code>, and <code><b>Sy</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="en"><b>En</b></code>
-    <var>word ...</var>
+<var>word ...</var>
 </dt>
-  <dd>
+<dd>
 <p>This macro is obsolete. Use <code><b>Eo</b></code> or any of the other enclosure macros.</p>
 <p>It encloses its argument in the delimiters specified by the last <code><b>Es</b></code> macro.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="eo-2"><b>Eo</b></code>
-    [<var>opening_delimiter</var>]</dt>
-  <dd>An arbitrary enclosure. The <var>opening_delimiter</var>
-      argument is used as the enclosure head, for example, specifying \(lq will
-      emulate <code><b>Do</b></code>.</dd>
-  <dt>
+[<var>opening_delimiter</var>]</dt>
+<dd>An arbitrary enclosure. The <var>opening_delimiter</var>
+argument is used as the enclosure head, for example, specifying \(lq will
+emulate <code><b>Do</b></code>.</dd>
+<dt>
 <code id="er-2"><b>Er</b></code>
-    <var>identifier ...</var>
+<var>identifier ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Error constants for definitions of the <var>errno</var> libc global variable. This is most often used in section 2 and 3 manual pages.</p>
 <p>Examples:</p>
 
@@ -1513,20 +1496,20 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Dv</b></code> for general constants.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="es"><b>Es</b></code>
-    <var>opening_delimiter closing_delimiter</var>
+<var>opening_delimiter closing_delimiter</var>
 </dt>
-  <dd>
+<dd>
 <p>This macro is obsolete. Use <code><b>Eo</b></code> or any of the other enclosure macros.</p>
 <p>It takes two arguments, defining the delimiters to be used by subsequent <code><b>En</b></code> macros.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ev-3"><b>Ev</b></code>
-    <var>identifier ...</var>
+<var>identifier ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Environmental variables such as those specified in <code>environ(7)</code>.</p>
 <p>Examples:</p>
 
@@ -1537,20 +1520,20 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Dv</b></code> for general constants.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ex-2"><b>Ex</b> <b>-std</b></code> [<var>utility ...</var>]</dt>
-  <dd>
+<dd>
 <p>Insert a standard sentence regarding command exit values of 0 on success and &gt;0 on failure. This is most often used in section 1, 6, and 8 manual pages.</p>
 <p>If <var>utility</var> is not specified, the document's name set by <code><b>Nm</b></code> is used. Multiple <var>utility</var> arguments are treated as separate utilities.</p>
 
 <p>See also <code><b>Rv</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="fa-2"><b>Fa</b></code>
-    <var>argument ...</var>
+<var>argument ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Function argument or parameter. Each argument may be a name and a type (recommended for the <i>SYNOPSIS</i> section), a name alone (for function invocations), or a type alone (for function prototypes). If both a type and a name are given or if the type consists of multiple words, all words belonging to the same function argument have to be given in a single argument to the <code><b>Fa</b></code> macro.</p>
 <p>This macro is also used to specify the field name of a structure.</p>
 
@@ -1568,13 +1551,13 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Fo</b></code>.</p>
-  </dd>
-  <dt><code id="fc"><b>Fc</b></code></dt>
-  <dd>End a function context started by <code><b>Fo</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="fc"><b>Fc</b></code></dt>
+<dd>End a function context started by <code><b>Fo</b></code>.</dd>
+<dt>
 <code id="fd-2"><b>Fd</b></code>
-    #<var>directive</var> [<var>argument ...</var>]</dt>
-  <dd>
+#<var>directive</var> [<var>argument ...</var>]</dt>
+<dd>
 <p>Preprocessor directive, in particular for listing it in the <i>SYNOPSIS</i>. Historically, it was also used to document include files. The latter usage has been deprecated in favour of <code><b>In</b></code>.</p>
 <p>Examples:</p>
 
@@ -1597,11 +1580,11 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <a href="#manual-structure">MANUAL STRUCTURE</a>, <code><b>In</b></code>, and <code><b>Dv</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="fl-2"><b>Fl</b></code>
-    [<var>word ...</var>]</dt>
-  <dd>
+[<var>word ...</var>]</dt>
+<dd>
 <p>Command-line flag or option. Used when listing arguments to command-line utilities. Prints a fixed-width hyphen ‘-’ directly followed by each argument. If no arguments are provided, a hyphen is printed followed by a space. If the argument is a macro, a hyphen is prefixed to the subsequent macro output.</p>
 <p>Examples:</p>
 
@@ -1621,11 +1604,11 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Cm</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="fn-2"><b>Fn</b></code>
-    <var>funcname</var> [<var>argument ...</var>]</dt>
-  <dd>
+<var>funcname</var> [<var>argument ...</var>]</dt>
+<dd>
 <p>A function name.</p>
 <p>Function arguments are surrounded in parenthesis and are delimited by commas. If no arguments are specified, blank parenthesis are output. In the <i>SYNOPSIS</i> section, this macro starts a new output line, and a blank line is automatically inserted between function definitions.</p>
 
@@ -1646,48 +1629,47 @@ to save the pattern space for subsequent retrieval.
 .Ft functype
 .Fn funcname
 </pre>
-    
 
 <p>When referring to a function documented in another manual page, use <code><b>Xr</b></code> instead. See also <a href="#manual-structure">MANUAL STRUCTURE</a>, <code><b>Fo</b></code>, and <code><b>Ft</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="fo-2"><b>Fo</b></code>
-    <var>funcname</var>
+<var>funcname</var>
 </dt>
-  <dd>
+<dd>
 <p>Begin a function block. This is a multi-line version of <code><b>Fn</b></code>.</p>
 <p>Invocations usually occur in the following context:</p>
 
 <ul><div>.<code><b>Ft</b></code>
-      <var>functype</var>
-    <br>
-    .<code><b>Fo</b></code> <var>funcname</var>
-    <br>
-    .<code><b>Fa</b></code> “<var>argtype</var>
-      <var>argname</var>”
-    <br>
-    ...
-    <br>
-    .<code><b>Fc</b></code>
+<var>functype</var>
+<br>
+.<code><b>Fo</b></code> <var>funcname</var>
+<br>
+.<code><b>Fa</b></code> “<var>argtype</var>
+<var>argname</var>”
+<br>
+...
+<br>
+.<code><b>Fc</b></code>
 </div></ul>
 
 <p>A <code><b>Fo</b></code> scope is closed by <code><b>Fc</b></code>.</p>
 
 <p>See also <a href="#manual-structure">MANUAL STRUCTURE</a>, <code><b>Fa</b></code>, <code><b>Fc</b></code>, and <code><b>Ft</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="fr"><b>Fr</b></code>
-    <var>number</var>
+<var>number</var>
 </dt>
-  <dd>
+<dd>
 <p>This macro is obsolete. No replacement markup is needed.</p>
 <p>It was used to show numerical function return values in an italic font.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ft-2"><b>Ft</b></code>
-    <var>functype</var>
+<var>functype</var>
 </dt>
-  <dd>
+<dd>
 <p>A function type.</p>
 <p>In the <i>SYNOPSIS</i> section, a new output line is started after this macro.</p>
 
@@ -1702,14 +1684,13 @@ to save the pattern space for subsequent retrieval.
 .Ft functype
 .Fn funcname
 </pre>
-    
 
 <p>See also <a href="#manual-structure">MANUAL STRUCTURE</a>, <code><b>Fn</b></code>, and <code><b>Fo</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="fx-2"><b>Fx</b></code>
-    [<var>version</var>]</dt>
-  <dd>
+[<var>version</var>]</dt>
+<dd>
 <p>Format the <span>FreeBSD</span> version provided as an argument, or a default value if no argument is provided.</p>
 <p>Examples:</p>
 
@@ -1720,19 +1701,19 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>At</b></code>, <code><b>Bsx</b></code>, <code><b>Bx</b></code>, <code><b>Dx</b></code>, <code><b>Nx</b></code>, and <code><b>Ox</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="hf"><b>Hf</b></code>
-    <var>filename</var>
+<var>filename</var>
 </dt>
-  <dd>This macro is not implemented in
-      <code>mandoc(1)</code>. It was used to
-      include the contents of a (header) file literally.</dd>
-  <dt>
+<dd>This macro is not implemented in
+<code>mandoc(1)</code>. It was used to
+include the contents of a (header) file literally.</dd>
+<dt>
 <code id="ic-2"><b>Ic</b></code>
-    <var>keyword ...</var>
+<var>keyword ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Designate an internal or interactive command. This is similar to <code><b>Cm</b></code> but used for instructions rather than values.</p>
 <p>Examples:</p>
 
@@ -1746,12 +1727,12 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>Note that using <code><b>Ql</b></code>, <code><b>Dl</b></code>, or <code><b>Bd</b> <b>-literal</b></code> is preferred for displaying code samples; the <code><b>Ic</b></code> macro is used when referring to an individual command name.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="in-2"><b>In</b></code>
-    <var>filename</var>
+<var>filename</var>
 </dt>
-  <dd>
+<dd>
 <p>The name of an include file. This macro is most often used in section 2, 3, and 9 manual pages.</p>
 <p>When invoked as the first macro on an input line in the <i>SYNOPSIS</i> section, the argument is displayed in angle brackets and preceded by “#include”, and a blank line is inserted in front if there is a preceding function declaration. In other sections, it only encloses its argument in angle brackets and causes no line break.</p>
 
@@ -1761,18 +1742,18 @@ to save the pattern space for subsequent retrieval.
 <code>.In sys/types.h</code></pre>
 
 <p>See also <a href="#manual-structure">MANUAL STRUCTURE</a>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="it-2"><b>It</b></code>
-    [<var>head</var>]</dt>
-  <dd>
+[<var>head</var>]</dt>
+<dd>
 <p>A list item. The syntax of this macro depends on the list type.</p>
 <p>Lists of type <code><b>-hang</b></code>, <code><b>-ohang</b></code>, <code><b>-inset</b></code>, and <code><b>-diag</b></code> have the following syntax:</p>
 
 
 
 <ul><div>.<code><b>It</b></code>
-      <var>args</var>
+<var>args</var>
 </div></ul>
 
 <p>Lists of type <code><b>-bullet</b></code>, <code><b>-dash</b></code>, <code><b>-enum</b></code>, <code><b>-hyphen</b></code> and <code><b>-item</b></code> have the following syntax:</p>
@@ -1789,7 +1770,7 @@ to save the pattern space for subsequent retrieval.
 
 
 <ul><div>.<code><b>It</b></code>
-      [<code><b>args</b></code>]</div></ul>
+[<code><b>args</b></code>]</div></ul>
 
 <p>Subsequent lines are interpreted as with <code><b>-bullet</b></code> and family. The line arguments correspond to the list's left-hand side; body arguments correspond to the list's contents.</p>
 
@@ -1798,12 +1779,12 @@ to save the pattern space for subsequent retrieval.
 
 
 <ul><div>.<code><b>It</b></code>
-      <var>cell</var> [<code><b>Ta</b></code>
-      <var>cell ...</var>]</div></ul>
+<var>cell</var> [<code><b>Ta</b></code>
+<var>cell ...</var>]</div></ul>
 
 <ul><div>.<code><b>It</b></code>
-      <var>cell</var> [&lt;TAB&gt; <var>cell
-      ...</var>]</div></ul>
+<var>cell</var> [&lt;TAB&gt; <var>cell
+...</var>]</div></ul>
 
 <p>The arguments consist of one or more lines of text and macros representing a complete table line. Cells within the line are delimited by the special <code><b>Ta</b></code> block macro or by literal tab characters.</p>
 
@@ -1821,11 +1802,11 @@ to save the pattern space for subsequent retrieval.
 <p>will preserve the whitespace before both commas, but not the whitespace before the semicolon.</p>
 
 <p>See also <code><b>Bl</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="lb-2"><b>Lb</b> <b>lib</b></code><var>name</var>
 </dt>
-  <dd>
+<dd>
 <p>Specify a library.</p>
 <p>The <var>name</var> parameter may be a system library, such as <code><b>z</b></code> or <code><b>pam</b></code>, in which case a small library description is printed next to the linker invocation; or a custom library, in which case the library name is printed in quotes. This is most commonly used in the <i>SYNOPSIS</i> section as described in <a href="#manual-structure">MANUAL STRUCTURE</a>.</p>
 
@@ -1836,19 +1817,19 @@ to save the pattern space for subsequent retrieval.
 <code>.Lb libmandoc</code></pre>
 
 
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="li-3"><b>Li</b></code>
-    <var>word ...</var>
+<var>word ...</var>
 </dt>
-  <dd>Request a typewriter (literal) font. Deprecated because on terminal output
-      devices, this is usually indistinguishable from normal text. For literal
-      displays, use <code><b>Ql</b></code> (in-line),
-      <code><b>Dl</b></code> (single line), or <code><b>Bd</b> <b>-literal</b></code> (multi-line) instead.</dd>
-  <dt>
+<dd>Request a typewriter (literal) font. Deprecated because on terminal output
+devices, this is usually indistinguishable from normal text. For literal
+displays, use <code><b>Ql</b></code> (in-line),
+<code><b>Dl</b></code> (single line), or <code><b>Bd</b> <b>-literal</b></code> (multi-line) instead.</dd>
+<dt>
 <code id="lk-2"><b>Lk</b></code>
-    <var>uri</var> [<var>display_name</var>]</dt>
-  <dd>
+<var>uri</var> [<var>display_name</var>]</dt>
+<dd>
 <p>Format a hyperlink.</p>
 <p>Examples:</p>
 
@@ -1859,14 +1840,14 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Mt</b></code>.</p>
-  </dd>
-  <dt><code id="lp"><b>Lp</b></code></dt>
-  <dd>Deprecated synonym for <code><b>Pp</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="lp"><b>Lp</b></code></dt>
+<dd>Deprecated synonym for <code><b>Pp</b></code>.</dd>
+<dt>
 <code id="ms-2"><b>Ms</b></code>
-    <var>name</var>
+<var>name</var>
 </dt>
-  <dd>
+<dd>
 <p>Display a mathematical symbol.</p>
 <p>Examples:</p>
 
@@ -1875,12 +1856,12 @@ to save the pattern space for subsequent retrieval.
 <code>.Ms aleph</code></pre>
 
 
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="mt-2"><b>Mt</b></code>
-    <var>localpart</var>@<var>domain</var>
+<var>localpart</var>@<var>domain</var>
 </dt>
-  <dd>
+<dd>
 <p>Format a “mailto:” hyperlink.</p>
 <p>Examples:</p>
 
@@ -1889,12 +1870,12 @@ to save the pattern space for subsequent retrieval.
 <code>.An Kristaps Dzonsons Aq Mt kristaps@bsd.lv</code></pre>
 
 
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="nd-2"><b>Nd</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>A one line description of the manual's content. This is the mandatory last macro of the <i>NAME</i> section and not appropriate for other sections.</p>
 <p>Examples:</p>
 
@@ -1909,11 +1890,11 @@ to save the pattern space for subsequent retrieval.
 <p>The <code><b>Nd</b></code> macro technically accepts child macros and terminates with a subsequent <code><b>Sh</b></code> invocation. Do not assume this behaviour: some <code>whatis(1)</code> database generators are not smart enough to parse more than the line arguments and will display macros verbatim.</p>
 
 <p>See also <code><b>Nm</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="nm-3"><b>Nm</b></code>
-    [<var>name</var>]</dt>
-  <dd>
+[<var>name</var>]</dt>
+<dd>
 <p>The name of the manual page, or — in particular in section 1, 6, and 8 pages — of an additional command or feature documented in the manual page. When first invoked, the <code><b>Nm</b></code> macro expects a single argument, the name of the manual page. Usually, the first invocation happens in the <i>NAME</i> section of the page. The specified name will be remembered and used whenever the macro is called again without arguments later in the page. The <code><b>Nm</b></code> macro uses <a href="#block-full-implicit">Block full-implicit</a> semantics when invoked as the first macro on an input line in the <i>SYNOPSIS</i> section; otherwise, it uses ordinary <a href="#in-line">In-line</a> semantics.</p>
 <p>Examples:</p>
 
@@ -1925,15 +1906,14 @@ to save the pattern space for subsequent retrieval.
 .Op Fl benstuv
 .Op Ar
 </pre>
-    
 
 <p>In the <i>SYNOPSIS</i> of section 2, 3 and 9 manual pages, use the <code><b>Fn</b></code> macro rather than <code><b>Nm</b></code> to mark up the name of the manual page.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="no-2"><b>No</b></code>
-    <var>word ...</var>
+<var>word ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Normal text. Closes the scope of any preceding in-line macro. When used after physical formatting macros like <code><b>Em</b></code> or <code><b>Sy</b></code>, switches back to the standard font face and weight. Can also be used to embed plain text strings in macro lines using semantic annotation macros.</p>
 <p>Examples:</p>
 
@@ -1947,12 +1927,11 @@ to save the pattern space for subsequent retrieval.
 .Cm :C No / Ar pattern No / Ar replacement No /
 .Sm on
 </pre>
-    
 
 <p>See also <code><b>Em</b></code>, <code><b>Ql</b></code>, and <code><b>Sy</b></code>.</p>
-  </dd>
-  <dt><code id="ns-2"><b>Ns</b></code></dt>
-  <dd>
+</dd>
+<dt><code id="ns-2"><b>Ns</b></code></dt>
+<dd>
 <p>Suppress a space between the output of the preceding macro and the following text or macro. Following invocation, input is interpreted as normal text just like after an <code><b>No</b></code> macro.</p>
 <p>This has no effect when invoked at the start of a macro line.</p>
 
@@ -1968,11 +1947,11 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>No</b></code> and <code><b>Sm</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="nx-2"><b>Nx</b></code>
-    [<var>version</var>]</dt>
-  <dd>
+[<var>version</var>]</dt>
+<dd>
 <p>Format the <span>NetBSD</span> version provided as an argument, or a default value if no argument is provided.</p>
 <p>Examples:</p>
 
@@ -1983,14 +1962,14 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>At</b></code>, <code><b>Bsx</b></code>, <code><b>Bx</b></code>, <code><b>Dx</b></code>, <code><b>Fx</b></code>, and <code><b>Ox</b></code>.</p>
-  </dd>
-  <dt><code id="oc"><b>Oc</b></code></dt>
-  <dd>Close multi-line <code><b>Oo</b></code> context.</dd>
-  <dt>
+</dd>
+<dt><code id="oc"><b>Oc</b></code></dt>
+<dd>Close multi-line <code><b>Oo</b></code> context.</dd>
+<dt>
 <code id="oo"><b>Oo</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>
+<dd>
 <p>Multi-line version of <code><b>Op</b></code>.</p>
 <p>Examples:</p>
 
@@ -2001,13 +1980,12 @@ to save the pattern space for subsequent retrieval.
 .Op Fl flag Ns Ar value
 .Oc
 </pre>
-    
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="op-2"><b>Op</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Optional part of a command line. Prints the argument(s) in brackets. This is most often used in the <i>SYNOPSIS</i> section of section 1 and 8 manual pages.</p>
 <p>Examples:</p>
 
@@ -2018,11 +1996,11 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Oo</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="os-2"><b>Os</b></code>
-    [<var>system</var> [<var>version</var>]]</dt>
-  <dd>
+[<var>system</var> [<var>version</var>]]</dt>
+<dd>
 <p>Operating system version for display in the page footer. This is the mandatory third macro of any <code><b>mdoc</b></code> file.</p>
 <p>The optional <var>system</var> parameter specifies the relevant operating system or environment. It is suggested to leave it unspecified, in which case <code>mandoc(1)</code> uses its <code><b>-Ios</b></code> argument or, if that isn't specified either, <var>sysname</var> and <var>release</var> as returned by <code>uname(3)</code>.</p>
 
@@ -2038,19 +2016,19 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Dd</b></code> and <code><b>Dt</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ot"><b>Ot</b></code>
-    <var>functype</var>
+<var>functype</var>
 </dt>
-  <dd>
+<dd>
 <p>This macro is obsolete. Use <code><b>Ft</b></code> instead; with <code>mandoc(1)</code>, both have the same effect.</p>
 <p>Historical <code><b>mdoc</b></code> packages described it as “old function type (FORTRAN)”.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ox-2"><b>Ox</b></code>
-    [<var>version</var>]</dt>
-  <dd>
+[<var>version</var>]</dt>
+<dd>
 <p>Format the <span>OpenBSD</span> version provided as an argument, or a default value if no argument is provided.</p>
 <p>Examples:</p>
 
@@ -2061,12 +2039,12 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>At</b></code>, <code><b>Bsx</b></code>, <code><b>Bx</b></code>, <code><b>Dx</b></code>, <code><b>Fx</b></code>, and <code><b>Nx</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="pa-2"><b>Pa</b></code>
-    <var>name ...</var>
+<var>name ...</var>
 </dt>
-  <dd>
+<dd>
 <p>An absolute or relative file system path, or a file or directory name. If an argument is not provided, the character ‘~’ is used as a default.</p>
 <p>Examples:</p>
 
@@ -2077,20 +2055,20 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Lk</b></code>.</p>
-  </dd>
-  <dt><code id="pc"><b>Pc</b></code></dt>
-  <dd>Close parenthesised context opened by <code><b>Po</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="pc"><b>Pc</b></code></dt>
+<dd>Close parenthesised context opened by <code><b>Po</b></code>.</dd>
+<dt>
 <code id="pf-2"><b>Pf</b></code>
-    <var>prefix macro</var> [<var>argument ...</var>]</dt>
-  <dd>
+<var>prefix macro</var> [<var>argument ...</var>]</dt>
+<dd>
 <p>Removes the space between its argument and the following macro. It is equivalent to:</p>
 
 
 <ul><div>
 <code><b>No</b></code>
-      \&amp;<var>prefix</var> <code><b>Ns</b></code>
-      <var>macro</var> [<var>argument ...</var>]</div></ul>
+\&amp;<var>prefix</var> <code><b>Ns</b></code>
+<var>macro</var> [<var>argument ...</var>]</div></ul>
 
 <p>The <var>prefix</var> argument is not parsed for macro names or delimiters, but used verbatim as if it were escaped.</p>
 
@@ -2106,53 +2084,53 @@ to save the pattern space for subsequent retrieval.
 
 
 <p>See also <code><b>Ns</b></code> and <code><b>Sm</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="po"><b>Po</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>Multi-line version of <code><b>Pq</b></code>.</dd>
-  <dt><code id="pp-2"><b>Pp</b></code></dt>
-  <dd>
+<dd>Multi-line version of <code><b>Pq</b></code>.</dd>
+<dt><code id="pp-2"><b>Pp</b></code></dt>
+<dd>
 <p>Break a paragraph. This will assert vertical space between prior and subsequent macros and/or text.</p>
 <p>Paragraph breaks are not needed before or after <code><b>Sh</b></code> or <code><b>Ss</b></code> macros or before displays (<code><b>Bd</b></code> <var>line</var>) or lists (<code><b>Bl</b></code>) unless the <code><b>-compact</b></code> flag is given.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="pq-2"><b>Pq</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Parenthesised enclosure.</p>
 <p>See also <code><b>Po</b></code>.</p>
-  </dd>
-  <dt><code id="qc"><b>Qc</b></code></dt>
-  <dd>Close quoted context opened by <code><b>Qo</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="qc"><b>Qc</b></code></dt>
+<dd>Close quoted context opened by <code><b>Qo</b></code>.</dd>
+<dt>
 <code id="ql-2"><b>Ql</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>In-line literal display. This can be used for complete command invocations and for multi-word code examples when an indented display is not desired.</p>
 <p>See also <code><b>Dl</b></code> and <code><b>Bd</b> <b>-literal</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="qo"><b>Qo</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>Multi-line version of <code><b>Qq</b></code>.</dd>
-  <dt>
+<dd>Multi-line version of <code><b>Qq</b></code>.</dd>
+<dt>
 <code id="qq-2"><b>Qq</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Encloses its arguments in “typewriter” double-quotes. Consider using <code><b>Dq</b></code>.</p>
 <p>See also <code><b>Dq</b></code>, <code><b>Sq</b></code>, and <code><b>Qo</b></code>.</p>
-  </dd>
-  <dt><code id="re"><b>Re</b></code></dt>
-  <dd>Close an <code><b>Rs</b></code> block. Does not have any tail
-      arguments.</dd>
-  <dt><code id="rs-2"><b>Rs</b></code></dt>
-  <dd>
+</dd>
+<dt><code id="re"><b>Re</b></code></dt>
+<dd>Close an <code><b>Rs</b></code> block. Does not have any tail
+arguments.</dd>
+<dt><code id="rs-2"><b>Rs</b></code></dt>
+<dd>
 <p>Begin a bibliographic (“reference”) block. Does not have any head arguments. The block macro may only contain <code><b>%A</b></code>, <code><b>%B</b></code>, <code><b>%C</b></code>, <code><b>%D</b></code>, <code><b>%I</b></code>, <code><b>%J</b></code>, <code><b>%N</b></code>, <code><b>%O</b></code>, <code><b>%P</b></code>, <code><b>%Q</b></code>, <code><b>%R</b></code>, <code><b>%T</b></code>, <code><b>%U</b></code>, and <code><b>%V</b></code> child macros (at least one must be specified).</p>
 <p>Examples:</p>
 
@@ -2168,367 +2146,366 @@ to save the pattern space for subsequent retrieval.
 .%D 1979
 .Re
 </pre>
-    
 
 <p>If an <code><b>Rs</b></code> block is used within a SEE ALSO section, a vertical space is asserted before the rendered output, else the block continues on the current line.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="rv-2"><b>Rv</b> <b>-std</b></code> [<var>function ...</var>]</dt>
-  <dd>
+<dd>
 <p>Insert a standard sentence regarding a function call's return value of 0 on success and -1 on error, with the <var>errno</var> libc global variable set on error.</p>
 <p>If <var>function</var> is not specified, the document's name set by <code><b>Nm</b></code> is used. Multiple <var>function</var> arguments are treated as separate functions.</p>
 
 <p>See also <code><b>Ex</b></code>.</p>
-  </dd>
-  <dt><code id="sc"><b>Sc</b></code></dt>
-  <dd>Close single-quoted context opened by <code><b>So</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="sc"><b>Sc</b></code></dt>
+<dd>Close single-quoted context opened by <code><b>So</b></code>.</dd>
+<dt>
 <code id="sh-2"><b>Sh</b></code>
-    <var>TITLE LINE</var>
+<var>TITLE LINE</var>
 </dt>
-  <dd>
+<dd>
 <p>Begin a new section. For a list of conventional manual sections, see <a href="#manual-structure">MANUAL STRUCTURE</a>. These sections should be used unless it's absolutely necessary that custom sections be used.</p>
 <p>Section names should be unique so that they may be keyed by <code><b>Sx</b></code>. Although this macro is parsed, it should not consist of child node or it may not be linked with <code><b>Sx</b></code>.</p>
 
 <p>See also <code><b>Pp</b></code>, <code><b>Ss</b></code>, and <code><b>Sx</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="sm-2"><b>Sm</b></code>
-    [<code><b>on</b></code> | <code><b>off</b></code>]</dt>
-  <dd>
+[<code><b>on</b></code> | <code><b>off</b></code>]</dt>
+<dd>
 <p>Switches the spacing mode for output generated from macros.</p>
 <p>By default, spacing is <code><b>on</b></code>. When switched <code><b>off</b></code>, no white space is inserted between macro arguments and between the output generated from adjacent macros, but text lines still get normal spacing between words and sentences.</p>
 
 <p>When called without an argument, the <code><b>Sm</b></code> macro toggles the spacing mode. Using this is not recommended because it makes the code harder to read.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="so"><b>So</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>Multi-line version of <code><b>Sq</b></code>.</dd>
-  <dt>
+<dd>Multi-line version of <code><b>Sq</b></code>.</dd>
+<dt>
 <code id="sq-2"><b>Sq</b></code>
-    <var>line</var>
+<var>line</var>
 </dt>
-  <dd>
+<dd>
 <p>Encloses its arguments in ‘typewriter’ single-quotes.</p>
 <p>See also <code><b>Dq</b></code>, <code><b>Qq</b></code>, and <code><b>So</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="ss-2"><b>Ss</b></code>
-    <var>Title line</var>
+<var>Title line</var>
 </dt>
-  <dd>
+<dd>
 <p>Begin a new subsection. Unlike with <code><b>Sh</b></code>, there is no convention for the naming of subsections. Except <i>DESCRIPTION</i>, the conventional sections described in <a href="#manual-structure">MANUAL STRUCTURE</a> rarely have subsections.</p>
 <p>Sub-section names should be unique so that they may be keyed by <code><b>Sx</b></code>. Although this macro is parsed, it should not consist of child node or it may not be linked with <code><b>Sx</b></code>.</p>
 
 <p>See also <code><b>Pp</b></code>, <code><b>Sh</b></code>, and <code><b>Sx</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="st-2"><b>St</b> <b>-</b></code><var>abbreviation</var>
 </dt>
-  <dd>
+<dd>
 <p>Replace an abbreviation for a standard with the full form. The following standards are recognised. Where multiple lines are given without a blank line in between, they all refer to the same standard, and using the first form is recommended.</p>
 <dl>
-      <dt>C language standards</dt>
-      <dd>
+<dt>C language standards</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-ansiC</dt>
-          <dd><span>ANSI X3.159-1989
-              (“ANSI C89”)</span></dd>
-          <dt>-ansiC-89</dt>
-          <dd><span>ANSI X3.159-1989
-              (“ANSI C89”)</span></dd>
-          <dt>-isoC</dt>
-          <dd><span>ISO/IEC 9899:1990
-              (“ISO C90”)</span></dd>
-          <dt>-isoC-90</dt>
-          <dd>
+<dt>-ansiC</dt>
+<dd><span>ANSI X3.159-1989
+(“ANSI C89”)</span></dd>
+<dt>-ansiC-89</dt>
+<dd><span>ANSI X3.159-1989
+(“ANSI C89”)</span></dd>
+<dt>-isoC</dt>
+<dd><span>ISO/IEC 9899:1990
+(“ISO C90”)</span></dd>
+<dt>-isoC-90</dt>
+<dd>
 <p><span>ISO/IEC 9899:1990
-              (“ISO C90”)</span> <br> The original C standard.</p>
+(“ISO C90”)</span> <br> The original C standard.</p>
 
-          </dd>
-          <dt>-isoC-amd1</dt>
-          <dd>
+</dd>
+<dt>-isoC-amd1</dt>
+<dd>
 <p><span>ISO/IEC 9899/AMD1:1995 (“ISO C90,
-              Amendment 1”)</span></p>
+Amendment 1”)</span></p>
 
-          </dd>
-          <dt>-isoC-tcor1</dt>
-          <dd>
+</dd>
+<dt>-isoC-tcor1</dt>
+<dd>
 <p><span>ISO/IEC 9899/TCOR1:1994 (“ISO C90,
-              Technical Corrigendum 1”)</span></p>
+Technical Corrigendum 1”)</span></p>
 
-          </dd>
-          <dt>-isoC-tcor2</dt>
-          <dd>
+</dd>
+<dt>-isoC-tcor2</dt>
+<dd>
 <p><span>ISO/IEC 9899/TCOR2:1995 (“ISO C90,
-              Technical Corrigendum 2”)</span></p>
+Technical Corrigendum 2”)</span></p>
 
-          </dd>
-          <dt>-isoC-99</dt>
-          <dd>
+</dd>
+<dt>-isoC-99</dt>
+<dd>
 <p><span>ISO/IEC 9899:1999
-              (“ISO C99”)</span> <br> The second major version of the C language standard.</p>
+(“ISO C99”)</span> <br> The second major version of the C language standard.</p>
 
-          </dd>
-          <dt>-isoC-2011</dt>
-          <dd>
+</dd>
+<dt>-isoC-2011</dt>
+<dd>
 <span>ISO/IEC 9899:2011
-              (“ISO C11”)</span>
-            <br>
-            The third major version of the C language standard.</dd>
-        </dl>
-      </dd>
-      <dt>POSIX.1 before the Single UNIX Specification</dt>
-      <dd>
+(“ISO C11”)</span>
+<br>
+The third major version of the C language standard.</dd>
+</dl>
+</dd>
+<dt>POSIX.1 before the Single UNIX Specification</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-p1003.1-88</dt>
-          <dd><span>IEEE Std 1003.1-1988
-              (“POSIX.1”)</span></dd>
-          <dt>-p1003.1</dt>
-          <dd>
+<dt>-p1003.1-88</dt>
+<dd><span>IEEE Std 1003.1-1988
+(“POSIX.1”)</span></dd>
+<dt>-p1003.1</dt>
+<dd>
 <p><span>IEEE Std 1003.1 (“POSIX.1”)</span> <br> The original POSIX standard, based on ANSI C.</p>
 
-          </dd>
-          <dt>-p1003.1-90</dt>
-          <dd><span>IEEE Std 1003.1-1990
-              (“POSIX.1”)</span></dd>
-          <dt>-iso9945-1-90</dt>
-          <dd>
+</dd>
+<dt>-p1003.1-90</dt>
+<dd><span>IEEE Std 1003.1-1990
+(“POSIX.1”)</span></dd>
+<dt>-iso9945-1-90</dt>
+<dd>
 <p><span>ISO/IEC 9945-1:1990
-              (“POSIX.1”)</span> <br> The first update of POSIX.1.</p>
+(“POSIX.1”)</span> <br> The first update of POSIX.1.</p>
 
-          </dd>
-          <dt>-p1003.1b-93</dt>
-          <dd><span>IEEE Std 1003.1b-1993
-              (“POSIX.1b”)</span></dd>
-          <dt>-p1003.1b</dt>
-          <dd>
+</dd>
+<dt>-p1003.1b-93</dt>
+<dd><span>IEEE Std 1003.1b-1993
+(“POSIX.1b”)</span></dd>
+<dt>-p1003.1b</dt>
+<dd>
 <p><span>IEEE Std 1003.1b
-              (“POSIX.1b”)</span> <br> Real-time extensions.</p>
+(“POSIX.1b”)</span> <br> Real-time extensions.</p>
 
-          </dd>
-          <dt>-p1003.1c-95</dt>
-          <dd>
+</dd>
+<dt>-p1003.1c-95</dt>
+<dd>
 <p><span>IEEE Std 1003.1c-1995
-              (“POSIX.1c”)</span> <br> POSIX thread interfaces.</p>
+(“POSIX.1c”)</span> <br> POSIX thread interfaces.</p>
 
-          </dd>
-          <dt>-p1003.1i-95</dt>
-          <dd>
+</dd>
+<dt>-p1003.1i-95</dt>
+<dd>
 <p><span>IEEE Std 1003.1i-1995
-              (“POSIX.1i”)</span> <br> Technical Corrigendum.</p>
+(“POSIX.1i”)</span> <br> Technical Corrigendum.</p>
 
-          </dd>
-          <dt>-p1003.1-96</dt>
-          <dd><span>ISO/IEC 9945-1:1996
-              (“POSIX.1”)</span></dd>
-          <dt>-iso9945-1-96</dt>
-          <dd>
+</dd>
+<dt>-p1003.1-96</dt>
+<dd><span>ISO/IEC 9945-1:1996
+(“POSIX.1”)</span></dd>
+<dt>-iso9945-1-96</dt>
+<dd>
 <span>ISO/IEC 9945-1:1996
-              (“POSIX.1”)</span>
-            <br>
-            Includes POSIX.1-1990, 1b, 1c, and 1i.</dd>
-        </dl>
-      </dd>
-      <dt>X/Open Portability Guide version 4 and related standards</dt>
-      <dd>
+(“POSIX.1”)</span>
+<br>
+Includes POSIX.1-1990, 1b, 1c, and 1i.</dd>
+</dl>
+</dd>
+<dt>X/Open Portability Guide version 4 and related standards</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-xpg3</dt>
-          <dd>
+<dt>-xpg3</dt>
+<dd>
 <p><span>X/Open Portability Guide Issue 3
-              (“XPG3”)</span> <br> An XPG4 precursor, published in 1989.</p>
+(“XPG3”)</span> <br> An XPG4 precursor, published in 1989.</p>
 
-          </dd>
-          <dt>-p1003.2</dt>
-          <dd><span>IEEE Std 1003.2
-            (“POSIX.2”)</span></dd>
-          <dt>-p1003.2-92</dt>
-          <dd><span>IEEE Std 1003.2-1992
-              (“POSIX.2”)</span></dd>
-          <dt>-iso9945-2-93</dt>
-          <dd>
+</dd>
+<dt>-p1003.2</dt>
+<dd><span>IEEE Std 1003.2
+(“POSIX.2”)</span></dd>
+<dt>-p1003.2-92</dt>
+<dd><span>IEEE Std 1003.2-1992
+(“POSIX.2”)</span></dd>
+<dt>-iso9945-2-93</dt>
+<dd>
 <p><span>ISO/IEC 9945-2:1993
-              (“POSIX.2”)</span> <br> An XCU4 precursor.</p>
+(“POSIX.2”)</span> <br> An XCU4 precursor.</p>
 
-          </dd>
-          <dt>-p1003.2a-92</dt>
-          <dd>
+</dd>
+<dt>-p1003.2a-92</dt>
+<dd>
 <p><span>IEEE Std 1003.2a-1992
-              (“POSIX.2”)</span> <br> Updates to POSIX.2.</p>
+(“POSIX.2”)</span> <br> Updates to POSIX.2.</p>
 
-          </dd>
-          <dt>-xpg4</dt>
-          <dd>
+</dd>
+<dt>-xpg4</dt>
+<dd>
 <span>X/Open Portability Guide Issue 4
-              (“XPG4”)</span>
-            <br>
-            Based on POSIX.1 and POSIX.2, published in 1992.</dd>
-        </dl>
-      </dd>
-      <dt>Single UNIX Specification version 1 and related standards</dt>
-      <dd>
+(“XPG4”)</span>
+<br>
+Based on POSIX.1 and POSIX.2, published in 1992.</dd>
+</dl>
+</dd>
+<dt>Single UNIX Specification version 1 and related standards</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-susv1</dt>
-          <dd><span>Version 1 of the Single UNIX Specification
-              (“SUSv1”)</span></dd>
-          <dt>-xpg4.2</dt>
-          <dd>
+<dt>-susv1</dt>
+<dd><span>Version 1 of the Single UNIX Specification
+(“SUSv1”)</span></dd>
+<dt>-xpg4.2</dt>
+<dd>
 <p><span>X/Open Portability Guide Issue 4,
-              Version 2 (“XPG4.2”)</span> <br> This standard was published in 1994. It was used as the basis for UNIX 95 certification. The following three refer to parts of it.</p>
+Version 2 (“XPG4.2”)</span> <br> This standard was published in 1994. It was used as the basis for UNIX 95 certification. The following three refer to parts of it.</p>
 
-          </dd>
-          <dt>-xsh4.2</dt>
-          <dd>
+</dd>
+<dt>-xsh4.2</dt>
+<dd>
 <p><span>X/Open System Interfaces and Headers
-              Issue 4, Version 2 (“XSH4.2”)</span></p>
+Issue 4, Version 2 (“XSH4.2”)</span></p>
 
-          </dd>
-          <dt>-xcurses4.2</dt>
-          <dd>
+</dd>
+<dt>-xcurses4.2</dt>
+<dd>
 <p><span>X/Open Curses Issue 4, Version 2
-              (“XCURSES4.2”)</span></p>
+(“XCURSES4.2”)</span></p>
 
-          </dd>
-          <dt>-p1003.1g-2000</dt>
-          <dd>
+</dd>
+<dt>-p1003.1g-2000</dt>
+<dd>
 <p><span>IEEE Std 1003.1g-2000
-              (“POSIX.1g”)</span> <br> Networking APIs, including sockets.</p>
+(“POSIX.1g”)</span> <br> Networking APIs, including sockets.</p>
 
-          </dd>
-          <dt>-svid4</dt>
-          <dd>
+</dd>
+<dt>-svid4</dt>
+<dd>
 <span>System V Interface Definition, Fourth
-              Edition (“SVID4”)</span>,
-            <br>
-            Published in 1995.</dd>
-        </dl>
-      </dd>
-      <dt>Single UNIX Specification version 2 and related standards</dt>
-      <dd>
+Edition (“SVID4”)</span>,
+<br>
+Published in 1995.</dd>
+</dl>
+</dd>
+<dt>Single UNIX Specification version 2 and related standards</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-susv2</dt>
-          <dd>
+<dt>-susv2</dt>
+<dd>
 <p><span>Version 2 of the Single UNIX Specification
-              (“SUSv2”)</span> This Standard was published in 1997 and is also called X/Open Portability Guide version 5. It was used as the basis for UNIX 98 certification. The following refer to parts of it.</p>
+(“SUSv2”)</span> This Standard was published in 1997 and is also called X/Open Portability Guide version 5. It was used as the basis for UNIX 98 certification. The following refer to parts of it.</p>
 
-          </dd>
-          <dt>-xbd5</dt>
-          <dd>
+</dd>
+<dt>-xbd5</dt>
+<dd>
 <p><span>X/Open Base Definitions Issue 5
-              (“XBD5”)</span></p>
+(“XBD5”)</span></p>
 
-          </dd>
-          <dt>-xsh5</dt>
-          <dd>
+</dd>
+<dt>-xsh5</dt>
+<dd>
 <p><span>X/Open System Interfaces and Headers
-              Issue 5 (“XSH5”)</span></p>
+Issue 5 (“XSH5”)</span></p>
 
-          </dd>
-          <dt>-xcu5</dt>
-          <dd>
+</dd>
+<dt>-xcu5</dt>
+<dd>
 <p><span>X/Open Commands and Utilities Issue 5
-              (“XCU5”)</span></p>
+(“XCU5”)</span></p>
 
-          </dd>
-          <dt>-xns5</dt>
-          <dd><span>X/Open Networking Services Issue 5
-              (“XNS5”)</span></dd>
-          <dt>-xns5.2</dt>
-          <dd><span>X/Open Networking Services Issue 5.2
-              (“XNS5.2”)</span></dd>
-        </dl>
-      </dd>
-      <dt>Single UNIX Specification version 3</dt>
-      <dd>
+</dd>
+<dt>-xns5</dt>
+<dd><span>X/Open Networking Services Issue 5
+(“XNS5”)</span></dd>
+<dt>-xns5.2</dt>
+<dd><span>X/Open Networking Services Issue 5.2
+(“XNS5.2”)</span></dd>
+</dl>
+</dd>
+<dt>Single UNIX Specification version 3</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-p1003.1-2001</dt>
-          <dd><span>IEEE Std 1003.1-2001
-              (“POSIX.1”)</span></dd>
-          <dt>-susv3</dt>
-          <dd>
+<dt>-p1003.1-2001</dt>
+<dd><span>IEEE Std 1003.1-2001
+(“POSIX.1”)</span></dd>
+<dt>-susv3</dt>
+<dd>
 <p><span>Version 3 of the Single UNIX Specification
-              (“SUSv3”)</span> <br> This standard is based on C99, SUSv2, POSIX.1-1996, 1d, and 1j. It is also called X/Open Portability Guide version 6. It is used as the basis for UNIX 03 certification.</p>
+(“SUSv3”)</span> <br> This standard is based on C99, SUSv2, POSIX.1-1996, 1d, and 1j. It is also called X/Open Portability Guide version 6. It is used as the basis for UNIX 03 certification.</p>
 
-          </dd>
-          <dt>-p1003.1-2004</dt>
-          <dd>
+</dd>
+<dt>-p1003.1-2004</dt>
+<dd>
 <span>IEEE Std 1003.1-2004
-              (“POSIX.1”)</span>
-            <br>
-            The second and last Technical Corrigendum.</dd>
-        </dl>
-      </dd>
-      <dt>Single UNIX Specification version 4</dt>
-      <dd>
+(“POSIX.1”)</span>
+<br>
+The second and last Technical Corrigendum.</dd>
+</dl>
+</dd>
+<dt>Single UNIX Specification version 4</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-p1003.1-2008</dt>
-          <dd><span>IEEE Std 1003.1-2008
-              (“POSIX.1”)</span></dd>
-          <dt>-susv4</dt>
-          <dd>
+<dt>-p1003.1-2008</dt>
+<dd><span>IEEE Std 1003.1-2008
+(“POSIX.1”)</span></dd>
+<dt>-susv4</dt>
+<dd>
 <span>Version 4 of the Single UNIX Specification
-              (“SUSv4”)</span>
-            <br>
-            This standard is also called X/Open Portability Guide version
-            7.</dd>
-        </dl>
-      </dd>
-      <dt>Other standards</dt>
-      <dd>
+(“SUSv4”)</span>
+<br>
+This standard is also called X/Open Portability Guide version
+7.</dd>
+</dl>
+</dd>
+<dt>Other standards</dt>
+<dd>
 
 
 
 <dl>
-          <dt>-ieee754</dt>
-          <dd>
+<dt>-ieee754</dt>
+<dd>
 <p><span>IEEE Std 754-1985</span> <br> Floating-point arithmetic.</p>
 
-          </dd>
-          <dt>-iso8601</dt>
-          <dd>
+</dd>
+<dt>-iso8601</dt>
+<dd>
 <p><span>ISO 8601</span> <br> Representation of dates and times, published in 1988.</p>
 
-          </dd>
-          <dt>-iso8802-3</dt>
-          <dd>
+</dd>
+<dt>-iso8802-3</dt>
+<dd>
 <p><span>ISO 8802-3: 1989</span> <br> Ethernet local area networks.</p>
 
-          </dd>
-          <dt>-ieee1275-94</dt>
-          <dd><span>IEEE Std 1275-1994 (“Open
-              Firmware”)</span></dd>
-        </dl>
-      </dd>
-    </dl>
-  </dd>
-  <dt>
+</dd>
+<dt>-ieee1275-94</dt>
+<dd><span>IEEE Std 1275-1994 (“Open
+Firmware”)</span></dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>
 <code id="sx-2"><b>Sx</b></code>
-    <var>Title line</var>
+<var>Title line</var>
 </dt>
-  <dd>
+<dd>
 <p>Reference a section or subsection in the same manual page. The referenced section or subsection name must be identical to the enclosed argument, including whitespace.</p>
 <p>Examples:</p>
 
@@ -2536,12 +2513,12 @@ to save the pattern space for subsequent retrieval.
 <code>.Sx MANUAL STRUCTURE</code></pre>
 
 <p>See also <code><b>Sh</b></code> and <code><b>Ss</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="sy-4"><b>Sy</b></code>
-    <var>word ...</var>
+<var>word ...</var>
 </dt>
-  <dd>
+<dd>
 <p>Request a boldface font.</p>
 <p>This is most often used to indicate importance or seriousness (not to be confused with stress emphasis, see <code><b>Em</b></code>). When none of the semantic macros fit, it is also adequate for syntax elements that have to be given or that appear verbatim.</p>
 
@@ -2558,32 +2535,31 @@ This utility replaces the former
 .Sy dumpdir
 program.
 </pre>
-    
 
 <p>See also <code><b>Em</b></code>, <code><b>No</b></code>, and <code><b>Ql</b></code>.</p>
-  </dd>
-  <dt><code id="ta-2"><b>Ta</b></code></dt>
-  <dd>Table cell separator in <code><b>Bl</b> <b>-column</b></code> lists; can only be used below
-      <code><b>It</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="ta-2"><b>Ta</b></code></dt>
+<dd>Table cell separator in <code><b>Bl</b> <b>-column</b></code> lists; can only be used below
+<code><b>It</b></code>.</dd>
+<dt>
 <code id="tn"><b>Tn</b></code>
-    <var>word ...</var>
+<var>word ...</var>
 </dt>
-  <dd>Supported only for compatibility, do not use this in new manuals. Even
-      though the macro name (“tradename”) suggests a semantic
-      function, historic usage is inconsistent, mostly using it as a
-      presentation-level macro to request a small caps font.</dd>
-  <dt><code id="ud"><b>Ud</b></code></dt>
-  <dd>Supported only for compatibility, do not use this in new manuals. Prints
-      out “currently under development.”</dd>
-  <dt><code id="ux"><b>Ux</b></code></dt>
-  <dd>Supported only for compatibility, do not use this in new manuals. Prints
-      out “<span>UNIX</span>”.</dd>
-  <dt>
+<dd>Supported only for compatibility, do not use this in new manuals. Even
+though the macro name (“tradename”) suggests a semantic
+function, historic usage is inconsistent, mostly using it as a
+presentation-level macro to request a small caps font.</dd>
+<dt><code id="ud"><b>Ud</b></code></dt>
+<dd>Supported only for compatibility, do not use this in new manuals. Prints
+out “currently under development.”</dd>
+<dt><code id="ux"><b>Ux</b></code></dt>
+<dd>Supported only for compatibility, do not use this in new manuals. Prints
+out “<span>UNIX</span>”.</dd>
+<dt>
 <code id="va-2"><b>Va</b></code>
-    [<var>type</var>] <var>identifier ...</var>
+[<var>type</var>] <var>identifier ...</var>
 </dt>
-  <dd>
+<dd>
 <p>A variable name.</p>
 <p>Examples:</p>
 
@@ -2594,11 +2570,11 @@ program.
 
 
 <p>For function arguments and parameters, use <code><b>Fa</b></code> instead. For declarations of global variables in the <i>SYNOPSIS</i> section, use <code><b>Vt</b></code>.</p>
-  </dd>
-  <dt>
+</dd>
+<dt>
 <code id="vt-2"><b>Vt</b></code>
-    <var>type</var> [<var>identifier</var>]</dt>
-  <dd>
+<var>type</var> [<var>identifier</var>]</dt>
+<dd>
 <p>A variable type.</p>
 <p>This is also used for indicating global variables in the <i>SYNOPSIS</i> section, in which case a variable name is also specified. Note that it accepts <a href="#block-partial-implicit">Block partial-implicit</a> syntax when invoked as the first macro on an input line in the <i>SYNOPSIS</i> section, else it accepts ordinary <a href="#in-line">In-line</a> syntax. In the former case, this macro starts a new output line, and a blank line is inserted in front if there is a preceding function definition or include directive.</p>
 
@@ -2611,22 +2587,22 @@ program.
 
 
 <p>For parameters in function prototypes, use <code><b>Fa</b></code> instead, for function return types <code><b>Ft</b></code>, and for variable names outside the <i>SYNOPSIS</i> section <code><b>Va</b></code>, even when including a type with the name. See also <a href="#manual-structure">MANUAL STRUCTURE</a>.</p>
-  </dd>
-  <dt><code id="xc"><b>Xc</b></code></dt>
-  <dd>Close a scope opened by <code><b>Xo</b></code>.</dd>
-  <dt>
+</dd>
+<dt><code id="xc"><b>Xc</b></code></dt>
+<dd>Close a scope opened by <code><b>Xo</b></code>.</dd>
+<dt>
 <code id="xo"><b>Xo</b></code>
-    <var>block</var>
+<var>block</var>
 </dt>
-  <dd>Extend the header of an <code><b>It</b></code> macro or the body of a
-      partial-implicit block macro beyond the end of the input line. This macro
-      originally existed to work around the 9-argument limit of historic
-      <code>roff(7)</code>.</dd>
-  <dt>
+<dd>Extend the header of an <code><b>It</b></code> macro or the body of a
+partial-implicit block macro beyond the end of the input line. This macro
+originally existed to work around the 9-argument limit of historic
+<code>roff(7)</code>.</dd>
+<dt>
 <code id="xr-2"><b>Xr</b></code>
-    <var>name section</var>
+<var>name section</var>
 </dt>
-  <dd>
+<dd>
 <p>Link to another manual (“cross-reference”).</p>
 <p>Cross reference the <var>name</var> and <var>section</var> number of another man page.</p>
 
@@ -2640,10 +2616,10 @@ program.
 
 
 
-  </dd>
+</dd>
 </dl>
-</section>
-<section>
+
+
 <h1 id="macro-syntax">MACRO SYNTAX</h1>
 <p>The syntax of a macro depends on its classification. In this section, ‘-arg’ refers to macro arguments, which may be followed by zero or more ‘parm’ parameters; ‘Yo’ opens the scope of a macro; and if specified, ‘Yc’ closes it out.</p>
 <p>The <i>Callable</i> column indicates that the macro may also be called by passing its name as an argument to another macro. For example, ‘.Op Fl O Ar file’ produces ‘[<code><b>-O</b></code> <var>file</var>]’. To prevent a macro call and render the macro name literally, escape it by prepending a zero-width space, ‘\&amp;’. For example, ‘Op \&amp;Fl O’ produces ‘[Fl O]’. If a macro is not callable but its name appears as an argument to another macro, it is interpreted as opaque text. For example, ‘.Fl Sh’ produces ‘<code><b>-Sh</b></code>’.</p>
@@ -2651,7 +2627,7 @@ program.
 <p>The <i>Parsed</i> column indicates whether the macro may call other macros by receiving their names as arguments. If a macro is not parsed but the name of another macro appears as an argument, it is interpreted as opaque text.</p>
 
 <p>The <i>Scope</i> column, if applicable, describes closure rules.</p>
-<section>
+
 <h2 id="block-full-explicit">Block full-explicit</h2>
 <p>Multi-line scope closed by an explicit closing macro. All macros contains bodies; only <code><b>Bf</b></code> and (optionally) <code><b>Bl</b></code> contain a head.</p>
 
@@ -2662,73 +2638,72 @@ program.
 .Yc
 </pre>
 
-
 <table>
-  <tr>
-    <td><i>Macro</i></td>
-    <td><i>Callable</i></td>
-    <td><i>Parsed</i></td>
-    <td><i>Scope</i></td>
-  </tr>
-  <tr>
-    <td><code id="bd-3"><b>Bd</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>closed by <code><b>Ed</b></code>
+<tr>
+<td><i>Macro</i></td>
+<td><i>Callable</i></td>
+<td><i>Parsed</i></td>
+<td><i>Scope</i></td>
+</tr>
+<tr>
+<td><code id="bd-3"><b>Bd</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>closed by <code><b>Ed</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="bf-3"><b>Bf</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>closed by <code><b>Ef</b></code>
+</tr>
+<tr>
+<td><code id="bf-3"><b>Bf</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>closed by <code><b>Ef</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="bk-3"><b>Bk</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>closed by <code><b>Ek</b></code>
+</tr>
+<tr>
+<td><code id="bk-3"><b>Bk</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>closed by <code><b>Ek</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="bl-3"><b>Bl</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>closed by <code><b>El</b></code>
+</tr>
+<tr>
+<td><code id="bl-3"><b>Bl</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>closed by <code><b>El</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="ed-2"><b>Ed</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>opened by <code><b>Bd</b></code>
+</tr>
+<tr>
+<td><code id="ed-2"><b>Ed</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>opened by <code><b>Bd</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="ef-2"><b>Ef</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>opened by <code><b>Bf</b></code>
+</tr>
+<tr>
+<td><code id="ef-2"><b>Ef</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>opened by <code><b>Bf</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="ek-2"><b>Ek</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>opened by <code><b>Bk</b></code>
+</tr>
+<tr>
+<td><code id="ek-2"><b>Ek</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>opened by <code><b>Bk</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="el-2"><b>El</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>opened by <code><b>Bl</b></code>
+</tr>
+<tr>
+<td><code id="el-2"><b>El</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>opened by <code><b>Bl</b></code>
 </td>
-  </tr>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="block-full-implicit">Block full-implicit</h2>
 <p>Multi-line scope closed by end-of-file or implicitly by another macro. All macros have bodies; some (<code><b>It</b> <b>-bullet</b></code>, <code><b>-hyphen</b></code>, <code><b>-dash</b></code>, <code><b>-enum</b></code>, <code><b>-item</b></code>) don't have heads; only one (<code><b>It</b></code> in <code><b>Bl</b> <b>-column</b></code>) has multiple heads.</p>
 
@@ -2738,55 +2713,54 @@ program.
 [body...]
 </pre>
 
-
 <table>
-  <tr>
-    <td><i>Macro</i></td>
-    <td><i>Callable</i></td>
-    <td><i>Parsed</i></td>
-    <td><i>Scope</i></td>
-  </tr>
-  <tr>
-    <td><code id="it-3"><b>It</b></code></td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>closed by <code><b>It</b></code>, <code><b>El</b></code>
+<tr>
+<td><i>Macro</i></td>
+<td><i>Callable</i></td>
+<td><i>Parsed</i></td>
+<td><i>Scope</i></td>
+</tr>
+<tr>
+<td><code id="it-3"><b>It</b></code></td>
+<td>No</td>
+<td>Yes</td>
+<td>closed by <code><b>It</b></code>, <code><b>El</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="nd-3"><b>Nd</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>closed by <code><b>Sh</b></code>
+</tr>
+<tr>
+<td><code id="nd-3"><b>Nd</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>closed by <code><b>Sh</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="nm-4"><b>Nm</b></code></td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Nm</b></code>, <code><b>Sh</b></code>,
-      <code><b>Ss</b></code>
+</tr>
+<tr>
+<td><code id="nm-4"><b>Nm</b></code></td>
+<td>No</td>
+<td>Yes</td>
+<td>closed by <code><b>Nm</b></code>, <code><b>Sh</b></code>,
+<code><b>Ss</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="sh-3"><b>Sh</b></code></td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Sh</b></code>
+</tr>
+<tr>
+<td><code id="sh-3"><b>Sh</b></code></td>
+<td>No</td>
+<td>Yes</td>
+<td>closed by <code><b>Sh</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="ss-3"><b>Ss</b></code></td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Sh</b></code>, <code><b>Ss</b></code>
+</tr>
+<tr>
+<td><code id="ss-3"><b>Ss</b></code></td>
+<td>No</td>
+<td>Yes</td>
+<td>closed by <code><b>Sh</b></code>, <code><b>Ss</b></code>
 </td>
-  </tr>
+</tr>
 </table>
 
 <p>Note that the <code><b>Nm</b></code> macro is a <a href="#block-full-implicit">Block full-implicit</a> macro only when invoked as the first macro in a <i>SYNOPSIS</i> section line, else it is <a href="#in-line">In-line</a>.</p>
-</section>
-<section>
+
+
 <h2 id="block-partial-explicit">Block partial-explicit</h2>
 <p>Like block full-explicit, but also with single-line scope. Each has at least a body and, in limited circumstances, a head (<code><b>Fo</b></code>, <code><b>Eo</b></code>) and/or tail (<code><b>Ec</b></code>).</p>
 
@@ -2799,185 +2773,184 @@ program.
 .Yo [-arg [parm...]] [head...] [body...] Yc [tail...]
 </pre>
 
-
 <table>
-  <tr>
-    <td><i>Macro</i></td>
-    <td><i>Callable</i></td>
-    <td><i>Parsed</i></td>
-    <td><i>Scope</i></td>
-  </tr>
-  <tr>
-    <td><code id="ac-2"><b>Ac</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Ao</b></code>
+<tr>
+<td><i>Macro</i></td>
+<td><i>Callable</i></td>
+<td><i>Parsed</i></td>
+<td><i>Scope</i></td>
+</tr>
+<tr>
+<td><code id="ac-2"><b>Ac</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Ao</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="ao-2"><b>Ao</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Ac</b></code>
+</tr>
+<tr>
+<td><code id="ao-2"><b>Ao</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Ac</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="bc-2"><b>Bc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Bo</b></code>
+</tr>
+<tr>
+<td><code id="bc-2"><b>Bc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Bo</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="bo-2"><b>Bo</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Bc</b></code>
+</tr>
+<tr>
+<td><code id="bo-2"><b>Bo</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Bc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="brc-2"><b>Brc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Bro</b></code>
+</tr>
+<tr>
+<td><code id="brc-2"><b>Brc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Bro</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="bro-2"><b>Bro</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Brc</b></code>
+</tr>
+<tr>
+<td><code id="bro-2"><b>Bro</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Brc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="dc-2"><b>Dc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Do</b></code>
+</tr>
+<tr>
+<td><code id="dc-2"><b>Dc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Do</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="do-2"><b>Do</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Dc</b></code>
+</tr>
+<tr>
+<td><code id="do-2"><b>Do</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Dc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="ec-2"><b>Ec</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Eo</b></code>
+</tr>
+<tr>
+<td><code id="ec-2"><b>Ec</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Eo</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="eo-3"><b>Eo</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Ec</b></code>
+</tr>
+<tr>
+<td><code id="eo-3"><b>Eo</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Ec</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="fc-2"><b>Fc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Fo</b></code>
+</tr>
+<tr>
+<td><code id="fc-2"><b>Fc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Fo</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="fo-3"><b>Fo</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>closed by <code><b>Fc</b></code>
+</tr>
+<tr>
+<td><code id="fo-3"><b>Fo</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>closed by <code><b>Fc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="oc-2"><b>Oc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Oo</b></code>
+</tr>
+<tr>
+<td><code id="oc-2"><b>Oc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Oo</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="oo-2"><b>Oo</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Oc</b></code>
+</tr>
+<tr>
+<td><code id="oo-2"><b>Oo</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Oc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="pc-2"><b>Pc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Po</b></code>
+</tr>
+<tr>
+<td><code id="pc-2"><b>Pc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Po</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="po-2"><b>Po</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Pc</b></code>
+</tr>
+<tr>
+<td><code id="po-2"><b>Po</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Pc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="qc-2"><b>Qc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Oo</b></code>
+</tr>
+<tr>
+<td><code id="qc-2"><b>Qc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Oo</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="qo-2"><b>Qo</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Oc</b></code>
+</tr>
+<tr>
+<td><code id="qo-2"><b>Qo</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Oc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="re-2"><b>Re</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>opened by <code><b>Rs</b></code>
+</tr>
+<tr>
+<td><code id="re-2"><b>Re</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>opened by <code><b>Rs</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="rs-3"><b>Rs</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>closed by <code><b>Re</b></code>
+</tr>
+<tr>
+<td><code id="rs-3"><b>Rs</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>closed by <code><b>Re</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="sc-2"><b>Sc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>So</b></code>
+</tr>
+<tr>
+<td><code id="sc-2"><b>Sc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>So</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="so-2"><b>So</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Sc</b></code>
+</tr>
+<tr>
+<td><code id="so-2"><b>So</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Sc</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="xc-2"><b>Xc</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>opened by <code><b>Xo</b></code>
+</tr>
+<tr>
+<td><code id="xc-2"><b>Xc</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>opened by <code><b>Xo</b></code>
 </td>
-  </tr>
-  <tr>
-    <td><code id="xo-2"><b>Xo</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Xc</b></code>
+</tr>
+<tr>
+<td><code id="xo-2"><b>Xo</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Xc</b></code>
 </td>
-  </tr>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="block-partial-implicit">Block partial-implicit</h2>
 <p>Like block full-implicit, but with single-line scope closed by the end of the line.</p>
 
@@ -2986,102 +2959,101 @@ program.
 .Yo [-arg [val...]] [body...] [res...]
 </pre>
 
-
 <table>
-  <tr>
-    <td><i>Macro</i></td>
-    <td><i>Callable</i></td>
-    <td><i>Parsed</i></td>
-  </tr>
-  <tr>
-    <td><code id="aq-3"><b>Aq</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="bq-3"><b>Bq</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="brq-3"><b>Brq</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="d1-3"><b>D1</b></code></td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="dl-3"><b>Dl</b></code></td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="dq-3"><b>Dq</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="en-2"><b>En</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="op-3"><b>Op</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="pq-3"><b>Pq</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="ql-3"><b>Ql</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="qq-3"><b>Qq</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="sq-3"><b>Sq</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><code id="vt-3"><b>Vt</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-  </tr>
+<tr>
+<td><i>Macro</i></td>
+<td><i>Callable</i></td>
+<td><i>Parsed</i></td>
+</tr>
+<tr>
+<td><code id="aq-3"><b>Aq</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="bq-3"><b>Bq</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="brq-3"><b>Brq</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="d1-3"><b>D1</b></code></td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="dl-3"><b>Dl</b></code></td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="dq-3"><b>Dq</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="en-2"><b>En</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="op-3"><b>Op</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="pq-3"><b>Pq</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="ql-3"><b>Ql</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="qq-3"><b>Qq</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="sq-3"><b>Sq</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code id="vt-3"><b>Vt</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
 </table>
 
 <p>Note that the <code><b>Vt</b></code> macro is a <a href="#block-partial-implicit">Block partial-implicit</a> only when invoked as the first macro in a <i>SYNOPSIS</i> section line, else it is <a href="#in-line">In-line</a>.</p>
-</section>
-<section>
+
+
 <h2 id="special-block-macro">Special block macro</h2>
 <p>The <code><b>Ta</b></code> macro can only be used below <code><b>It</b></code> in <code><b>Bl</b> <b>-column</b></code> lists. It delimits blocks representing table cells; these blocks have bodies, but no heads.</p>
 <table>
-  <tr>
-    <td><i>Macro</i></td>
-    <td><i>Callable</i></td>
-    <td><i>Parsed</i></td>
-    <td><i>Scope</i></td>
-  </tr>
-  <tr>
-    <td><code id="ta-3"><b>Ta</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>closed by <code><b>Ta</b></code>, <code><b>It</b></code>
+<tr>
+<td><i>Macro</i></td>
+<td><i>Callable</i></td>
+<td><i>Parsed</i></td>
+<td><i>Scope</i></td>
+</tr>
+<tr>
+<td><code id="ta-3"><b>Ta</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>closed by <code><b>Ta</b></code>, <code><b>It</b></code>
 </td>
-  </tr>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="in-line">In-line</h2>
 <p>Closed by the end of the line, fixed argument lengths, and/or subsequent macros. In-line macros have only text children. If a number (or inequality) of arguments is (n), then the macro accepts an arbitrary number of arguments.</p>
 
@@ -3094,443 +3066,442 @@ program.
 .Yo [-arg [val...]] arg0 arg1 argN
 </pre>
 
-
 <table>
-  <tr>
-    <td><i>Macro</i></td>
-    <td><i>Callable</i></td>
-    <td><i>Parsed</i></td>
-    <td><i>Arguments</i></td>
-  </tr>
-  <tr>
-    <td><code id="a-2"><b>%A</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="b-2"><b>%B</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="c-2"><b>%C</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="d-2"><b>%D</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="i-2"><b>%I</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="j-2"><b>%J</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="n-2"><b>%N</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="o-2"><b>%O</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="p-2"><b>%P</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="q-2"><b>%Q</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="r-2"><b>%R</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="t-2"><b>%T</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="u-2"><b>%U</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="v-2"><b>%V</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="ad-3"><b>Ad</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="an-3"><b>An</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="ap-3"><b>Ap</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td><code id="ar-3"><b>Ar</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="at-3"><b>At</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td><code id="bsx-3"><b>Bsx</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="bt-2"><b>Bt</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td><code id="bx-3"><b>Bx</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="cd-3"><b>Cd</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="cm-3"><b>Cm</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="db-2"><b>Db</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td><code id="dd-3"><b>Dd</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="dt-3"><b>Dt</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="dv-3"><b>Dv</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="dx-3"><b>Dx</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="em-5"><b>Em</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="er-3"><b>Er</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="es-2"><b>Es</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>2</td>
-  </tr>
-  <tr>
-    <td><code id="ev-4"><b>Ev</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="ex-3"><b>Ex</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="fa-3"><b>Fa</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="fd-3"><b>Fd</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="fl-3"><b>Fl</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="fn-3"><b>Fn</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="fr-2"><b>Fr</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="ft-3"><b>Ft</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="fx-3"><b>Fx</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="hf-2"><b>Hf</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="ic-3"><b>Ic</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="in-3"><b>In</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td><code id="lb-3"><b>Lb</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td><code id="li-4"><b>Li</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="lk-3"><b>Lk</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="lp-2"><b>Lp</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td><code id="ms-3"><b>Ms</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="mt-3"><b>Mt</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="nm-5"><b>Nm</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="no-3"><b>No</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="ns-3"><b>Ns</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td><code id="nx-3"><b>Nx</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="os-3"><b>Os</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="ot-2"><b>Ot</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="ox-3"><b>Ox</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="pa-3"><b>Pa</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="pf-3"><b>Pf</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td><code id="pp-3"><b>Pp</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td><code id="rv-3"><b>Rv</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="sm-3"><b>Sm</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>&lt;2</td>
-  </tr>
-  <tr>
-    <td><code id="st-3"><b>St</b></code></td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td><code id="sx-3"><b>Sx</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="sy-5"><b>Sy</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="tn-2"><b>Tn</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="ud-2"><b>Ud</b></code></td>
-    <td>No</td>
-    <td>No</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td><code id="ux-2"><b>Ux</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="va-3"><b>Va</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td><code id="vt-4"><b>Vt</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>&gt;0</td>
-  </tr>
-  <tr>
-    <td><code id="xr-3"><b>Xr</b></code></td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>2</td>
-  </tr>
+<tr>
+<td><i>Macro</i></td>
+<td><i>Callable</i></td>
+<td><i>Parsed</i></td>
+<td><i>Arguments</i></td>
+</tr>
+<tr>
+<td><code id="a-2"><b>%A</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="b-2"><b>%B</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="c-2"><b>%C</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="d-2"><b>%D</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="i-2"><b>%I</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="j-2"><b>%J</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="n-2"><b>%N</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="o-2"><b>%O</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="p-2"><b>%P</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="q-2"><b>%Q</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="r-2"><b>%R</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="t-2"><b>%T</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="u-2"><b>%U</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="v-2"><b>%V</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="ad-3"><b>Ad</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="an-3"><b>An</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="ap-3"><b>Ap</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code id="ar-3"><b>Ar</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="at-3"><b>At</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code id="bsx-3"><b>Bsx</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="bt-2"><b>Bt</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code id="bx-3"><b>Bx</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="cd-3"><b>Cd</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="cm-3"><b>Cm</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="db-2"><b>Db</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code id="dd-3"><b>Dd</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="dt-3"><b>Dt</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="dv-3"><b>Dv</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="dx-3"><b>Dx</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="em-5"><b>Em</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="er-3"><b>Er</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="es-2"><b>Es</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code id="ev-4"><b>Ev</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="ex-3"><b>Ex</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="fa-3"><b>Fa</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="fd-3"><b>Fd</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="fl-3"><b>Fl</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="fn-3"><b>Fn</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="fr-2"><b>Fr</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="ft-3"><b>Ft</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="fx-3"><b>Fx</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="hf-2"><b>Hf</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="ic-3"><b>Ic</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="in-3"><b>In</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code id="lb-3"><b>Lb</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code id="li-4"><b>Li</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="lk-3"><b>Lk</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="lp-2"><b>Lp</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code id="ms-3"><b>Ms</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="mt-3"><b>Mt</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="nm-5"><b>Nm</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="no-3"><b>No</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="ns-3"><b>Ns</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code id="nx-3"><b>Nx</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="os-3"><b>Os</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="ot-2"><b>Ot</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="ox-3"><b>Ox</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="pa-3"><b>Pa</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="pf-3"><b>Pf</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code id="pp-3"><b>Pp</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code id="rv-3"><b>Rv</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="sm-3"><b>Sm</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>&lt;2</td>
+</tr>
+<tr>
+<td><code id="st-3"><b>St</b></code></td>
+<td>No</td>
+<td>Yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code id="sx-3"><b>Sx</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="sy-5"><b>Sy</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="tn-2"><b>Tn</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="ud-2"><b>Ud</b></code></td>
+<td>No</td>
+<td>No</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code id="ux-2"><b>Ux</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="va-3"><b>Va</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code id="vt-4"><b>Vt</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&gt;0</td>
+</tr>
+<tr>
+<td><code id="xr-3"><b>Xr</b></code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>2</td>
+</tr>
 </table>
-</section>
-<section>
+
+
 <h2 id="delimiters">Delimiters</h2>
 <p>When a macro argument consists of one single input character considered as a delimiter, the argument gets special handling. This does not apply when delimiters appear in arguments containing more than one character. Consequently, to prevent special handling and just handle it like any other argument, a delimiter can be escaped by prepending a zero-width space (‘\&amp;’). In text lines, delimiters never need escaping, but may be used as normal punctuation.</p>
 <p>For many macros, when the leading arguments are opening delimiters, these delimiters are put before the macro scope, and when the trailing arguments are closing delimiters, these delimiters are put after the macro scope. Spacing is suppressed after opening delimiters and before closing delimiters. For example,</p>
@@ -3552,10 +3523,10 @@ program.
 <ul><div>
 
 <dl>
-  <dt>(</dt>
-  <dd>left parenthesis</dd>
-  <dt>[</dt>
-  <dd>left bracket</dd>
+<dt>(</dt>
+<dd>left parenthesis</dd>
+<dt>[</dt>
+<dd>left bracket</dd>
 </dl>
 </div></ul>
 
@@ -3566,22 +3537,22 @@ program.
 <ul><div>
 
 <dl>
-  <dt>.</dt>
-  <dd>period</dd>
-  <dt>,</dt>
-  <dd>comma</dd>
-  <dt>:</dt>
-  <dd>colon</dd>
-  <dt>;</dt>
-  <dd>semicolon</dd>
-  <dt>)</dt>
-  <dd>right parenthesis</dd>
-  <dt>]</dt>
-  <dd>right bracket</dd>
-  <dt>?</dt>
-  <dd>question mark</dd>
-  <dt>!</dt>
-  <dd>exclamation mark</dd>
+<dt>.</dt>
+<dd>period</dd>
+<dt>,</dt>
+<dd>comma</dd>
+<dt>:</dt>
+<dd>colon</dd>
+<dt>;</dt>
+<dd>semicolon</dd>
+<dt>)</dt>
+<dd>right parenthesis</dd>
+<dt>]</dt>
+<dd>right bracket</dd>
+<dt>?</dt>
+<dd>question mark</dd>
+<dt>!</dt>
+<dd>exclamation mark</dd>
 </dl>
 </div></ul>
 
@@ -3599,8 +3570,8 @@ program.
 
 <ul><div>
 <code><b>-a</b></code> (<code><b>-b</b></code>
-  | <code><b>-c</b></code> | <code><b>-d</b></code>)
-  <code><b>-e</b></code>
+| <code><b>-c</b></code> | <code><b>-d</b></code>)
+<code><b>-e</b></code>
 </div></ul>
 
 <p>This applies to both opening and closing delimiters, and also to the middle delimiter, which does not suppress spacing:</p>
@@ -3610,28 +3581,28 @@ program.
 <ul><div>
 
 <dl>
-  <dt>|</dt>
-  <dd>vertical bar</dd>
+<dt>|</dt>
+<dd>vertical bar</dd>
 </dl>
 </div></ul>
 
 <p>As a special case, the predefined string \*(Ba is handled and rendered in the same way as a plain ‘|’ character. Using this predefined string is not recommended in new manuals.</p>
-</section>
-<section>
+
+
 <h2 id="font-handling">Font handling</h2>
 In <code><b>mdoc</b></code> documents, usage of semantic markup is
-  recommended in order to have proper fonts automatically selected; only when no
-  fitting semantic markup is available, consider falling back to
-  <a href="#physical-markup">Physical markup</a> macros. Whenever any
-  <code><b>mdoc</b></code> macro switches the
-  <code>roff(7)</code> font mode, it will
-  automatically restore the previous font when exiting its scope. Manually
-  switching the font using the <code>roff(7)</code>
-  ‘<code>\f</code>’ font escape sequences is never
-  required.
-</section>
-</section>
-<section>
+recommended in order to have proper fonts automatically selected; only when no
+fitting semantic markup is available, consider falling back to
+<a href="#physical-markup">Physical markup</a> macros. Whenever any
+<code><b>mdoc</b></code> macro switches the
+<code>roff(7)</code> font mode, it will
+automatically restore the previous font when exiting its scope. Manually
+switching the font using the <code>roff(7)</code>
+‘<code>\f</code>’ font escape sequences is never
+required.
+
+
+
 <h1 id="compatibility">COMPATIBILITY</h1>
 <p>This section provides an incomplete list of compatibility issues between mandoc and GNU troff (“groff”).</p>
 <p>The following problematic behaviour is found in groff:</p>
@@ -3639,32 +3610,32 @@ In <code><b>mdoc</b></code> documents, usage of semantic markup is
 
 
 <ul>
-  <li>
+<li>
 <code id="dd-4"><b>Dd</b></code>
-      with non-standard arguments behaves very strangely. When there are three
-      arguments, they are printed verbatim. Any other number of arguments is
-      replaced by the current date, but without any arguments the string
-      “Epoch” is printed.</li>
-  <li>
+with non-standard arguments behaves very strangely. When there are three
+arguments, they are printed verbatim. Any other number of arguments is
+replaced by the current date, but without any arguments the string
+“Epoch” is printed.</li>
+<li>
 <code id="lk-4"><b>Lk</b></code>
-      only accepts a single link-name argument; the remainder is
-    misformatted.</li>
-  <li>
+only accepts a single link-name argument; the remainder is
+misformatted.</li>
+<li>
 <code id="pa-4"><b>Pa</b></code>
-      does not format its arguments when used in the FILES section under certain
-      list types.</li>
-  <li>
+does not format its arguments when used in the FILES section under certain
+list types.</li>
+<li>
 <code id="ta-4"><b>Ta</b></code>
-      can only be called by other macros, but not at the beginning of a
-    line.</li>
-  <li>
+can only be called by other macros, but not at the beginning of a
+line.</li>
+<li>
 <code id="c-3"><b>%C</b></code>
-      is not implemented (up to and including groff-1.22.2).</li>
-  <li>‘\f’ (font face) and ‘\F’ (font family face)
-      <a href="#Text_Decoration">Text Decoration</a> escapes behave
-      irregularly when specified within line-macro scopes.</li>
-  <li>Negative scaling units return to prior lines. Instead, mandoc truncates
-      them to zero.</li>
+is not implemented (up to and including groff-1.22.2).</li>
+<li>‘\f’ (font face) and ‘\F’ (font family face)
+<a href="#Text_Decoration">Text Decoration</a> escapes behave
+irregularly when specified within line-macro scopes.</li>
+<li>Negative scaling units return to prior lines. Instead, mandoc truncates
+them to zero.</li>
 </ul>
 
 <p>The following features are unimplemented in mandoc:</p>
@@ -3672,40 +3643,40 @@ In <code><b>mdoc</b></code> documents, usage of semantic markup is
 
 
 <ul>
-  <li>
+<li>
 <code id="bd-4"><b>Bd</b> <b>-file</b></code> <var>file</var> is unsupported
-      for security reasons.</li>
-  <li>
+for security reasons.</li>
+<li>
 <code id="bd-5"><b>Bd</b> <b>-filled</b></code> does not adjust the right margin, but is
-      an alias for <code><b>Bd</b> <b>-ragged</b></code>.</li>
-  <li>
+an alias for <code><b>Bd</b> <b>-ragged</b></code>.</li>
+<li>
 <code id="bd-6"><b>Bd</b> <b>-literal</b></code> does not use a literal font, but is an
-      alias for <code><b>Bd</b> <b>-unfilled</b></code>.</li>
-  <li>
+alias for <code><b>Bd</b> <b>-unfilled</b></code>.</li>
+<li>
 <code id="bd-7"><b>Bd</b> <b>-offset</b> <b>center</b></code> and
-      <code><b>-offset</b> <b>right</b></code> don't work.
-      Groff does not implement centered and flush-right rendering either, but
-      produces large indentations.</li>
+<code><b>-offset</b> <b>right</b></code> don't work.
+Groff does not implement centered and flush-right rendering either, but
+produces large indentations.</li>
 </ul>
-</section>
-<section>
+
+
 <h1 id="see-also">SEE ALSO</h1>
 <p><code>man(1)</code>, <code>mandoc(1)</code>, <code>eqn(7)</code>, <code>man(7)</code>, <code>mandoc_char(7)</code>, <code>roff(7)</code>, <code>tbl(7)</code></p>
 <p>The web page <a href="http://mandoc.bsd.lv/mdoc/">extended documentation for the mdoc language</a> provides a few tutorial-style pages for beginners, an extensive style guide for advanced authors, and an alphabetic index helping to choose the best macros for various kinds of content.</p>
-</section>
-<section>
+
+
 <h1 id="history">HISTORY</h1>
 The <code><b>mdoc</b></code> language first appeared as a troff macro
-  package in <span>4.4BSD</span>. It was later significantly updated
-  by Werner Lemberg and Ruslan Ermilov in groff-1.17. The standalone
-  implementation that is part of the
-  <code>mandoc(1)</code> utility written by
-  Kristaps Dzonsons appeared in <span>OpenBSD 4.6</span>.
-</section>
-<section>
+package in <span>4.4BSD</span>. It was later significantly updated
+by Werner Lemberg and Ruslan Ermilov in groff-1.17. The standalone
+implementation that is part of the
+<code>mandoc(1)</code> utility written by
+Kristaps Dzonsons appeared in <span>OpenBSD 4.6</span>.
+
+
 <h1 id="authors">AUTHORS</h1>
 The <code><b>mdoc</b></code> reference was written by
-  <span>Kristaps Dzonsons</span>
-  &lt;<a href="mailto:kristaps@bsd.lv">kristaps@bsd.lv</a>&gt;.
-</section>
+<span>Kristaps Dzonsons</span>
+&lt;<a href="mailto:kristaps@bsd.lv">kristaps@bsd.lv</a>&gt;.
+
 </div>

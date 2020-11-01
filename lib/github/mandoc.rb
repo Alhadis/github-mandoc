@@ -68,7 +68,8 @@ module GitHub
 				# Make indented regions more conspicuous
 				fix_displays
 
-				# Strip redundant line-breaks for more consistent testing
+				# Clean up whitespace for more consistent testing
+				squash_empty_lines
 				@doc.css("h1, h2, h3, h4, h5, h6, p, a").each { |el| normalise_whitespace el }
 				gsub %r{<p(?=\s|>)[^>]*>\K +| +(?=</p>)}
 
@@ -242,6 +243,18 @@ module GitHub
 				# Plain monospace
 				@doc.css(".Ad").wrap "<samp></samp>"
 				@doc.css(".Pa, .Xr").wrap "<code></code>"
+			end
+
+			# Merge blank lines that aren't preformatted text
+			def squash_empty_lines
+				@doc.xpath("//text()").each do |node|
+					next unless node.ancestors("pre").empty?
+
+					text = node.content
+						.gsub(/\R\K[ \t]+|[ \t]+\R/, "")
+						.gsub(/(?:\R[ \t]*){2,}/, "\n")
+					node.content= text
+				end
 			end
 		end
 	end

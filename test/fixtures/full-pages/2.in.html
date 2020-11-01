@@ -1,0 +1,1674 @@
+<!-- mandoc 1.14.3-3 -->
+<table class="head">
+  <tr>
+    <td class="head-ltitle">MANDOC(1)</td>
+    <td class="head-vol">General Commands Manual</td>
+    <td class="head-rtitle">MANDOC(1)</td>
+  </tr>
+</table>
+<div class="manual-text">
+<h1 class="Sh" title="Sh" id="NAME"><a class="selflink" href="#NAME">NAME</a></h1>
+<b class="Nm" title="Nm">mandoc</b> &#x2014; <span class="Nd" title="Nd">format
+  manual pages</span>
+<h1 class="Sh" title="Sh" id="SYNOPSIS"><a class="selflink" href="#SYNOPSIS">SYNOPSIS</a></h1>
+<table class="Nm">
+  <tr>
+    <td><b class="Nm" title="Nm">mandoc</b></td>
+    <td>[<span class="Op"><b class="Fl" title="Fl">-ac</b></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-I</b>
+      <b class="Cm" title="Cm">os</b>=<var class="Ar" title="Ar">name</var></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-K</b>
+      <var class="Ar" title="Ar">encoding</var></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-mdoc</b> |
+      <b class="Fl" title="Fl">-man</b></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-O</b>
+      <var class="Ar" title="Ar">options</var></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-T</b>
+      <var class="Ar" title="Ar">output</var></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-W</b>
+      <var class="Ar" title="Ar">level</var></span>]
+      [<span class="Op"><var class="Ar" title="Ar">file ...</var></span>]</td>
+  </tr>
+</table>
+<h1 class="Sh" title="Sh" id="DESCRIPTION"><a class="selflink" href="#DESCRIPTION">DESCRIPTION</a></h1>
+The <b class="Nm" title="Nm">mandoc</b> utility formats manual pages for
+  display.
+<div class="Pp"></div>
+By default, <b class="Nm" title="Nm">mandoc</b> reads
+  <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> or
+  <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> text from stdin
+  and produces <b class="Fl" title="Fl">-T</b>
+  <b class="Cm" title="Cm">locale</b> output.
+<div class="Pp"></div>
+The options are as follows:
+<dl class="Bl-tag">
+  <dt class="It-tag"><a class="selflink" href="#a"><b class="Fl" title="Fl" id="a">-a</b></a></dt>
+  <dd class="It-tag">If the standard output is a terminal device and
+      <b class="Fl" title="Fl">-c</b> is not specified, use
+      <a class="Xr" title="Xr" href="more.1;../man1/more.1">more(1)</a> to
+      paginate the output, just like
+      <a class="Xr" title="Xr" href="man.1;../man1/man.1">man(1)</a> would.</dd>
+  <dt class="It-tag"><a class="selflink" href="#c"><b class="Fl" title="Fl" id="c">-c</b></a></dt>
+  <dd class="It-tag">Copy the formatted manual pages to the standard output
+      without using
+      <a class="Xr" title="Xr" href="more.1;../man1/more.1">more(1)</a> to
+      paginate them. This is the default. It can be specified to override
+      <b class="Fl" title="Fl">-a</b>.</dd>
+  <dt class="It-tag"><a class="selflink" href="#I"><b class="Fl" title="Fl" id="I">-I</b></a>
+    <b class="Cm" title="Cm">os</b>=<var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">Override the default operating system
+      <var class="Ar" title="Ar">name</var> for the
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>
+      <b class="Ic" title="Ic">Os</b> and for the
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>
+      <b class="Ic" title="Ic">TH</b> macro.</dd>
+  <dt class="It-tag"><a class="selflink" href="#K"><b class="Fl" title="Fl" id="K">-K</b></a>
+    <var class="Ar" title="Ar">encoding</var></dt>
+  <dd class="It-tag">Specify the input encoding. The supported
+      <var class="Ar" title="Ar">encoding</var> arguments are
+      <b class="Cm" title="Cm">us-ascii</b>,
+      <b class="Cm" title="Cm">iso-8859-1</b>, and
+      <b class="Cm" title="Cm">utf-8</b>. If not specified, autodetection uses
+      the first match in the following list:
+    <ol class="Bl-enum">
+      <li class="It-enum">If the first three bytes of the input file are the
+          UTF-8 byte order mark (BOM, 0xefbbbf), input is interpreted as
+          <b class="Cm" title="Cm">utf-8</b>.</li>
+      <li class="It-enum">If the first or second line of the input file matches
+          the <b class="Sy" title="Sy">emacs</b> mode line format
+        <div class="Pp"></div>
+        <div class="D1">.\&quot; -*- [<span class="Op">...;</span>] coding:
+          <var class="Ar" title="Ar">encoding</var>;
+          <span class="No">-*-</span></div>
+        <div class="Pp"></div>
+        then input is interpreted according to
+          <var class="Ar" title="Ar">encoding</var>.</li>
+      <li class="It-enum">If the first non-ASCII byte in the file introduces a
+          valid UTF-8 sequence, input is interpreted as
+          <b class="Cm" title="Cm">utf-8</b>.</li>
+      <li class="It-enum">Otherwise, input is interpreted as
+          <b class="Cm" title="Cm">iso-8859-1</b>.</li>
+    </ol>
+  </dd>
+  <dt class="It-tag"><a class="selflink" href="#mdoc"><b class="Fl" title="Fl" id="mdoc">-mdoc</b></a>
+    |
+    <a class="selflink" href="#man"><b class="Fl" title="Fl" id="man">-man</b></a></dt>
+  <dd class="It-tag">With <b class="Fl" title="Fl">-mdoc</b>, all input files
+      are interpreted as
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>. With
+      <b class="Fl" title="Fl">-man</b>, all input files are interpreted as
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>. By
+      default, the input language is automatically detected for each file: if
+      the first macro is <b class="Ic" title="Ic">Dd</b> or
+      <b class="Ic" title="Ic">Dt</b>, the
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> parser
+      is used; otherwise, the
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> parser is
+      used. With other arguments, <b class="Fl" title="Fl">-m</b> is silently
+      ignored.</dd>
+  <dt class="It-tag"><a class="selflink" href="#O"><b class="Fl" title="Fl" id="O">-O</b></a>
+    <var class="Ar" title="Ar">options</var></dt>
+  <dd class="It-tag">Comma-separated output options. See the descriptions of the
+      individual output formats for supported
+      <var class="Ar" title="Ar">options</var>.</dd>
+  <dt class="It-tag"><a class="selflink" href="#T"><b class="Fl" title="Fl" id="T">-T</b></a>
+    <var class="Ar" title="Ar">output</var></dt>
+  <dd class="It-tag">Select the output format. Supported values for the
+      <var class="Ar" title="Ar">output</var> argument are
+      <b class="Cm" title="Cm">ascii</b>, <b class="Cm" title="Cm">html</b>, the
+      default of <b class="Cm" title="Cm">locale</b>,
+      <b class="Cm" title="Cm">man</b>, <b class="Cm" title="Cm">markdown</b>,
+      <b class="Cm" title="Cm">pdf</b>, <b class="Cm" title="Cm">ps</b>,
+      <b class="Cm" title="Cm">tree</b>, and <b class="Cm" title="Cm">utf8</b>.
+    <div class="Pp"></div>
+    The special <b class="Fl" title="Fl">-T</b>
+      <b class="Cm" title="Cm">lint</b> mode only parses the input and produces
+      no output. It implies <b class="Fl" title="Fl">-W</b>
+      <b class="Cm" title="Cm">all</b> and redirects parser messages, which
+      usually appear on standard error output, to standard output.</dd>
+  <dt class="It-tag"><a class="selflink" href="#W"><b class="Fl" title="Fl" id="W">-W</b></a>
+    <var class="Ar" title="Ar">level</var></dt>
+  <dd class="It-tag">Specify the minimum message
+      <var class="Ar" title="Ar">level</var> to be reported on the standard
+      error output and to affect the exit status. The
+      <var class="Ar" title="Ar">level</var> can be
+      <b class="Cm" title="Cm">base</b>, <b class="Cm" title="Cm">style</b>,
+      <b class="Cm" title="Cm">warning</b>, <b class="Cm" title="Cm">error</b>,
+      or <b class="Cm" title="Cm">unsupp</b>. The
+      <b class="Cm" title="Cm">base</b> level automatically derives the
+      operating system from the contents of the <b class="Ic" title="Ic">Os</b>
+      macro, from the <b class="Fl" title="Fl">-Ios</b> command line option, or
+      from the
+      <a class="Xr" title="Xr" href="uname.3;../man3/uname.3">uname(3)</a>
+      return value. The levels <b class="Cm" title="Cm">openbsd</b> and
+      <b class="Cm" title="Cm">netbsd</b> are variants of
+      <b class="Cm" title="Cm">base</b> that bypass autodetection and request
+      validation of base system conventions for a particular operating system.
+      The level <b class="Cm" title="Cm">all</b> is an alias for
+      <b class="Cm" title="Cm">base</b>. By default,
+      <b class="Nm" title="Nm">mandoc</b> is silent. See
+      <a class="Sx" title="Sx" href="#EXIT_STATUS">EXIT STATUS</a> and
+      <a class="Sx" title="Sx" href="#DIAGNOSTICS">DIAGNOSTICS</a> for details.
+    <div class="Pp"></div>
+    The special option <b class="Fl" title="Fl">-W</b>
+      <b class="Cm" title="Cm">stop</b> tells
+      <b class="Nm" title="Nm">mandoc</b> to exit after parsing a file that
+      causes warnings or errors of at least the requested level. No formatted
+      output will be produced from that file. If both a
+      <var class="Ar" title="Ar">level</var> and
+      <b class="Cm" title="Cm">stop</b> are requested, they can be joined with a
+      comma, for example <b class="Fl" title="Fl">-W</b>
+      <b class="Cm" title="Cm">error</b>,<b class="Cm" title="Cm">stop</b>.</dd>
+  <dt class="It-tag"><var class="Ar" title="Ar">file</var></dt>
+  <dd class="It-tag">Read from the given input file. If multiple files are
+      specified, they are processed in the given order. If unspecified,
+      <b class="Nm" title="Nm">mandoc</b> reads from standard input.</dd>
+</dl>
+<div class="Pp"></div>
+The options <b class="Fl" title="Fl">-fhklw</b> are also supported and are
+  documented in man(1). In <b class="Fl" title="Fl">-f</b> and
+  <b class="Fl" title="Fl">-k</b> mode, <b class="Nm" title="Nm">mandoc</b> also
+  supports the options <b class="Fl" title="Fl">-CMmOSs</b> described in the
+  <a class="Xr" title="Xr" href="apropos.1;../man1/apropos.1">apropos(1)</a>
+  manual. The options <b class="Fl" title="Fl">-fkl</b> are mutually exclusive
+  and override each other.
+<h2 class="Ss" title="Ss" id="ASCII_Output"><a class="selflink" href="#ASCII_Output">ASCII
+  Output</a></h2>
+Use <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">ascii</b> to force
+  text output in 7-bit ASCII character encoding documented in the
+  <a class="Xr" title="Xr" href="ascii.7;../man7/ascii.7">ascii(7)</a> manual
+  page, ignoring the
+  <a class="Xr" title="Xr" href="locale.1;../man1/locale.1">locale(1)</a> set in
+  the environment.
+<div class="Pp"></div>
+Font styles are applied by using back-spaced encoding such that an underlined
+  character &#x2018;c&#x2019; is rendered as &#x2018;_\[bs]c&#x2019;, where
+  &#x2018;\[bs]&#x2019; is the back-space character number 8. Emboldened
+  characters are rendered as &#x2018;c\[bs]c&#x2019;. This markup is typically
+  converted to appropriate terminal sequences by the pager or
+  <a class="Xr" title="Xr" href="ul.1;../man1/ul.1">ul(1)</a>. To remove the
+  markup, pipe the output to
+  <a class="Xr" title="Xr" href="col.1;../man1/col.1">col(1)</a>
+  <b class="Fl" title="Fl">-b</b> instead.
+<div class="Pp"></div>
+The special characters documented in
+  <a class="Xr" title="Xr" href="mandoc_char.7;../man7/mandoc_char.7">mandoc_char(7)</a>
+  are rendered best-effort in an ASCII equivalent. In particular, opening and
+  closing &#x2018;single quotes&#x2019; are represented as characters number
+  0x60 and 0x27, respectively, which agrees with all ASCII standards from 1965
+  to the latest revision (2012) and which matches the traditional way in which
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a> formatters
+  represent single quotes in ASCII output. This correct ASCII rendering may look
+  strange with modern Unicode-compatible fonts because contrary to ASCII,
+  Unicode uses the code point U+0060 for the grave accent only, never for an
+  opening quote.
+<div class="Pp"></div>
+The following <b class="Fl" title="Fl">-O</b> arguments are accepted:
+<dl class="Bl-tag">
+  <dt class="It-tag"><a class="selflink" href="#indent"><b class="Cm" title="Cm" id="indent">indent</b></a>=<var class="Ar" title="Ar">indent</var></dt>
+  <dd class="It-tag">The left margin for normal text is set to
+      <var class="Ar" title="Ar">indent</var> blank characters instead of the
+      default of five for
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> and
+      seven for <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>.
+      Increasing this is not recommended; it may result in degraded formatting,
+      for example overfull lines or ugly line breaks. When output is to a pager
+      on a terminal that is less than 66 columns wide, the default is reduced to
+      three columns.</dd>
+  <dt class="It-tag"><a class="selflink" href="#mdoc"><b class="Cm" title="Cm" id="mdoc">mdoc</b></a></dt>
+  <dd class="It-tag">Format
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> input files
+      in <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>
+      output style. Specifically, this suppresses the two additional blank lines
+      near the top and the bottom of each page, and it implies
+      <b class="Fl" title="Fl">-O</b> <b class="Cm" title="Cm">indent</b>=5. One
+      useful application is for checking that <b class="Fl" title="Fl">-T</b>
+      <b class="Cm" title="Cm">man</b> output formats in the same way as the
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> source
+      it was generated from.</dd>
+  <dt class="It-tag"><a class="selflink" href="#tag"><b class="Cm" title="Cm" id="tag">tag</b></a>[<span class="Op">=<var class="Ar" title="Ar">term</var></span>]</dt>
+  <dd class="It-tag">If the formatted manual page is opened in a pager, go to
+      the definition of the <var class="Ar" title="Ar">term</var> rather than
+      showing the manual page from the beginning. If no
+      <var class="Ar" title="Ar">term</var> is specified, reuse the first
+      command line argument that is not a
+      <var class="Ar" title="Ar">section</var> number. If that argument is in
+      <a class="Xr" title="Xr" href="apropos.1;../man1/apropos.1">apropos(1)</a>
+      <var class="Ar" title="Ar">key</var>=<var class="Ar" title="Ar">val</var>
+      format, only the <var class="Ar" title="Ar">val</var> is used rather than
+      the argument as a whole. This is useful for commands like
+      &#x2018;<code class="Li">man -akO tag Ic=ulimit</code>&#x2019; to search
+      for a keyword and jump right to its definition in the matching manual
+      pages.</dd>
+  <dt class="It-tag"><a class="selflink" href="#width"><b class="Cm" title="Cm" id="width">width</b></a>=<var class="Ar" title="Ar">width</var></dt>
+  <dd class="It-tag">The output width is set to
+      <var class="Ar" title="Ar">width</var> instead of the default of 78. When
+      output is to a pager on a terminal that is less than 79 columns wide, the
+      default is reduced to one less than the terminal width. In any case, lines
+      that are output in literal mode are never wrapped and may exceed the
+      output width.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="HTML_Output"><a class="selflink" href="#HTML_Output">HTML
+  Output</a></h2>
+Output produced by <b class="Fl" title="Fl">-T</b>
+  <b class="Cm" title="Cm">html</b> conforms to HTML5 using optional
+  self-closing tags. Default styles use only CSS1. Equations rendered from
+  <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a> blocks use
+  MathML.
+<div class="Pp"></div>
+The file <i class="Pa" title="Pa">/usr/share/misc/mandoc.css</i> documents
+  style-sheet classes available for customising output. If a style-sheet is not
+  specified with <b class="Fl" title="Fl">-O</b>
+  <b class="Cm" title="Cm">style</b>, <b class="Fl" title="Fl">-T</b>
+  <b class="Cm" title="Cm">html</b> defaults to simple output (via an embedded
+  style-sheet) readable in any graphical or text-based web browser.
+<div class="Pp"></div>
+Non-ASCII characters are rendered as hexadecimal Unicode character references.
+<div class="Pp"></div>
+The following <b class="Fl" title="Fl">-O</b> arguments are accepted:
+<dl class="Bl-tag">
+  <dt class="It-tag"><a class="selflink" href="#fragment"><b class="Cm" title="Cm" id="fragment">fragment</b></a></dt>
+  <dd class="It-tag">Omit the &lt;!DOCTYPE&gt; declaration and the &lt;html&gt;,
+      &lt;head&gt;, and &lt;body&gt; elements and only emit the subtree below
+      the &lt;body&gt; element. The <b class="Cm" title="Cm">style</b> argument
+      will be ignored. This is useful when embedding manual content within
+      existing documents.</dd>
+  <dt class="It-tag"><a class="selflink" href="#includes"><b class="Cm" title="Cm" id="includes">includes</b></a>=<var class="Ar" title="Ar">fmt</var></dt>
+  <dd class="It-tag">The string <var class="Ar" title="Ar">fmt</var>, for
+      example, <var class="Ar" title="Ar">../src/%I.html</var>, is used as a
+      template for linked header files (usually via the
+      <b class="Ic" title="Ic">In</b> macro). Instances of &#x2018;%I&#x2019;
+      are replaced with the include filename. The default is not to present a
+      hyperlink.</dd>
+  <dt class="It-tag"><a class="selflink" href="#man"><b class="Cm" title="Cm" id="man">man</b></a>=<var class="Ar" title="Ar">fmt</var>[<span class="Op">;<var class="Ar" title="Ar">fmt</var></span>]</dt>
+  <dd class="It-tag">The string <var class="Ar" title="Ar">fmt</var>, for
+      example, <var class="Ar" title="Ar">../html%S/%N.%S.html</var>, is used as
+      a template for linked manuals (usually via the
+      <b class="Ic" title="Ic">Xr</b> macro). Instances of &#x2018;%N&#x2019;
+      and &#x2018;%S&#x2019; are replaced with the linked manual's name and
+      section, respectively. If no section is included, section 1 is assumed.
+      The default is not to present a hyperlink. If two formats are given and a
+      file <var class="Ar" title="Ar">%N.%S</var> exists in the current
+      directory, the first format is used; otherwise, the second format is
+    used.</dd>
+  <dt class="It-tag"><a class="selflink" href="#style"><b class="Cm" title="Cm" id="style">style</b></a>=<var class="Ar" title="Ar">style.css</var></dt>
+  <dd class="It-tag">The file <var class="Ar" title="Ar">style.css</var> is used
+      for an external style-sheet. This must be a valid absolute or relative
+      URI.</dd>
+  <dt class="It-tag"><a class="selflink" href="#toc"><b class="Cm" title="Cm" id="toc">toc</b></a></dt>
+  <dd class="It-tag">If an input file contains at least two non-standard
+      sections, print a table of contents near the beginning of the output.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Locale_Output"><a class="selflink" href="#Locale_Output">Locale
+  Output</a></h2>
+By default, <b class="Nm" title="Nm">mandoc</b> automatically selects UTF-8 or
+  ASCII output according to the current
+  <a class="Xr" title="Xr" href="locale.1;../man1/locale.1">locale(1)</a>. If
+  any of the environment variables <code class="Ev" title="Ev">LC_ALL</code>,
+  <code class="Ev" title="Ev">LC_CTYPE</code>, or
+  <code class="Ev" title="Ev">LANG</code> are set and the first one that is set
+  selects the UTF-8 character encoding, it produces
+  <a class="Sx" title="Sx" href="#UTF-8_Output">UTF-8 Output</a>; otherwise, it
+  falls back to <a class="Sx" title="Sx" href="#ASCII_Output">ASCII Output</a>.
+  This output mode can also be selected explicitly with
+  <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">locale</b>.
+<h2 class="Ss" title="Ss" id="Man_Output"><a class="selflink" href="#Man_Output">Man
+  Output</a></h2>
+Use <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">man</b> to
+  translate <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>
+  input into <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>
+  output format. This is useful for distributing manual sources to legacy
+  systems lacking
+  <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> formatters.
+<div class="Pp"></div>
+If the input format of a file is
+  <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>, the input is
+  copied to the output, expanding any
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+  <b class="Ic" title="Ic">so</b> requests. The parser is also run, and as
+  usual, the <b class="Fl" title="Fl">-W</b> level controls which
+  <a class="Sx" title="Sx" href="#DIAGNOSTICS">DIAGNOSTICS</a> are displayed
+  before copying the input to the output.
+<h2 class="Ss" title="Ss" id="Markdown_Output"><a class="selflink" href="#Markdown_Output">Markdown
+  Output</a></h2>
+Use <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">markdown</b> to
+  translate <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>
+  input to the markdown format conforming to
+  <a class="Lk" title="Lk" href="http://daringfireball.net/projects/markdown/syntax.text">John
+  Gruber's 2004 specification</a>. The output also almost conforms to the
+  <a class="Lk" title="Lk" href="http://commonmark.org/">CommonMark</a>
+  specification.
+<div class="Pp"></div>
+The character set used for the markdown output is ASCII. Non-ASCII characters
+  are encoded as HTML entities. Since that is not possible in literal font
+  contexts, because these are rendered as code spans and code blocks in the
+  markdown output, non-ASCII characters are transliterated to ASCII
+  approximations in these contexts.
+<div class="Pp"></div>
+Markdown is a very weak markup language, so all semantic markup is lost, and
+  even part of the presentational markup may be lost. Do not use this as an
+  intermediate step in converting to HTML; instead, use
+  <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">html</b> directly.
+<div class="Pp"></div>
+The <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>,
+  <a class="Xr" title="Xr" href="tbl.7;../man7/tbl.7">tbl(7)</a>, and
+  <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a> input languages
+  are not supported by <b class="Fl" title="Fl">-T</b>
+  <b class="Cm" title="Cm">markdown</b> output mode.
+<h2 class="Ss" title="Ss" id="PDF_Output"><a class="selflink" href="#PDF_Output">PDF
+  Output</a></h2>
+PDF-1.1 output may be generated by <b class="Fl" title="Fl">-T</b>
+  <b class="Cm" title="Cm">pdf</b>. See
+  <a class="Sx" title="Sx" href="#PostScript_Output">PostScript Output</a> for
+  <b class="Fl" title="Fl">-O</b> arguments and defaults.
+<h2 class="Ss" title="Ss" id="PostScript_Output"><a class="selflink" href="#PostScript_Output">PostScript
+  Output</a></h2>
+PostScript &#x201C;Adobe-3.0&#x201D; Level-2 pages may be generated by
+  <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">ps</b>. Output pages
+  default to letter sized and are rendered in the Times font family, 11-point.
+  Margins are calculated as 1/9 the page length and width. Line-height is 1.4m.
+<div class="Pp"></div>
+Special characters are rendered as in
+  <a class="Sx" title="Sx" href="#ASCII_Output">ASCII Output</a>.
+<div class="Pp"></div>
+The following <b class="Fl" title="Fl">-O</b> arguments are accepted:
+<dl class="Bl-tag">
+  <dt class="It-tag"><a class="selflink" href="#paper"><b class="Cm" title="Cm" id="paper">paper</b></a>=<var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">The paper size <var class="Ar" title="Ar">name</var> may be
+      one of <var class="Ar" title="Ar">a3</var>,
+      <var class="Ar" title="Ar">a4</var>, <var class="Ar" title="Ar">a5</var>,
+      <var class="Ar" title="Ar">legal</var>, or
+      <var class="Ar" title="Ar">letter</var>. You may also manually specify
+      dimensions as <var class="Ar" title="Ar">NNxNN</var>, width by height in
+      millimetres. If an unknown value is encountered,
+      <var class="Ar" title="Ar">letter</var> is used.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="UTF-8_Output"><a class="selflink" href="#UTF-8_Output">UTF-8
+  Output</a></h2>
+Use <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">utf8</b> to force
+  text output in UTF-8 multi-byte character encoding, ignoring the
+  <a class="Xr" title="Xr" href="locale.1;../man1/locale.1">locale(1)</a>
+  settings in the environment. See
+  <a class="Sx" title="Sx" href="#ASCII_Output">ASCII Output</a> regarding font
+  styles and <b class="Fl" title="Fl">-O</b> arguments.
+<div class="Pp"></div>
+On operating systems lacking locale or wide character support, and on those
+  where the internal character representation is not UCS-4,
+  <b class="Nm" title="Nm">mandoc</b> always falls back to
+  <a class="Sx" title="Sx" href="#ASCII_Output">ASCII Output</a>.
+<h2 class="Ss" title="Ss" id="Syntax_tree_output"><a class="selflink" href="#Syntax_tree_output">Syntax
+  tree output</a></h2>
+Use <b class="Fl" title="Fl">-T</b> <b class="Cm" title="Cm">tree</b> to show a
+  human readable representation of the syntax tree. It is useful for debugging
+  the source code of manual pages. The exact format is subject to change, so
+  don't write parsers for it.
+<div class="Pp"></div>
+The first paragraph shows meta data found in the
+  <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> prologue, on
+  the <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>
+  <b class="Ic" title="Ic">TH</b> line, or the fallbacks used.
+<div class="Pp"></div>
+In the tree dump, each output line shows one syntax tree node. Child nodes are
+  indented with respect to their parent node. The columns are:
+<div class="Pp"></div>
+<ol class="Bl-enum Bl-compact">
+  <li class="It-enum">For macro nodes, the macro name; for text and
+      <a class="Xr" title="Xr" href="tbl.7;../man7/tbl.7">tbl(7)</a> nodes, the
+      content. There is a special format for
+      <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a> nodes.</li>
+  <li class="It-enum">Node type (text, elem, block, head, body, body-end, tail,
+      tbl, eqn).</li>
+  <li class="It-enum">Flags:
+    <ul class="Bl-dash Bl-compact">
+      <li class="It-dash">An opening parenthesis if the node is an opening
+          delimiter.</li>
+      <li class="It-dash">An asterisk if the node starts a new input line.</li>
+      <li class="It-dash">The input line number (starting at one).</li>
+      <li class="It-dash">A colon.</li>
+      <li class="It-dash">The input column number (starting at one).</li>
+      <li class="It-dash">A closing parenthesis if the node is a closing
+          delimiter.</li>
+      <li class="It-dash">A full stop if the node ends a sentence.</li>
+      <li class="It-dash">BROKEN if the node is a block broken by another
+        block.</li>
+      <li class="It-dash">NOSRC if the node is not in the input file, but
+          automatically generated from macros.</li>
+      <li class="It-dash">NOPRT if the node is not supposed to generate output
+          for any output format.</li>
+    </ul>
+  </li>
+</ol>
+<div class="Pp"></div>
+The following <b class="Fl" title="Fl">-O</b> argument is accepted:
+<dl class="Bl-tag">
+  <dt class="It-tag"><a class="selflink" href="#noval"><b class="Cm" title="Cm" id="noval">noval</b></a></dt>
+  <dd class="It-tag">Skip validation and show the unvalidated syntax tree. This
+      can help to find out whether a given behaviour is caused by the parser or
+      by the validator. Meta data is not available in this case.</dd>
+</dl>
+<h1 class="Sh" title="Sh" id="ENVIRONMENT"><a class="selflink" href="#ENVIRONMENT">ENVIRONMENT</a></h1>
+<dl class="Bl-tag" style="margin-left: 12.60ex;">
+  <dt class="It-tag" style="margin-left: -12.60ex;"><a class="selflink" href="#LC_CTYPE"><code class="Ev" title="Ev" id="LC_CTYPE">LC_CTYPE</code></a></dt>
+  <dd class="It-tag">The character encoding
+      <a class="Xr" title="Xr" href="locale.1;../man1/locale.1">locale(1)</a>.
+      When <a class="Sx" title="Sx" href="#Locale_Output">Locale Output</a> is
+      selected, it decides whether to use ASCII or UTF-8 output format. It never
+      affects the interpretation of input files.</dd>
+  <dt class="It-tag" style="margin-left: -12.60ex;"><a class="selflink" href="#MANPAGER"><code class="Ev" title="Ev" id="MANPAGER">MANPAGER</code></a></dt>
+  <dd class="It-tag">Any non-empty value of the environment variable
+      <code class="Ev" title="Ev">MANPAGER</code> is used instead of the
+      standard pagination program,
+      <a class="Xr" title="Xr" href="more.1;../man1/more.1">more(1)</a>; see
+      <a class="Xr" title="Xr" href="man.1;../man1/man.1">man(1)</a> for
+      details. Only used if <b class="Fl" title="Fl">-a</b> or
+      <b class="Fl" title="Fl">-l</b> is specified.</dd>
+  <dt class="It-tag" style="margin-left: -12.60ex;"><a class="selflink" href="#PAGER"><code class="Ev" title="Ev" id="PAGER">PAGER</code></a></dt>
+  <dd class="It-tag">Specifies the pagination program to use when
+      <code class="Ev" title="Ev">MANPAGER</code> is not defined. If neither
+      PAGER nor MANPAGER is defined,
+      <a class="Xr" title="Xr" href="more.1;../man1/more.1">more(1)</a>
+      <b class="Fl" title="Fl">-s</b> is used. Only used if
+      <b class="Fl" title="Fl">-a</b> or <b class="Fl" title="Fl">-l</b> is
+      specified.</dd>
+</dl>
+<h1 class="Sh" title="Sh" id="EXIT_STATUS"><a class="selflink" href="#EXIT_STATUS">EXIT
+  STATUS</a></h1>
+The <b class="Nm" title="Nm">mandoc</b> utility exits with one of the following
+  values, controlled by the message <var class="Ar" title="Ar">level</var>
+  associated with the <b class="Fl" title="Fl">-W</b> option:
+<div class="Pp"></div>
+<dl class="Bl-tag Bl-compact">
+  <dt class="It-tag">0</dt>
+  <dd class="It-tag">No base system convention violations, style suggestions,
+      warnings, or errors occurred, or those that did were ignored because they
+      were lower than the requested <var class="Ar" title="Ar">level</var>.</dd>
+  <dt class="It-tag">1</dt>
+  <dd class="It-tag">At least one base system convention violation or style
+      suggestion occurred, but no warning or error, and
+      <b class="Fl" title="Fl">-W</b> <b class="Cm" title="Cm">base</b> or
+      <b class="Fl" title="Fl">-W</b> <b class="Cm" title="Cm">style</b> was
+      specified.</dd>
+  <dt class="It-tag">2</dt>
+  <dd class="It-tag">At least one warning occurred, but no error, and
+      <b class="Fl" title="Fl">-W</b> <b class="Cm" title="Cm">warning</b> or a
+      lower <var class="Ar" title="Ar">level</var> was requested.</dd>
+  <dt class="It-tag">3</dt>
+  <dd class="It-tag">At least one parsing error occurred, but no unsupported
+      feature was encountered, and <b class="Fl" title="Fl">-W</b>
+      <b class="Cm" title="Cm">error</b> or a lower
+      <var class="Ar" title="Ar">level</var> was requested.</dd>
+  <dt class="It-tag">4</dt>
+  <dd class="It-tag">At least one unsupported feature was encountered, and
+      <b class="Fl" title="Fl">-W</b> <b class="Cm" title="Cm">unsupp</b> or a
+      lower <var class="Ar" title="Ar">level</var> was requested.</dd>
+  <dt class="It-tag">5</dt>
+  <dd class="It-tag">Invalid command line arguments were specified. No input
+      files have been read.</dd>
+  <dt class="It-tag">6</dt>
+  <dd class="It-tag">An operating system error occurred, for example exhaustion
+      of memory, file descriptors, or process table entries. Such errors cause
+      <b class="Nm" title="Nm">mandoc</b> to exit at once, possibly in the
+      middle of parsing or formatting a file.</dd>
+</dl>
+<div class="Pp"></div>
+Note that selecting <b class="Fl" title="Fl">-T</b>
+  <b class="Cm" title="Cm">lint</b> output mode implies
+  <b class="Fl" title="Fl">-W</b> <b class="Cm" title="Cm">all</b>.
+<h1 class="Sh" title="Sh" id="EXAMPLES"><a class="selflink" href="#EXAMPLES">EXAMPLES</a></h1>
+To page manuals to the terminal:
+<div class="Pp"></div>
+<div class="D1"><code class="Li">$ mandoc -l mandoc.1 man.1 apropos.1
+  makewhatis.8</code></div>
+<div class="Pp"></div>
+To produce HTML manuals with
+  <i class="Pa" title="Pa">/usr/share/misc/mandoc.css</i> as the style-sheet:
+<div class="Pp"></div>
+<div class="D1"><code class="Li">$ mandoc -T html -O
+  style=/usr/share/misc/mandoc.css mdoc.7 &gt; mdoc.7.html</code></div>
+<div class="Pp"></div>
+To check over a large set of manuals:
+<div class="Pp"></div>
+<div class="D1"><code class="Li">$ mandoc -T lint `find /usr/src -name
+  \*\.[1-9]`</code></div>
+<div class="Pp"></div>
+To produce a series of PostScript manuals for A4 paper:
+<div class="Pp"></div>
+<div class="D1"><code class="Li">$ mandoc -T ps -O paper=a4 mdoc.7 man.7 &gt;
+  manuals.ps</code></div>
+<div class="Pp"></div>
+Convert a modern
+  <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> manual to
+  the older <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>
+  format, for use on systems lacking an
+  <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> parser:
+<div class="Pp"></div>
+<div class="D1"><code class="Li">$ mandoc -T man foo.mdoc &gt;
+  foo.man</code></div>
+<h1 class="Sh" title="Sh" id="DIAGNOSTICS"><a class="selflink" href="#DIAGNOSTICS">DIAGNOSTICS</a></h1>
+Messages displayed by <b class="Nm" title="Nm">mandoc</b> follow this format:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;"><b class="Nm" title="Nm">mandoc</b>:
+  <var class="Ar" title="Ar">file</var>:<var class="Ar" title="Ar">line</var>:<var class="Ar" title="Ar">column</var>:
+  <var class="Ar" title="Ar">level</var>:
+  <var class="Ar" title="Ar">message</var>: <var class="Ar" title="Ar">macro
+  arguments</var> (<var class="Ar" title="Ar">os</var>)</div>
+<div class="Pp"></div>
+The first three fields identify the <var class="Ar" title="Ar">file</var> name,
+  <var class="Ar" title="Ar">line</var> number, and
+  <var class="Ar" title="Ar">column</var> number of the input file where the
+  message was triggered. The line and column numbers start at 1. Both are
+  omitted for messages referring to an input file as a whole. All
+  <var class="Ar" title="Ar">level</var> and
+  <var class="Ar" title="Ar">message</var> strings are explained below. The name
+  of the <var class="Ar" title="Ar">macro</var> triggering the message and its
+  <var class="Ar" title="Ar">arguments</var> are omitted where meaningless. The
+  <var class="Ar" title="Ar">os</var> operating system specifier is omitted for
+  messages that are relevant for all operating systems. Fatal messages about
+  invalid command line arguments or operating system errors, for example when
+  memory is exhausted, may also omit the <var class="Ar" title="Ar">file</var>
+  and <var class="Ar" title="Ar">level</var> fields.
+<div class="Pp"></div>
+Message levels have the following meanings:
+<dl class="Bl-tag" style="margin-left: 11.40ex;">
+  <dt class="It-tag" style="margin-left: -11.40ex;"><a class="selflink" href="#unsupp"><b class="Cm" title="Cm" id="unsupp">unsupp</b></a></dt>
+  <dd class="It-tag">An input file uses unsupported low-level
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+      features. The output may be incomplete and/or misformatted, so using GNU
+      troff instead of <b class="Nm" title="Nm">mandoc</b> to process the file
+      may be preferable.</dd>
+  <dt class="It-tag" style="margin-left: -11.40ex;"><a class="selflink" href="#error"><b class="Cm" title="Cm" id="error">error</b></a></dt>
+  <dd class="It-tag">Indicates a risk of information loss or severe
+      misformatting, in most cases caused by serious syntax errors.</dd>
+  <dt class="It-tag" style="margin-left: -11.40ex;"><a class="selflink" href="#warning"><b class="Cm" title="Cm" id="warning">warning</b></a></dt>
+  <dd class="It-tag">Indicates a risk that the information shown or its
+      formatting may mismatch the author's intent in minor ways. Additionally,
+      syntax errors are classified at least as warnings, even if they do not
+      usually cause misformatting.</dd>
+  <dt class="It-tag" style="margin-left: -11.40ex;"><a class="selflink" href="#style"><b class="Cm" title="Cm" id="style">style</b></a></dt>
+  <dd class="It-tag">An input file uses dubious or discouraged style. This is
+      not a complaint about the syntax, and probably neither formatting nor
+      portability are in danger. While great care is taken to avoid false
+      positives on the higher message levels, the
+      <b class="Cm" title="Cm">style</b> level tries to reduce the probability
+      that issues go unnoticed, so it may occasionally issue bogus suggestions.
+      Please use your good judgement to decide whether any particular
+      <b class="Cm" title="Cm">style</b> suggestion really justifies a change to
+      the input file.</dd>
+  <dt class="It-tag" style="margin-left: -11.40ex;"><a class="selflink" href="#base"><b class="Cm" title="Cm" id="base">base</b></a></dt>
+  <dd class="It-tag">A convention used in the base system of a specific
+      operating system is not adhered to. These are not markup mistakes, and
+      neither the quality of formatting nor portability are in danger. Messages
+      of the <b class="Cm" title="Cm">base</b> level are printed with the more
+      intuitive <b class="Cm" title="Cm">style</b>
+      <var class="Ar" title="Ar">level</var> tag.</dd>
+</dl>
+<div class="Pp"></div>
+Messages of the <b class="Cm" title="Cm">base</b>,
+  <b class="Cm" title="Cm">style</b>, <b class="Cm" title="Cm">warning</b>,
+  <b class="Cm" title="Cm">error</b>, and <b class="Cm" title="Cm">unsupp</b>
+  levels except those about non-existent or unreadable input files are hidden
+  unless their level, or a lower level, is requested using a
+  <b class="Fl" title="Fl">-W</b> option or <b class="Fl" title="Fl">-T</b>
+  <b class="Cm" title="Cm">lint</b> output mode.
+<div class="Pp"></div>
+As indicated below, all <b class="Cm" title="Cm">base</b> and some
+  <b class="Cm" title="Cm">style</b> checks are only performed if a specific
+  operating system name occurs in the arguments of the
+  <b class="Fl" title="Fl">-W</b> command line option, of the
+  <b class="Ic" title="Ic">Os</b> macro, of the
+  <b class="Fl" title="Fl">-Ios</b> command line option, or, if neither are
+  present, in the return value of the
+  <a class="Xr" title="Xr" href="uname.3;../man3/uname.3">uname(3)</a> function.
+<h2 class="Ss" title="Ss" id="Conventions_for_base_system_manuals"><a class="selflink" href="#Conventions_for_base_system_manuals">Conventions
+  for base system manuals</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">Mdocdate found</b></dt>
+  <dd class="It-ohang">(mdoc, <span class="Ux">NetBSD</span>) The
+      <b class="Ic" title="Ic">Dd</b> macro uses CVS
+      <b class="Ic" title="Ic">Mdocdate</b> keyword substitution, which is not
+      supported by the <span class="Ux">NetBSD</span> base system. Consider
+      using the conventional &#x201C;Month dd, yyyy&#x201D; format instead.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">Mdocdate missing</b></dt>
+  <dd class="It-ohang">(mdoc, <span class="Ux">OpenBSD</span>) The
+      <b class="Ic" title="Ic">Dd</b> macro does not use CVS
+      <b class="Ic" title="Ic">Mdocdate</b> keyword substitution, but using it
+      is conventionally expected in the <span class="Ux">OpenBSD</span> base
+      system.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unknown architecture</b></dt>
+  <dd class="It-ohang">(mdoc, <span class="Ux">OpenBSD</span>,
+      <span class="Ux">NetBSD</span>) The third argument of the
+      <b class="Ic" title="Ic">Dt</b> macro does not match any of the
+      architectures this operating system is running on.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">operating system explicitly
+    specified</b></dt>
+  <dd class="It-ohang">(mdoc, <span class="Ux">OpenBSD</span>,
+      <span class="Ux">NetBSD</span>) The <b class="Ic" title="Ic">Os</b> macro
+      has an argument. In the base system, it is conventionally left blank.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">RCS id missing</b></dt>
+  <dd class="It-ohang">(<span class="Ux">OpenBSD</span>,
+      <span class="Ux">NetBSD</span>) The manual page lacks the comment line
+      with the RCS identifier generated by CVS
+      <b class="Ic" title="Ic">OpenBSD</b> or
+      <b class="Ic" title="Ic">NetBSD</b> keyword substitution as conventionally
+      used in these operating systems.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">referenced manual not
+    found</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Xr</b> macro
+      references a manual page that is not found in the base system. The path to
+      look for base system manuals is configurable at compile time and defaults
+      to <i class="Pa" title="Pa">/usr/share/man</i>:
+      <i class="Pa" title="Pa">/usr/X11R6/man</i>.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Style_suggestions"><a class="selflink" href="#Style_suggestions">Style
+  suggestions</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">legacy man(7) date
+    format</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Dd</b> macro uses the
+      legacy <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> date
+      format &#x201C;yyyy-dd-mm&#x201D;. Consider using the conventional
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> date
+      format &#x201C;Month dd, yyyy&#x201D; instead.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">normalizing date format to</b>:
+    <span class="No">...</span></dt>
+  <dd class="It-ohang">(mdoc, man) The <b class="Ic" title="Ic">Dd</b> or
+      <b class="Ic" title="Ic">TH</b> macro provides an abbreviated month name
+      or a day number with a leading zero. In the formatted output, the month
+      name is written out in full and the leading zero is omitted.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">lower case character in document
+    title</b></dt>
+  <dd class="It-ohang">(mdoc, man) The title is still used as given in the
+      <b class="Ic" title="Ic">Dt</b> or <b class="Ic" title="Ic">TH</b>
+    macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">duplicate RCS id</b></dt>
+  <dd class="It-ohang">A single manual page contains two copies of the RCS
+      identifier for the same operating system. Consider deleting the later
+      instance and moving the first one up to the top of the page.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">possible typo in section
+    name</b></dt>
+  <dd class="It-ohang">(mdoc) Fuzzy string matching revealed that the argument
+      of an <b class="Ic" title="Ic">Sh</b> macro is similar, but not identical
+      to a standard section name.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unterminated quoted
+    argument</b></dt>
+  <dd class="It-ohang">(roff) Macro arguments can be enclosed in double quote
+      characters such that space characters and macro names contained in the
+      quoted argument need not be escaped. The closing quote of the last
+      argument of a macro can be omitted. However, omitting it is not
+      recommended because it makes the code harder to read.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">useless macro</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bt</b>,
+      <b class="Ic" title="Ic">Tn</b>, or <b class="Ic" title="Ic">Ud</b> macro
+      was found. Simply delete it: it serves no useful purpose.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">consider using OS macro</b></dt>
+  <dd class="It-ohang">(mdoc) A string was found in plain text or in a
+      <b class="Ic" title="Ic">Bx</b> macro that could be represented using
+      <b class="Ic" title="Ic">Ox</b>, <b class="Ic" title="Ic">Nx</b>,
+      <b class="Ic" title="Ic">Fx</b>, or <b class="Ic" title="Ic">Dx</b>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">errnos out of order</b></dt>
+  <dd class="It-ohang">(mdoc, <span class="Ux">NetBSD</span>) The
+      <b class="Ic" title="Ic">Er</b> items in a <b class="Ic" title="Ic">Bl</b>
+      list are not in alphabetical order.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">duplicate errno</b></dt>
+  <dd class="It-ohang">(mdoc, <span class="Ux">NetBSD</span>) A
+      <b class="Ic" title="Ic">Bl</b> list contains two consecutive
+      <b class="Ic" title="Ic">It</b> entries describing the same
+      <b class="Ic" title="Ic">Er</b> number.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">trailing delimiter</b></dt>
+  <dd class="It-ohang">(mdoc) The last argument of an
+      <b class="Ic" title="Ic">Ex</b>, <b class="Ic" title="Ic">Fo</b>,
+      <b class="Ic" title="Ic">Nd</b>, <b class="Ic" title="Ic">Nm</b>,
+      <b class="Ic" title="Ic">Os</b>, <b class="Ic" title="Ic">Sh</b>,
+      <b class="Ic" title="Ic">Ss</b>, <b class="Ic" title="Ic">St</b>, or
+      <b class="Ic" title="Ic">Sx</b> macro ends with a trailing delimiter. This
+      is usually bad style and often indicates typos. Most likely, the delimiter
+      can be removed.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">no blank before trailing
+    delimiter</b></dt>
+  <dd class="It-ohang">(mdoc) The last argument of a macro that supports
+      trailing delimiter arguments is longer than one byte and ends with a
+      trailing delimiter. Consider inserting a blank such that the delimiter
+      becomes a separate argument, thus moving it out of the scope of the
+    macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">fill mode already enabled,
+    skipping</b></dt>
+  <dd class="It-ohang">(man) A <b class="Ic" title="Ic">fi</b> request occurs
+      even though the document is still in fill mode, or already switched back
+      to fill mode. It has no effect.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">fill mode already disabled,
+    skipping</b></dt>
+  <dd class="It-ohang">(man) An <b class="Ic" title="Ic">nf</b> request occurs
+      even though the document already switched to no-fill mode and did not
+      switch back to fill mode yet. It has no effect.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">verbatim &quot;--&quot;, maybe
+    consider using \(em</b></dt>
+  <dd class="It-ohang">(mdoc) Even though the ASCII output device renders an
+      em-dash as &#x201C;--&#x201D;, that is not a good way to write it in an
+      input file because it renders poorly on all other output devices.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">function name without
+    markup</b></dt>
+  <dd class="It-ohang">(mdoc) A word followed by an empty pair of parentheses
+      occurs on a text line. Consider using an <b class="Ic" title="Ic">Fn</b>
+      or <b class="Ic" title="Ic">Xr</b> macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">whitespace at end of input
+    line</b></dt>
+  <dd class="It-ohang">(mdoc, man, roff) Whitespace at the end of input lines is
+      almost never semantically significant &#x2014; but in the odd case where
+      it might be, it is extremely confusing when reviewing and maintaining
+      documents.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">bad comment style</b></dt>
+  <dd class="It-ohang">(roff) Comment lines start with a dot, a backslash, and a
+      double-quote character. The <b class="Nm" title="Nm">mandoc</b> utility
+      treats the line as a comment line even without the backslash, but leaving
+      out the backslash might not be portable.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Warnings_related_to_the_document_prologue"><a class="selflink" href="#Warnings_related_to_the_document_prologue">Warnings
+  related to the document prologue</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing manual title, using
+    UNTITLED</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Dt</b> macro has no
+      arguments, or there is no <b class="Ic" title="Ic">Dt</b> macro before the
+      first non-prologue macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing manual title, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(man) There is no <b class="Ic" title="Ic">TH</b> macro,
+      or it has no arguments.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing manual section, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(mdoc, man) A <b class="Ic" title="Ic">Dt</b> or
+      <b class="Ic" title="Ic">TH</b> macro lacks the mandatory section
+      argument.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unknown manual section</b></dt>
+  <dd class="It-ohang">(mdoc) The section number in a
+      <b class="Ic" title="Ic">Dt</b> line is invalid, but still used.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing date, using today's
+    date</b></dt>
+  <dd class="It-ohang">(mdoc, man) The document was parsed as
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> and it
+      has no <b class="Ic" title="Ic">Dd</b> macro, or the
+      <b class="Ic" title="Ic">Dd</b> macro has no arguments or only empty
+      arguments; or the document was parsed as
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> and it has
+      no <b class="Ic" title="Ic">TH</b> macro, or the
+      <b class="Ic" title="Ic">TH</b> macro has less than three arguments or its
+      third argument is empty.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">cannot parse date, using it
+    verbatim</b></dt>
+  <dd class="It-ohang">(mdoc, man) The date given in a
+      <b class="Ic" title="Ic">Dd</b> or <b class="Ic" title="Ic">TH</b> macro
+      does not follow the conventional format.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">date in the future, using it
+    anyway</b></dt>
+  <dd class="It-ohang">(mdoc, man) The date given in a
+      <b class="Ic" title="Ic">Dd</b> or <b class="Ic" title="Ic">TH</b> macro
+      is more than a day ahead of the current system
+      <a class="Xr" title="Xr" href="time.3;../man3/time.3">time(3)</a>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing Os macro, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(mdoc) The default or current system is not shown in this
+      case.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">late prologue macro</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Dd</b> or
+      <b class="Ic" title="Ic">Os</b> macro occurs after some non-prologue
+      macro, but still takes effect.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">prologue macros out of
+    order</b></dt>
+  <dd class="It-ohang">(mdoc) The prologue macros are not given in the
+      conventional order <b class="Ic" title="Ic">Dd</b>,
+      <b class="Ic" title="Ic">Dt</b>, <b class="Ic" title="Ic">Os</b>. All
+      three macros are used even when given in another order.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Warnings_regarding_document_structure"><a class="selflink" href="#Warnings_regarding_document_structure">Warnings
+  regarding document structure</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">.so is fragile, better use
+    ln(1)</b></dt>
+  <dd class="It-ohang">(roff) Including files only works when the parser program
+      runs with the correct current working directory.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">no document body</b></dt>
+  <dd class="It-ohang">(mdoc, man) The document body contains neither text nor
+      macros. An empty document is shown, consisting only of a header and a
+      footer line.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">content before first section
+    header</b></dt>
+  <dd class="It-ohang">(mdoc, man) Some macros or text precede the first
+      <b class="Ic" title="Ic">Sh</b> or <b class="Ic" title="Ic">SH</b> section
+      header. The offending macros and text are parsed and added to the top
+      level of the syntax tree, outside any section block.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">first section is not
+    NAME</b></dt>
+  <dd class="It-ohang">(mdoc) The argument of the first
+      <b class="Ic" title="Ic">Sh</b> macro is not &#x2018;NAME&#x2019;. This
+      may confuse
+      <a class="Xr" title="Xr" href="makewhatis.8;../man8/makewhatis.8">makewhatis(8)</a>
+      and
+      <a class="Xr" title="Xr" href="apropos.1;../man1/apropos.1">apropos(1)</a>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">NAME section without Nm before
+    Nd</b></dt>
+  <dd class="It-ohang">(mdoc) The NAME section does not contain any
+      <b class="Ic" title="Ic">Nm</b> child macro before the first
+      <b class="Ic" title="Ic">Nd</b> macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">NAME section without
+    description</b></dt>
+  <dd class="It-ohang">(mdoc) The NAME section lacks the mandatory
+      <b class="Ic" title="Ic">Nd</b> child macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">description not at the end of
+    NAME</b></dt>
+  <dd class="It-ohang">(mdoc) The NAME section does contain an
+      <b class="Ic" title="Ic">Nd</b> child macro, but other content follows
+    it.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">bad NAME section
+    content</b></dt>
+  <dd class="It-ohang">(mdoc) The NAME section contains plain text or macros
+      other than <b class="Ic" title="Ic">Nm</b> and
+      <b class="Ic" title="Ic">Nd</b>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing comma before
+    name</b></dt>
+  <dd class="It-ohang">(mdoc) The NAME section contains an
+      <b class="Ic" title="Ic">Nm</b> macro that is neither the first one nor
+      preceded by a comma.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing description line, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Nd</b> macro lacks
+      the required argument. The title line of the manual will end after the
+      dash.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">description line outside NAME
+    section</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Nd</b> macro appears
+      outside the NAME section. The arguments are printed anyway and the
+      following text is used for
+      <a class="Xr" title="Xr" href="apropos.1;../man1/apropos.1">apropos(1)</a>,
+      but none of that behaviour is portable.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">sections out of conventional
+    order</b></dt>
+  <dd class="It-ohang">(mdoc) A standard section occurs after another section it
+      usually precedes. All section titles are used as given, and the order of
+      sections is not changed.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">duplicate section title</b></dt>
+  <dd class="It-ohang">(mdoc) The same standard section title occurs more than
+      once.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unexpected section</b></dt>
+  <dd class="It-ohang">(mdoc) A standard section header occurs in a section of
+      the manual where it normally isn't useful.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">cross reference to self</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Xr</b> macro refers to
+      a name and section matching the section of the present manual page and a
+      name mentioned in an <b class="Ic" title="Ic">Nm</b> macro in the NAME or
+      SYNOPSIS section, or in an <b class="Ic" title="Ic">Fn</b> or
+      <b class="Ic" title="Ic">Fo</b> macro in the SYNOPSIS. Consider using
+      <b class="Ic" title="Ic">Nm</b> or <b class="Ic" title="Ic">Fn</b> instead
+      of <b class="Ic" title="Ic">Xr</b>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unusual Xr order</b></dt>
+  <dd class="It-ohang">(mdoc) In the SEE ALSO section, an
+      <b class="Ic" title="Ic">Xr</b> macro with a lower section number follows
+      one with a higher number, or two <b class="Ic" title="Ic">Xr</b> macros
+      referring to the same section are out of alphabetical order.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unusual Xr punctuation</b></dt>
+  <dd class="It-ohang">(mdoc) In the SEE ALSO section, punctuation between two
+      <b class="Ic" title="Ic">Xr</b> macros differs from a single comma, or
+      there is trailing punctuation after the last
+      <b class="Ic" title="Ic">Xr</b> macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">AUTHORS section without An
+    macro</b></dt>
+  <dd class="It-ohang">(mdoc) An AUTHORS sections contains no
+      <b class="Ic" title="Ic">An</b> macros, or only empty ones. Probably,
+      there are author names lacking markup.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Warnings_related_to_macros_and_nesting"><a class="selflink" href="#Warnings_related_to_macros_and_nesting">Warnings
+  related to macros and nesting</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">obsolete macro</b></dt>
+  <dd class="It-ohang">(mdoc) See the
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> manual
+      for replacements.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">macro neither callable nor
+    escaped</b></dt>
+  <dd class="It-ohang">(mdoc) The name of a macro that is not callable appears
+      on a macro line. It is printed verbatim. If the intention is to call it,
+      move it to its own input line; otherwise, escape it by prepending
+      &#x2018;\&amp;&#x2019;.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping paragraph
+    macro</b></dt>
+  <dd class="It-ohang">In
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>
+      documents, this happens
+    <ul class="Bl-dash Bl-compact">
+      <li class="It-dash">at the beginning and end of sections and
+        subsections</li>
+      <li class="It-dash">right before non-compact lists and displays</li>
+      <li class="It-dash">at the end of items in non-column, non-compact
+        lists</li>
+      <li class="It-dash">and for multiple consecutive paragraph macros.</li>
+    </ul>
+    In <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> documents,
+      it happens
+    <ul class="Bl-dash Bl-compact">
+      <li class="It-dash">for empty <b class="Ic" title="Ic">P</b>,
+          <b class="Ic" title="Ic">PP</b>, and <b class="Ic" title="Ic">LP</b>
+          macros</li>
+      <li class="It-dash">for <b class="Ic" title="Ic">IP</b> macros having
+          neither head nor body arguments</li>
+      <li class="It-dash">for <b class="Ic" title="Ic">br</b> or
+          <b class="Ic" title="Ic">sp</b> right after
+          <b class="Ic" title="Ic">SH</b> or
+        <b class="Ic" title="Ic">SS</b></li>
+    </ul>
+  </dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">moving paragraph macro out of
+    list</b></dt>
+  <dd class="It-ohang">(mdoc) A list item in a <b class="Ic" title="Ic">Bl</b>
+      list contains a trailing paragraph macro. The paragraph macro is moved
+      after the end of the list.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping no-space macro</b></dt>
+  <dd class="It-ohang">(mdoc) An input line begins with an
+      <b class="Ic" title="Ic">Ns</b> macro, or the next argument after an
+      <b class="Ic" title="Ic">Ns</b> macro is an isolated closing delimiter.
+      The macro is ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">blocks badly nested</b></dt>
+  <dd class="It-ohang">(mdoc) If two blocks intersect, one should completely
+      contain the other. Otherwise, rendered output is likely to look strange in
+      any output format, and rendering in SGML-based output formats is likely to
+      be outright wrong because such languages do not support badly nested
+      blocks at all. Typical examples of badly nested blocks are
+      &#x201C;<b class="Ic" title="Ic">Ao Bo Ac Bc</b>&#x201D; and
+      &#x201C;<b class="Ic" title="Ic">Ao Bq Ac</b>&#x201D;. In these examples,
+      <b class="Ic" title="Ic">Ac</b> breaks <b class="Ic" title="Ic">Bo</b> and
+      <b class="Ic" title="Ic">Bq</b>, respectively.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">nested displays are not
+    portable</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bd</b>,
+      <b class="Ic" title="Ic">D1</b>, or <b class="Ic" title="Ic">Dl</b>
+      display occurs nested inside another <b class="Ic" title="Ic">Bd</b>
+      display. This works with <b class="Nm" title="Nm">mandoc</b>, but fails
+      with most other implementations.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">moving content out of
+    list</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bl</b> list block
+      contains text or macros before the first <b class="Ic" title="Ic">It</b>
+      macro. The offending children are moved before the beginning of the
+    list.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">first macro on line</b></dt>
+  <dd class="It-ohang">Inside a <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-column</b> list, a
+      <b class="Ic" title="Ic">Ta</b> macro occurs as the first macro on a line,
+      which is not portable.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">line scope broken</b></dt>
+  <dd class="It-ohang">(man) While parsing the next-line scope of the previous
+      macro, another macro is found that prematurely terminates the previous
+      one. The previous, interrupted macro is deleted from the parse tree.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Warnings_related_to_missing_arguments"><a class="selflink" href="#Warnings_related_to_missing_arguments">Warnings
+  related to missing arguments</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping empty request</b></dt>
+  <dd class="It-ohang">(roff, eqn) The macro name is missing from a macro
+      definition request, or an
+      <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a> control
+      statement or operation keyword lacks its required argument.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">conditional request controls
+    empty scope</b></dt>
+  <dd class="It-ohang">(roff) A conditional request is only useful if any of the
+      following follows it on the same logical input line:
+    <ul class="Bl-dash Bl-compact">
+      <li class="It-dash">The &#x2018;\{&#x2019; keyword to open a multi-line
+          scope.</li>
+      <li class="It-dash">A request or macro or some text, resulting in a
+          single-line scope.</li>
+      <li class="It-dash">The immediate end of the logical line without any
+          intervening whitespace, resulting in next-line scope.</li>
+    </ul>
+    Here, a conditional request is followed by trailing whitespace only, and
+      there is no other content on its logical input line. Note that it doesn't
+      matter whether the logical input line is split across multiple physical
+      input lines using &#x2018;\&#x2019; line continuation characters. This is
+      one of the rare cases where trailing whitespace is syntactically
+      significant. The conditional request controls a scope containing
+      whitespace only, so it is unlikely to have a significant effect, except
+      that it may control a following <b class="Ic" title="Ic">el</b>
+    clause.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping empty macro</b></dt>
+  <dd class="It-ohang">(mdoc) The indicated macro has no arguments and hence no
+      effect.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">empty block</b></dt>
+  <dd class="It-ohang">(mdoc, man) A <b class="Ic" title="Ic">Bd</b>,
+      <b class="Ic" title="Ic">Bk</b>, <b class="Ic" title="Ic">Bl</b>,
+      <b class="Ic" title="Ic">D1</b>, <b class="Ic" title="Ic">Dl</b>,
+      <b class="Ic" title="Ic">MT</b>, <b class="Ic" title="Ic">RS</b>, or
+      <b class="Ic" title="Ic">UR</b> block contains nothing in its body and
+      will produce no output.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">empty argument, using
+    0n</b></dt>
+  <dd class="It-ohang">(mdoc) The required width is missing after
+      <b class="Ic" title="Ic">Bd</b> or <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-offset</b> or
+      <b class="Fl" title="Fl">-width</b>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing display type, using
+    -ragged</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Bd</b> macro is
+      invoked without the required display type.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">list type is not the first
+    argument</b></dt>
+  <dd class="It-ohang">(mdoc) In a <b class="Ic" title="Ic">Bl</b> macro, at
+      least one other argument precedes the type argument. The
+      <b class="Nm" title="Nm">mandoc</b> utility copes with any argument order,
+      but some other
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>
+      implementations do not.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing -width in -tag list,
+    using 8n</b></dt>
+  <dd class="It-ohang">(mdoc) Every <b class="Ic" title="Ic">Bl</b> macro having
+      the <b class="Fl" title="Fl">-tag</b> argument requires
+      <b class="Fl" title="Fl">-width</b>, too.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing utility name, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Ex</b>
+      <b class="Fl" title="Fl">-std</b> macro is called without an argument
+      before <b class="Ic" title="Ic">Nm</b> has first been called with an
+      argument.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing function name, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Fo</b> macro is
+      called without an argument. No function name is printed.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">empty head in list item</b></dt>
+  <dd class="It-ohang">(mdoc) In a <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-diag</b>, <b class="Fl" title="Fl">-hang</b>,
+      <b class="Fl" title="Fl">-inset</b>, <b class="Fl" title="Fl">-ohang</b>,
+      or <b class="Fl" title="Fl">-tag</b> list, an
+      <b class="Ic" title="Ic">It</b> macro lacks the required argument. The
+      item head is left empty.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">empty list item</b></dt>
+  <dd class="It-ohang">(mdoc) In a <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-bullet</b>, <b class="Fl" title="Fl">-dash</b>,
+      <b class="Fl" title="Fl">-enum</b>, or
+      <b class="Fl" title="Fl">-hyphen</b> list, an
+      <b class="Ic" title="Ic">It</b> block is empty. An empty list item is
+      shown.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing argument, using next
+    line</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">It</b> macro in a
+      <b class="Ic" title="Ic">Bd</b> <b class="Fl" title="Fl">-column</b> list
+      has no arguments. While <b class="Nm" title="Nm">mandoc</b> uses the text
+      or macros of the following line, if any, for the cell, other formatters
+      may misformat the list.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing font type, using
+    \fR</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bf</b> macro has no
+      argument. It switches to the default font.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unknown font type, using
+    \fR</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Bf</b> argument is
+      invalid. The default font is used instead.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">nothing follows prefix</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Pf</b> macro has no
+      argument, or only one argument and no macro follows on the same input
+      line. This defeats its purpose; in particular, spacing is not suppressed
+      before the text or macros following on the next input line.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">empty reference block</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Rs</b> macro is
+      immediately followed by an <b class="Ic" title="Ic">Re</b> macro on the
+      next input line. Such an empty block does not produce any output.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing section
+    argument</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Xr</b> macro lacks its
+      second, section number argument. The first argument, i.e. the name, is
+      printed, but without subsequent parentheses.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing -std argument, adding
+    it</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Ex</b> or
+      <b class="Ic" title="Ic">Rv</b> macro lacks the required
+      <b class="Fl" title="Fl">-std</b> argument. The
+      <b class="Nm" title="Nm">mandoc</b> utility assumes
+      <b class="Fl" title="Fl">-std</b> even when it is not specified, but other
+      implementations may not.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing option string, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(man) The <b class="Ic" title="Ic">OP</b> macro is
+      invoked without any argument. An empty pair of square brackets is
+    shown.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing resource identifier,
+    using &quot;&quot;</b></dt>
+  <dd class="It-ohang">(man) The <b class="Ic" title="Ic">MT</b> or
+      <b class="Ic" title="Ic">UR</b> macro is invoked without any argument. An
+      empty pair of angle brackets is shown.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing eqn box, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(eqn) A diacritic mark or a binary operator is found, but
+      there is nothing to the left of it. An empty box is inserted.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Warnings_related_to_bad_macro_arguments"><a class="selflink" href="#Warnings_related_to_bad_macro_arguments">Warnings
+  related to bad macro arguments</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">duplicate argument</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bd</b> or
+      <b class="Ic" title="Ic">Bl</b> macro has more than one
+      <b class="Fl" title="Fl">-compact</b>, more than one
+      <b class="Fl" title="Fl">-offset</b>, or more than one
+      <b class="Fl" title="Fl">-width</b> argument. All but the last instances
+      of these arguments are ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping duplicate
+    argument</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">An</b> macro has more
+      than one <b class="Fl" title="Fl">-split</b> or
+      <b class="Fl" title="Fl">-nosplit</b> argument. All but the first of these
+      arguments are ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping duplicate display
+    type</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bd</b> macro has more
+      than one type argument; the first one is used.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping duplicate list
+    type</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bl</b> macro has more
+      than one type argument; the first one is used.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping -width
+    argument</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-column</b>, <b class="Fl" title="Fl">-diag</b>,
+      <b class="Fl" title="Fl">-ohang</b>, <b class="Fl" title="Fl">-inset</b>,
+      or <b class="Fl" title="Fl">-item</b> list has a
+      <b class="Fl" title="Fl">-width</b> argument. That has no effect.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">wrong number of cells</b></dt>
+  <dd class="It-ohang">In a line of a <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-column</b> list, the number of tabs or
+      <b class="Ic" title="Ic">Ta</b> macros is less than the number expected
+      from the list header line or exceeds the expected number by more than one.
+      Missing cells remain empty, and all cells exceeding the number of columns
+      are joined into one single cell.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unknown AT&amp;T UNIX
+    version</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">At</b> macro has an
+      invalid argument. It is used verbatim, with &#x201C;AT&amp;T UNIX &#x201D;
+      prefixed to it.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">comma in function
+    argument</b></dt>
+  <dd class="It-ohang">(mdoc) An argument of an <b class="Ic" title="Ic">Fa</b>
+      or <b class="Ic" title="Ic">Fn</b> macro contains a comma; it should
+      probably be split into two arguments.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">parenthesis in function
+    name</b></dt>
+  <dd class="It-ohang">(mdoc) The first argument of an
+      <b class="Ic" title="Ic">Fc</b> or <b class="Ic" title="Ic">Fn</b> macro
+      contains an opening or closing parenthesis; that's probably wrong,
+      parentheses are added automatically.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unknown library name</b></dt>
+  <dd class="It-ohang">(mdoc, not on <span class="Ux">OpenBSD</span>) An
+      <b class="Ic" title="Ic">Lb</b> macro has an unknown name argument and
+      will be rendered as &#x201C;library
+      &#x201C;<var class="Ar" title="Ar">name</var>&#x201D;&#x201D;.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">invalid content in Rs
+    block</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Rs</b> block contains
+      plain text or non-% macros. The bogus content is left in the syntax tree.
+      Formatting may be poor.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">invalid Boolean
+    argument</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">Sm</b> macro has an
+      argument other than <b class="Cm" title="Cm">on</b> or
+      <b class="Cm" title="Cm">off</b>. The invalid argument is moved out of the
+      macro, which leaves the macro empty, causing it to toggle the spacing
+      mode.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">argument contains two font
+    escapes</b></dt>
+  <dd class="It-ohang">(roff) The second argument of a
+      <b class="Ic" title="Ic">char</b> request contains more than one font
+      escape sequence. A wrong font may remain active after using the
+    character.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unknown font, skipping
+    request</b></dt>
+  <dd class="It-ohang">(man, tbl) A
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+      <b class="Ic" title="Ic">ft</b> request or a
+      <a class="Xr" title="Xr" href="tbl.7;../man7/tbl.7">tbl(7)</a>
+      <b class="Ic" title="Ic">f</b> layout modifier has an unknown
+      <var class="Ar" title="Ar">font</var> argument.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">odd number of characters in
+    request</b></dt>
+  <dd class="It-ohang">(roff) A <b class="Ic" title="Ic">tr</b> request contains
+      an odd number of characters. The last character is mapped to the blank
+      character.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Warnings_related_to_plain_text"><a class="selflink" href="#Warnings_related_to_plain_text">Warnings
+  related to plain text</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">blank line in fill mode, using
+    .sp</b></dt>
+  <dd class="It-ohang">(mdoc) The meaning of blank input lines is only
+      well-defined in non-fill mode: In fill mode, line breaks of text input
+      lines are not supposed to be significant. However, for compatibility with
+      groff, blank lines in fill mode are replaced with
+      <b class="Ic" title="Ic">sp</b> requests.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">tab in filled text</b></dt>
+  <dd class="It-ohang">(mdoc, man) The meaning of tab characters is only
+      well-defined in non-fill mode: In fill mode, whitespace is not supposed to
+      be significant on text input lines. As an implementation dependent choice,
+      tab characters on text lines are passed through to the formatters in any
+      case. Given that the text before the tab character will be filled, it is
+      hard to predict which tab stop position the tab will advance to.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">new sentence, new line</b></dt>
+  <dd class="It-ohang">(mdoc) A new sentence starts in the middle of a text
+      line. Start it on a new input line to help formatters produce correct
+      spacing.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">invalid escape sequence</b></dt>
+  <dd class="It-ohang">(roff) An escape sequence has an invalid opening argument
+      delimiter, lacks the closing argument delimiter, the argument is of an
+      invalid form, or it is a character escape sequence with an invalid name.
+      If the argument is incomplete, <b class="Ic" title="Ic">\*</b> and
+      <b class="Ic" title="Ic">\n</b> expand to an empty string,
+      <b class="Ic" title="Ic">\B</b> to the digit &#x2018;0&#x2019;, and
+      <b class="Ic" title="Ic">\w</b> to the length of the incomplete argument.
+      All other invalid escape sequences are ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">undefined escape, printing
+    literally</b></dt>
+  <dd class="It-ohang">(roff) In an escape sequence, the first character right
+      after the leading backslash is invalid. That character is printed
+      literally, which is equivalent to ignoring the backslash.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">undefined string, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(roff) If a string is used without being defined before,
+      its value is implicitly set to the empty string. However, defining strings
+      explicitly before use keeps the code more readable.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Warnings_related_to_tables"><a class="selflink" href="#Warnings_related_to_tables">Warnings
+  related to tables</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">tbl line starts with
+    span</b></dt>
+  <dd class="It-ohang">(tbl) The first cell in a table layout line is a
+      horizontal span (&#x2018;<b class="Cm" title="Cm">s</b>&#x2019;). Data
+      provided for this cell is ignored, and nothing is printed in the
+    cell.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">tbl column starts with
+    span</b></dt>
+  <dd class="It-ohang">(tbl) The first line of a table layout specification
+      requests a vertical span (&#x2018;<b class="Cm" title="Cm">^</b>&#x2019;).
+      Data provided for this cell is ignored, and nothing is printed in the
+      cell.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping vertical bar in tbl
+    layout</b></dt>
+  <dd class="It-ohang">(tbl) A table layout specification contains more than two
+      consecutive vertical bars. A double bar is printed, all additional bars
+      are discarded.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Errors_related_to_tables"><a class="selflink" href="#Errors_related_to_tables">Errors
+  related to tables</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">non-alphabetic character in tbl
+    options</b></dt>
+  <dd class="It-ohang">(tbl) The table options line contains a character other
+      than a letter, blank, or comma where the beginning of an option name is
+      expected. The character is ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping unknown tbl
+    option</b></dt>
+  <dd class="It-ohang">(tbl) The table options line contains a string of letters
+      that does not match any known option name. The word is ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing tbl option
+    argument</b></dt>
+  <dd class="It-ohang">(tbl) A table option that requires an argument is not
+      followed by an opening parenthesis, or the opening parenthesis is
+      immediately followed by a closing parenthesis. The option is ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">wrong tbl option argument
+    size</b></dt>
+  <dd class="It-ohang">(tbl) A table option argument contains an invalid number
+      of characters. Both the option and the argument are ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">empty tbl layout</b></dt>
+  <dd class="It-ohang">(tbl) A table layout specification is completely empty,
+      specifying zero lines and zero columns. As a fallback, a single
+      left-justified column is used.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">invalid character in tbl
+    layout</b></dt>
+  <dd class="It-ohang">(tbl) A table layout specification contains a character
+      that can neither be interpreted as a layout key character nor as a layout
+      modifier, or a modifier precedes the first key. The invalid character is
+      discarded.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unmatched parenthesis in tbl
+    layout</b></dt>
+  <dd class="It-ohang">(tbl) A table layout specification contains an opening
+      parenthesis, but no matching closing parenthesis. The rest of the input
+      line, starting from the parenthesis, has no effect.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">tbl without any data
+    cells</b></dt>
+  <dd class="It-ohang">(tbl) A table does not contain any data cells. It will
+      probably produce no output.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">ignoring data in spanned tbl
+    cell</b></dt>
+  <dd class="It-ohang">(tbl) A table cell is marked as a horizontal span
+      (&#x2018;<b class="Cm" title="Cm">s</b>&#x2019;) or vertical span
+      (&#x2018;<b class="Cm" title="Cm">^</b>&#x2019;) in the table layout, but
+      it contains data. The data is ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">ignoring extra tbl data
+    cells</b></dt>
+  <dd class="It-ohang">(tbl) A data line contains more cells than the
+      corresponding layout line. The data in the extra cells is ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">data block open at end of
+    tbl</b></dt>
+  <dd class="It-ohang">(tbl) A data block is opened with
+      <b class="Cm" title="Cm">T{</b>, but never closed with a matching
+      <b class="Cm" title="Cm">T}</b>. The remaining data lines of the table are
+      all put into one cell, and any remaining cells stay empty.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Errors_related_to_roff,_mdoc,_and_man_code"><a class="selflink" href="#Errors_related_to_roff,_mdoc,_and_man_code">Errors
+  related to roff, mdoc, and man code</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">duplicate prologue
+    macro</b></dt>
+  <dd class="It-ohang">(mdoc) One of the prologue macros occurs more than once.
+      The last instance overrides all previous ones.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping late title
+    macro</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Dt</b> macro appears
+      after the first non-prologue macro. Traditional formatters cannot handle
+      this because they write the page header before parsing the document body.
+      Even though this technical restriction does not apply to
+      <b class="Nm" title="Nm">mandoc</b>, traditional semantics is preserved.
+      The late macro is discarded including its arguments.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">input stack limit exceeded,
+    infinite loop?</b></dt>
+  <dd class="It-ohang">(roff) Explicit recursion limits are implemented for the
+      following features, in order to prevent infinite loops:
+    <ul class="Bl-dash Bl-compact">
+      <li class="It-dash">expansion of nested escape sequences including
+          expansion of strings and number registers,</li>
+      <li class="It-dash">expansion of nested user-defined macros,</li>
+      <li class="It-dash">and <b class="Ic" title="Ic">so</b> file
+        inclusion.</li>
+    </ul>
+    When a limit is hit, the output is incorrect, typically losing some content,
+      but the parser can continue.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping bad character</b></dt>
+  <dd class="It-ohang">(mdoc, man, roff) The input file contains a byte that is
+      not a printable
+      <a class="Xr" title="Xr" href="ascii.7;../man7/ascii.7">ascii(7)</a>
+      character. The message mentions the character number. The offending byte
+      is replaced with a question mark (&#x2018;?&#x2019;). Consider editing the
+      input file to replace the byte with an ASCII transliteration of the
+      intended character.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping unknown macro</b></dt>
+  <dd class="It-ohang">(mdoc, man, roff) The first identifier on a request or
+      macro line is neither recognized as a
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a> request,
+      nor as a user-defined macro, nor, respectively, as an
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> or
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> macro. It
+      may be mistyped or unsupported. The request or macro is discarded
+      including its arguments.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping request outside
+    macro</b></dt>
+  <dd class="It-ohang">(roff) A <b class="Ic" title="Ic">shift</b> or
+      <b class="Ic" title="Ic">return</b> request occurs outside any macro
+      definition and has no effect.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping insecure
+    request</b></dt>
+  <dd class="It-ohang">(roff) An input file attempted to run a shell command or
+      to read or write an external file. Such attempts are denied for security
+      reasons.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping item outside
+    list</b></dt>
+  <dd class="It-ohang">(mdoc, eqn) An <b class="Ic" title="Ic">It</b> macro
+      occurs outside any <b class="Ic" title="Ic">Bl</b> list, or an
+      <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a>
+      <b class="Ic" title="Ic">above</b> delimiter occurs outside any pile. It
+      is discarded including its arguments.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping column outside column
+    list</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Ta</b> macro occurs
+      outside any <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-column</b> block. It is discarded including its
+      arguments.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping end of block that is
+    not open</b></dt>
+  <dd class="It-ohang">(mdoc, man, eqn, tbl, roff) Various syntax elements can
+      only be used to explicitly close blocks that have previously been opened.
+      An <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> block
+      closing macro, a
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>
+      <b class="Ic" title="Ic">ME</b>, <b class="Ic" title="Ic">RE</b> or
+      <b class="Ic" title="Ic">UE</b> macro, an
+      <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a> right
+      delimiter or closing brace, or the end of an equation, table, or
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+      conditional request is encountered but no matching block is open. The
+      offending request or macro is discarded.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">fewer RS blocks open,
+    skipping</b></dt>
+  <dd class="It-ohang">(man) The <b class="Ic" title="Ic">RE</b> macro is
+      invoked with an argument, but less than the specified number of
+      <b class="Ic" title="Ic">RS</b> blocks is open. The
+      <b class="Ic" title="Ic">RE</b> macro is discarded.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">inserting missing end of
+    block</b></dt>
+  <dd class="It-ohang">(mdoc, tbl) Various
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> macros
+      as well as tables require explicit closing by dedicated macros. A block
+      that doesn't support bad nesting ends before all of its children are
+      properly closed. The open child nodes are closed implicitly.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">appending missing end of
+    block</b></dt>
+  <dd class="It-ohang">(mdoc, man, eqn, tbl, roff) At the end of the document,
+      an explicit
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> block, a
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> next-line
+      scope or <b class="Ic" title="Ic">MT</b>, <b class="Ic" title="Ic">RS</b>
+      or <b class="Ic" title="Ic">UR</b> block, an equation, table, or
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+      conditional or ignore block is still open. The open block is closed
+      implicitly.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">escaped character not allowed in
+    a name</b></dt>
+  <dd class="It-ohang">(roff) Macro, string and register identifiers consist of
+      printable, non-whitespace ASCII characters. Escape sequences and
+      characters and strings expressed in terms of them cannot form part of a
+      name. The first argument of an <b class="Ic" title="Ic">am</b>,
+      <b class="Ic" title="Ic">as</b>, <b class="Ic" title="Ic">de</b>,
+      <b class="Ic" title="Ic">ds</b>, <b class="Ic" title="Ic">nr</b>, or
+      <b class="Ic" title="Ic">rr</b> request, or any argument of an
+      <b class="Ic" title="Ic">rm</b> request, or the name of a request or user
+      defined macro being called, is terminated by an escape sequence. In the
+      cases of <b class="Ic" title="Ic">as</b>, <b class="Ic" title="Ic">ds</b>,
+      and <b class="Ic" title="Ic">nr</b>, the request has no effect at all. In
+      the cases of <b class="Ic" title="Ic">am</b>,
+      <b class="Ic" title="Ic">de</b>, <b class="Ic" title="Ic">rr</b>, and
+      <b class="Ic" title="Ic">rm</b>, what was parsed up to this point is used
+      as the arguments to the request, and the rest of the input line is
+      discarded including the escape sequence. When parsing for a request or a
+      user-defined macro name to be called, only the escape sequence is
+      discarded. The characters preceding it are used as the request or macro
+      name, the characters following it are used as the arguments to the request
+      or macro.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">using macro argument outside
+    macro</b></dt>
+  <dd class="It-ohang">(roff) The escape sequence \$ occurs outside any macro
+      definition and expands to the empty string.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">argument number is not
+    numeric</b></dt>
+  <dd class="It-ohang">(roff) The argument of the escape sequence \$ is not a
+      digit; the escape sequence expands to the empty string.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">NOT IMPLEMENTED: Bd
+    -file</b></dt>
+  <dd class="It-ohang">(mdoc) For security reasons, the
+      <b class="Ic" title="Ic">Bd</b> macro does not support the
+      <b class="Fl" title="Fl">-file</b> argument. By requesting the inclusion
+      of a sensitive file, a malicious document might otherwise trick a
+      privileged user into inadvertently displaying the file on the screen,
+      revealing the file content to bystanders. The argument is ignored
+      including the file name following it.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping display without
+    arguments</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bd</b> block macro does
+      not have any arguments. The block is discarded, and the block content is
+      displayed in whatever mode was active before the block.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing list type, using
+    -item</b></dt>
+  <dd class="It-ohang">(mdoc) A <b class="Ic" title="Ic">Bl</b> macro fails to
+      specify the list type.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">argument is not numeric, using
+    1</b></dt>
+  <dd class="It-ohang">(roff) The argument of a <b class="Ic" title="Ic">ce</b>
+      request is not a number.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">argument is not a
+    character</b></dt>
+  <dd class="It-ohang">(roff) The first argument of a
+      <b class="Ic" title="Ic">char</b> request is neither a single ASCII
+      character nor a single character escape sequence. The request is ignored
+      including all its arguments.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">missing manual name, using
+    &quot;&quot;</b></dt>
+  <dd class="It-ohang">(mdoc) The first call to <b class="Ic" title="Ic">Nm</b>,
+      or any call in the NAME section, lacks the required argument.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">uname(3) system call failed,
+    using UNKNOWN</b></dt>
+  <dd class="It-ohang">(mdoc) The <b class="Ic" title="Ic">Os</b> macro is
+      called without arguments, and the
+      <a class="Xr" title="Xr" href="uname.3;../man3/uname.3">uname(3)</a>
+      system call failed. As a workaround, <b class="Nm" title="Nm">mandoc</b>
+      can be compiled with
+      <b class="Fl" title="Fl">-D</b><b class="Cm" title="Cm">OSNAME=&quot;\&quot;</b><var class="Ar" title="Ar">string</var><b class="Cm" title="Cm">\&quot;&quot;</b>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unknown standard
+    specifier</b></dt>
+  <dd class="It-ohang">(mdoc) An <b class="Ic" title="Ic">St</b> macro has an
+      unknown argument and is discarded.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping request without numeric
+    argument</b></dt>
+  <dd class="It-ohang">(roff, eqn) An <b class="Ic" title="Ic">it</b> request or
+      an <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a>
+      <b class="Ic" title="Ic">size</b> or <b class="Ic" title="Ic">gsize</b>
+      statement has a non-numeric or negative argument or no argument at all.
+      The invalid request or statement is ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">excessive shift</b></dt>
+  <dd class="It-ohang">(roff) The argument of a
+      <b class="Ic" title="Ic">shift</b> request is larger than the number of
+      arguments of the macro that is currently being executed. All macro
+      arguments are deleted and \n(.$ is set to zero.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">NOT IMPLEMENTED: .so with
+    absolute path or &quot;..&quot;</b></dt>
+  <dd class="It-ohang">(roff) For security reasons,
+      <b class="Nm" title="Nm">mandoc</b> allows <b class="Ic" title="Ic">so</b>
+      file inclusion requests only with relative paths and only without
+      ascending to any parent directory. By requesting the inclusion of a
+      sensitive file, a malicious document might otherwise trick a privileged
+      user into inadvertently displaying the file on the screen, revealing the
+      file content to bystanders. <b class="Nm" title="Nm">mandoc</b> only shows
+      the path as it appears behind <b class="Ic" title="Ic">so</b>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">.so request failed</b></dt>
+  <dd class="It-ohang">(roff) Servicing a <b class="Ic" title="Ic">so</b>
+      request requires reading an external file, but the file could not be
+      opened. <b class="Nm" title="Nm">mandoc</b> only shows the path as it
+      appears behind <b class="Ic" title="Ic">so</b>.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping all arguments</b></dt>
+  <dd class="It-ohang">(mdoc, man, eqn, roff) An
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>
+      <b class="Ic" title="Ic">Bt</b>, <b class="Ic" title="Ic">Ed</b>,
+      <b class="Ic" title="Ic">Ef</b>, <b class="Ic" title="Ic">Ek</b>,
+      <b class="Ic" title="Ic">El</b>, <b class="Ic" title="Ic">Lp</b>,
+      <b class="Ic" title="Ic">Pp</b>, <b class="Ic" title="Ic">Re</b>,
+      <b class="Ic" title="Ic">Rs</b>, or <b class="Ic" title="Ic">Ud</b> macro,
+      an <b class="Ic" title="Ic">It</b> macro in a list that don't support item
+      heads, a <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>
+      <b class="Ic" title="Ic">LP</b>, <b class="Ic" title="Ic">P</b>, or
+      <b class="Ic" title="Ic">PP</b> macro, an
+      <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a>
+      <b class="Ic" title="Ic">EQ</b> or <b class="Ic" title="Ic">EN</b> macro,
+      or a <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+      <b class="Ic" title="Ic">br</b>, <b class="Ic" title="Ic">fi</b>, or
+      <b class="Ic" title="Ic">nf</b> request or &#x2018;..&#x2019; block
+      closing request is invoked with at least one argument. All arguments are
+      ignored.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">skipping excess
+    arguments</b></dt>
+  <dd class="It-ohang">(mdoc, man, roff) A macro or request is invoked with too
+      many arguments:
+    <ul class="Bl-dash Bl-compact" style="margin-left: 2.00ex;">
+      <li class="It-dash"><a class="selflink" href="#Fo"><b class="Ic" title="Ic" id="Fo">Fo</b></a>,
+          <b class="Ic" title="Ic">MT</b>, <b class="Ic" title="Ic">PD</b>,
+          <b class="Ic" title="Ic">RS</b>, <b class="Ic" title="Ic">UR</b>,
+          <b class="Ic" title="Ic">ft</b>, or <b class="Ic" title="Ic">sp</b>
+          with more than one argument</li>
+      <li class="It-dash"><a class="selflink" href="#An"><b class="Ic" title="Ic" id="An">An</b></a>
+          with another argument after <b class="Fl" title="Fl">-split</b> or
+          <b class="Fl" title="Fl">-nosplit</b></li>
+      <li class="It-dash"><a class="selflink" href="#RE"><b class="Ic" title="Ic" id="RE">RE</b></a>
+          with more than one argument or with a non-integer argument</li>
+      <li class="It-dash"><a class="selflink" href="#OP"><b class="Ic" title="Ic" id="OP">OP</b></a>
+          or a request of the <b class="Ic" title="Ic">de</b> family with more
+          than two arguments</li>
+      <li class="It-dash"><a class="selflink" href="#Dt"><b class="Ic" title="Ic" id="Dt">Dt</b></a>
+          with more than three arguments</li>
+      <li class="It-dash"><a class="selflink" href="#TH"><b class="Ic" title="Ic" id="TH">TH</b></a>
+          with more than five arguments</li>
+      <li class="It-dash"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a>,
+          <b class="Ic" title="Ic">Bk</b>, or <b class="Ic" title="Ic">Bl</b>
+          with invalid arguments</li>
+    </ul>
+    The excess arguments are ignored.</dd>
+</dl>
+<h2 class="Ss" title="Ss" id="Unsupported_features"><a class="selflink" href="#Unsupported_features">Unsupported
+  features</a></h2>
+<dl class="Bl-ohang">
+  <dt class="It-ohang"><b class="Sy" title="Sy">input too large</b></dt>
+  <dd class="It-ohang">(mdoc, man) Currently,
+      <b class="Nm" title="Nm">mandoc</b> cannot handle input files larger than
+      its arbitrary size limit of 2^31 bytes (2 Gigabytes). Since useful manuals
+      are always small, this is not a problem in practice. Parsing is aborted as
+      soon as the condition is detected.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unsupported control
+    character</b></dt>
+  <dd class="It-ohang">(roff) An ASCII control character supported by other
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+      implementations but not by <b class="Nm" title="Nm">mandoc</b> was found
+      in an input file. It is replaced by a question mark.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unsupported escape
+    sequence</b></dt>
+  <dd class="It-ohang">(roff) An input file contains an escape sequence
+      supported by GNU troff or Heirloom troff but not by
+      <b class="Nm" title="Nm">mandoc</b>, and it is likely that this will cause
+      information loss or considerable misformatting.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unsupported roff
+    request</b></dt>
+  <dd class="It-ohang">(roff) An input file contains a
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a> request
+      supported by GNU troff or Heirloom troff but not by
+      <b class="Nm" title="Nm">mandoc</b>, and it is likely that this will cause
+      information loss or considerable misformatting.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">eqn delim option in tbl</b></dt>
+  <dd class="It-ohang">(eqn, tbl) The options line of a table defines equation
+      delimiters. Any equation source code contained in the table will be
+      printed unformatted.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">unsupported table layout
+    modifier</b></dt>
+  <dd class="It-ohang">(tbl) A table layout specification contains an
+      &#x2018;<b class="Cm" title="Cm">m</b>&#x2019; modifier. The modifier is
+      discarded.</dd>
+  <dt class="It-ohang"><b class="Sy" title="Sy">ignoring macro in table</b></dt>
+  <dd class="It-ohang">(tbl, mdoc, man) A table contains an invocation of an
+      <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a> or
+      <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> macro or of
+      an undefined macro. The macro is ignored, and its arguments are handled as
+      if they were a text line.</dd>
+</dl>
+<h1 class="Sh" title="Sh" id="SEE_ALSO"><a class="selflink" href="#SEE_ALSO">SEE
+  ALSO</a></h1>
+<a class="Xr" title="Xr" href="apropos.1;../man1/apropos.1">apropos(1)</a>,
+  <a class="Xr" title="Xr" href="man.1;../man1/man.1">man(1)</a>,
+  <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a>,
+  <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>,
+  <a class="Xr" title="Xr" href="mandoc_char.7;../man7/mandoc_char.7">mandoc_char(7)</a>,
+  <a class="Xr" title="Xr" href="mdoc.7;../man7/mdoc.7">mdoc(7)</a>,
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>,
+  <a class="Xr" title="Xr" href="tbl.7;../man7/tbl.7">tbl(7)</a>
+<h1 class="Sh" title="Sh" id="HISTORY"><a class="selflink" href="#HISTORY">HISTORY</a></h1>
+The <b class="Nm" title="Nm">mandoc</b> utility first appeared in
+  <span class="Ux">OpenBSD 4.8</span>. The option
+  <b class="Fl" title="Fl">-I</b> appeared in <span class="Ux">OpenBSD
+  5.2</span>, and <b class="Fl" title="Fl">-aCcfhKklMSsw</b> in
+  <span class="Ux">OpenBSD 5.7</span>.
+<h1 class="Sh" title="Sh" id="AUTHORS"><a class="selflink" href="#AUTHORS">AUTHORS</a></h1>
+The <b class="Nm" title="Nm">mandoc</b> utility was written by
+  <span class="An" title="An">Kristaps Dzonsons</span>
+  &lt;<a class="Mt" title="Mt" href="mailto:kristaps@bsd.lv">kristaps@bsd.lv</a>&gt;
+  and is maintained by <span class="An" title="An">Ingo Schwarze</span>
+  &lt;<a class="Mt" title="Mt" href="mailto:schwarze@openbsd.org">schwarze@openbsd.org</a>&gt;.</div>
+<table class="foot">
+  <tr>
+    <td class="foot-date">February 23, 2019</td>
+    <td class="foot-os">Debian</td>
+  </tr>
+</table>

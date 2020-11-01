@@ -1,0 +1,3799 @@
+<!-- mandoc 1.14.3-3 -->
+<table class="head">
+  <tr>
+    <td class="head-ltitle">MDOC(7)</td>
+    <td class="head-vol">Miscellaneous Information Manual</td>
+    <td class="head-rtitle">MDOC(7)</td>
+  </tr>
+</table>
+<div class="manual-text">
+<h1 class="Sh" title="Sh" id="NAME"><a class="selflink" href="#NAME">NAME</a></h1>
+<b class="Nm" title="Nm">mdoc</b> &#x2014; <span class="Nd" title="Nd">semantic
+  markup language for formatting manual pages</span>
+<h1 class="Sh" title="Sh" id="DESCRIPTION"><a class="selflink" href="#DESCRIPTION">DESCRIPTION</a></h1>
+The <b class="Nm" title="Nm">mdoc</b> language supports authoring of manual
+  pages for the <a class="Xr" title="Xr" href="man.1;../man1/man.1">man(1)</a>
+  utility by allowing semantic annotations of words, phrases, page sections and
+  complete manual pages. Such annotations are used by formatting tools to
+  achieve a uniform presentation across all manuals written in
+  <b class="Nm" title="Nm">mdoc</b>, and to support hyperlinking if supported by
+  the output medium.
+<div class="Pp"></div>
+This reference document describes the structure of manual pages and the syntax
+  and usage of the <b class="Nm" title="Nm">mdoc</b> language. The reference
+  implementation of a parsing and formatting tool is
+  <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>; the
+  <a class="Sx" title="Sx" href="#COMPATIBILITY">COMPATIBILITY</a> section
+  describes compatibility with other implementations.
+<div class="Pp"></div>
+In an <b class="Nm" title="Nm">mdoc</b> document, lines beginning with the
+  control character &#x2018;.&#x2019; are called &#x201C;macro lines&#x201D;.
+  The first word is the macro name. It consists of two or three letters. Most
+  macro names begin with a capital letter. For a list of available macros, see
+  <a class="Sx" title="Sx" href="#MACRO_OVERVIEW">MACRO OVERVIEW</a>. The words
+  following the macro name are arguments to the macro, optionally including the
+  names of other, callable macros; see
+  <a class="Sx" title="Sx" href="#MACRO_SYNTAX">MACRO SYNTAX</a> for details.
+<div class="Pp"></div>
+Lines not beginning with the control character are called &#x201C;text
+  lines&#x201D;. They provide free-form text to be printed; the formatting of
+  the text depends on the respective processing context:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+.Sh Macro lines change control state.
+Text lines are interpreted within the current state.
+</pre>
+</div>
+<div class="Pp"></div>
+Many aspects of the basic syntax of the <b class="Nm" title="Nm">mdoc</b>
+  language are based on the
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a> language;
+  see the <i class="Em" title="Em">LANGUAGE SYNTAX</i> and
+  <i class="Em" title="Em">MACRO SYNTAX</i> sections in the
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a> manual for
+  details, in particular regarding comments, escape sequences, whitespace, and
+  quoting. However, using
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a> requests in
+  <b class="Nm" title="Nm">mdoc</b> documents is discouraged;
+  <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>
+  supports some of them merely for backward compatibility.
+<h1 class="Sh" title="Sh" id="MANUAL_STRUCTURE"><a class="selflink" href="#MANUAL_STRUCTURE">MANUAL
+  STRUCTURE</a></h1>
+A well-formed <b class="Nm" title="Nm">mdoc</b> document consists of a document
+  prologue followed by one or more sections.
+<div class="Pp"></div>
+The prologue, which consists of the <b class="Ic" title="Ic">Dd</b>,
+  <b class="Ic" title="Ic">Dt</b>, and <b class="Ic" title="Ic">Os</b> macros in
+  that order, is required for every document.
+<div class="Pp"></div>
+The first section (sections are denoted by <b class="Ic" title="Ic">Sh</b>) must
+  be the NAME section, consisting of at least one
+  <b class="Ic" title="Ic">Nm</b> followed by <b class="Ic" title="Ic">Nd</b>.
+<div class="Pp"></div>
+Following that, convention dictates specifying at least the
+  <i class="Em" title="Em">SYNOPSIS</i> and
+  <i class="Em" title="Em">DESCRIPTION</i> sections, although this varies
+  between manual sections.
+<div class="Pp"></div>
+The following is a well-formed skeleton <b class="Nm" title="Nm">mdoc</b> file
+  for a utility &#x201C;progname&#x201D;:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+.Dd $Mdocdate$
+.Dt PROGNAME section
+.Os
+.Sh NAME
+.Nm progname
+.Nd one line about what it does
+.\&quot; .Sh LIBRARY
+.\&quot; For sections 2, 3, and 9 only.
+.\&quot; Not used in OpenBSD.
+.Sh SYNOPSIS
+.Nm progname
+.Op Fl options
+.Ar
+.Sh DESCRIPTION
+The
+.Nm
+utility processes files ...
+.\&quot; .Sh CONTEXT
+.\&quot; For section 9 functions only.
+.\&quot; .Sh IMPLEMENTATION NOTES
+.\&quot; Not used in OpenBSD.
+.\&quot; .Sh RETURN VALUES
+.\&quot; For sections 2, 3, and 9 function return values only.
+.\&quot; .Sh ENVIRONMENT
+.\&quot; For sections 1, 6, 7, and 8 only.
+.\&quot; .Sh FILES
+.\&quot; .Sh EXIT STATUS
+.\&quot; For sections 1, 6, and 8 only.
+.\&quot; .Sh EXAMPLES
+.\&quot; .Sh DIAGNOSTICS
+.\&quot; For sections 1, 4, 6, 7, 8, and 9 printf/stderr messages only.
+.\&quot; .Sh ERRORS
+.\&quot; For sections 2, 3, 4, and 9 errno settings only.
+.\&quot; .Sh SEE ALSO
+.\&quot; .Xr foobar 1
+.\&quot; .Sh STANDARDS
+.\&quot; .Sh HISTORY
+.\&quot; .Sh AUTHORS
+.\&quot; .Sh CAVEATS
+.\&quot; .Sh BUGS
+.\&quot; .Sh SECURITY CONSIDERATIONS
+.\&quot; Not used in OpenBSD.
+</pre>
+</div>
+<div class="Pp"></div>
+The sections in an <b class="Nm" title="Nm">mdoc</b> document are conventionally
+  ordered as they appear above. Sections should be composed as follows:
+<dl class="Bl-ohang" style="margin-left: 6.00ex;">
+  <dt class="It-ohang"><i class="Em" title="Em">NAME</i></dt>
+  <dd class="It-ohang">The name(s) and a one line description of the documented
+      material. The syntax for this as follows:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Nm name0 ,
+.Nm name1 ,
+.Nm name2
+.Nd a one line description
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    Multiple &#x2018;Nm&#x2019; names should be separated by commas.
+    <div class="Pp"></div>
+    The <b class="Ic" title="Ic">Nm</b> macro(s) must precede the
+      <b class="Ic" title="Ic">Nd</b> macro.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Nm</b> and
+    <b class="Ic" title="Ic">Nd</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">LIBRARY</i></dt>
+  <dd class="It-ohang">The name of the library containing the documented
+      material, which is assumed to be a function in a section 2, 3, or 9
+      manual. The syntax for this is as follows:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Lb libarm
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Lb</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">SYNOPSIS</i></dt>
+  <dd class="It-ohang">Documents the utility invocation syntax, function call
+      syntax, or device configuration.
+    <div class="Pp"></div>
+    For the first, utilities (sections 1, 6, and 8), this is generally
+      structured as follows:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Nm bar
+.Op Fl v
+.Op Fl o Ar file
+.Op Ar
+.Nm foo
+.Op Fl v
+.Op Fl o Ar file
+.Op Ar
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    Commands should be ordered alphabetically.
+    <div class="Pp"></div>
+    For the second, function calls (sections 2, 3, 9):
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.In header.h
+.Vt extern const char *global;
+.Ft &quot;char *&quot;
+.Fn foo &quot;const char *src&quot;
+.Ft &quot;char *&quot;
+.Fn bar &quot;const char *src&quot;
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    Ordering of <b class="Ic" title="Ic">In</b>,
+      <b class="Ic" title="Ic">Vt</b>, <b class="Ic" title="Ic">Fn</b>, and
+      <b class="Ic" title="Ic">Fo</b> macros should follow C header-file
+      conventions.
+    <div class="Pp"></div>
+    And for the third, configurations (section 4):
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Cd &quot;it* at isa? port 0x2e&quot;
+.Cd &quot;it* at isa? port 0x4e&quot;
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    Manuals not in these sections generally don't need a
+      <i class="Em" title="Em">SYNOPSIS</i>.
+    <div class="Pp"></div>
+    Some macros are displayed differently in the
+      <i class="Em" title="Em">SYNOPSIS</i> section, particularly
+      <b class="Ic" title="Ic">Nm</b>, <b class="Ic" title="Ic">Cd</b>,
+      <b class="Ic" title="Ic">Fd</b>, <b class="Ic" title="Ic">Fn</b>,
+      <b class="Ic" title="Ic">Fo</b>, <b class="Ic" title="Ic">In</b>,
+      <b class="Ic" title="Ic">Vt</b>, and <b class="Ic" title="Ic">Ft</b>. All
+      of these macros are output on their own line. If two such dissimilar
+      macros are pairwise invoked (except for <b class="Ic" title="Ic">Ft</b>
+      before <b class="Ic" title="Ic">Fo</b> or
+      <b class="Ic" title="Ic">Fn</b>), they are separated by a vertical space,
+      unless in the case of <b class="Ic" title="Ic">Fo</b>,
+      <b class="Ic" title="Ic">Fn</b>, and <b class="Ic" title="Ic">Ft</b>,
+      which are always separated by vertical space.
+    <div class="Pp"></div>
+    When text and macros following an <b class="Ic" title="Ic">Nm</b> macro
+      starting an input line span multiple output lines, all output lines but
+      the first will be indented to align with the text immediately following
+      the <b class="Ic" title="Ic">Nm</b> macro, up to the next
+      <b class="Ic" title="Ic">Nm</b>, <b class="Ic" title="Ic">Sh</b>, or
+      <b class="Ic" title="Ic">Ss</b> macro or the end of an enclosing block,
+      whichever comes first.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">DESCRIPTION</i></dt>
+  <dd class="It-ohang">This begins with an expansion of the brief, one line
+      description in <i class="Em" title="Em">NAME</i>:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+The
+.Nm
+utility does this, that, and the other.
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    It usually follows with a breakdown of the options (if documenting a
+      command), such as:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+The arguments are as follows:
+.Bl -tag -width Ds
+.It Fl v
+Print verbose information.
+.El
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    List the options in alphabetical order, uppercase before lowercase for each
+      letter and with no regard to whether an option takes an argument. Put
+      digits in ascending order before all letter options.
+    <div class="Pp"></div>
+    Manuals not documenting a command won't include the above fragment.
+    <div class="Pp"></div>
+    Since the <i class="Em" title="Em">DESCRIPTION</i> section usually contains
+      most of the text of a manual, longer manuals often use the
+      <b class="Ic" title="Ic">Ss</b> macro to form subsections. In very long
+      manuals, the <i class="Em" title="Em">DESCRIPTION</i> may be split into
+      multiple sections, each started by an <b class="Ic" title="Ic">Sh</b>
+      macro followed by a non-standard section name, and each having several
+      subsections, like in the present <b class="Nm" title="Nm">mdoc</b>
+    manual.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">CONTEXT</i></dt>
+  <dd class="It-ohang">This section lists the contexts in which functions can be
+      called in section 9. The contexts are autoconf, process, or
+    interrupt.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">IMPLEMENTATION NOTES</i></dt>
+  <dd class="It-ohang">Implementation-specific notes should be kept here. This
+      is useful when implementing standard functions that may have side effects
+      or notable algorithmic implications.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">RETURN VALUES</i></dt>
+  <dd class="It-ohang">This section documents the return values of functions in
+      sections 2, 3, and 9.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Rv</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">ENVIRONMENT</i></dt>
+  <dd class="It-ohang">Lists the environment variables used by the utility, and
+      explains the syntax and semantics of their values. The
+      <a class="Xr" title="Xr" href="environ.7;../man7/environ.7">environ(7)</a>
+      manual provides examples of typical content and formatting.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Ev</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">FILES</i></dt>
+  <dd class="It-ohang">Documents files used. It's helpful to document both the
+      file name and a short description of how the file is used (created,
+      modified, etc.).
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Pa</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">EXIT STATUS</i></dt>
+  <dd class="It-ohang">This section documents the command exit status for
+      section 1, 6, and 8 utilities. Historically, this information was
+      described in <i class="Em" title="Em">DIAGNOSTICS</i>, a practise that is
+      now discouraged.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Ex</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">EXAMPLES</i></dt>
+  <dd class="It-ohang">Example usages. This often contains snippets of
+      well-formed, well-tested invocations. Make sure that examples work
+      properly!</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">DIAGNOSTICS</i></dt>
+  <dd class="It-ohang">Documents error messages. In section 4 and 9 manuals,
+      these are usually messages printed by the kernel to the console and to the
+      kernel log. In section 1, 6, 7, and 8, these are usually messages printed
+      by userland programs to the standard error output.
+    <div class="Pp"></div>
+    Historically, this section was used in place of
+      <i class="Em" title="Em">EXIT STATUS</i> for manuals in sections 1, 6, and
+      8; however, this practise is discouraged.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Bl</b> <b class="Fl" title="Fl">-diag</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">ERRORS</i></dt>
+  <dd class="It-ohang">Documents
+      <a class="Xr" title="Xr" href="errno.2;../man2/errno.2">errno(2)</a>
+      settings in sections 2, 3, 4, and 9.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Er</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">SEE ALSO</i></dt>
+  <dd class="It-ohang">References other manuals with related topics. This
+      section should exist for most manuals. Cross-references should
+      conventionally be ordered first by section, then alphabetically (ignoring
+      case).
+    <div class="Pp"></div>
+    References to other documentation concerning the topic of the manual page,
+      for example authoritative books or journal articles, may also be provided
+      in this section.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">Rs</b> and
+    <b class="Ic" title="Ic">Xr</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">STANDARDS</i></dt>
+  <dd class="It-ohang">References any standards implemented or used. If not
+      adhering to any standards, the <i class="Em" title="Em">HISTORY</i>
+      section should be used instead.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">St</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">HISTORY</i></dt>
+  <dd class="It-ohang">A brief history of the subject, including where it was
+      first implemented, and when it was ported to or reimplemented for the
+      operating system at hand.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">AUTHORS</i></dt>
+  <dd class="It-ohang">Credits to the person or persons who wrote the code
+      and/or documentation. Authors should generally be noted by both name and
+      email address.
+    <div class="Pp"></div>
+    See <b class="Ic" title="Ic">An</b>.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">CAVEATS</i></dt>
+  <dd class="It-ohang">Common misuses and misunderstandings should be explained
+      in this section.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">BUGS</i></dt>
+  <dd class="It-ohang">Known bugs, limitations, and work-arounds should be
+      described in this section.</dd>
+  <dt class="It-ohang"><i class="Em" title="Em">SECURITY CONSIDERATIONS</i></dt>
+  <dd class="It-ohang">Documents any security precautions that operators should
+      consider.</dd>
+</dl>
+<h1 class="Sh" title="Sh" id="MACRO_OVERVIEW"><a class="selflink" href="#MACRO_OVERVIEW">MACRO
+  OVERVIEW</a></h1>
+This overview is sorted such that macros of similar purpose are listed together,
+  to help find the best macro for any given purpose. Deprecated macros are not
+  included in the overview, but can be found below in the alphabetical
+  <a class="Sx" title="Sx" href="#MACRO_REFERENCE">MACRO REFERENCE</a>.
+<h2 class="Ss" title="Ss" id="Document_preamble_and_NAME_section_macros"><a class="selflink" href="#Document_preamble_and_NAME_section_macros">Document
+  preamble and NAME section macros</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dd"><b class="Ic" title="Ic" id="Dd">Dd</b></a></td>
+    <td class="It-column">document date: <b class="Cm" title="Cm">$Mdocdate$</b>
+      | <var class="Ar" title="Ar">month day</var>,
+      <var class="Ar" title="Ar">year</var></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dt"><b class="Ic" title="Ic" id="Dt">Dt</b></a></td>
+    <td class="It-column">document title: <var class="Ar" title="Ar">TITLE
+      section</var>
+      [<span class="Op"><var class="Ar" title="Ar">arch</var></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Os"><b class="Ic" title="Ic" id="Os">Os</b></a></td>
+    <td class="It-column">operating system version:
+      [<span class="Op"><var class="Ar" title="Ar">system</var>
+      [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nm"><b class="Ic" title="Ic" id="Nm">Nm</b></a></td>
+    <td class="It-column">document name (one argument)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nd"><b class="Ic" title="Ic" id="Nd">Nd</b></a></td>
+    <td class="It-column">document description (one line)</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Sections_and_cross_references"><a class="selflink" href="#Sections_and_cross_references">Sections
+  and cross references</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sh"><b class="Ic" title="Ic" id="Sh">Sh</b></a></td>
+    <td class="It-column">section header (one line)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ss"><b class="Ic" title="Ic" id="Ss">Ss</b></a></td>
+    <td class="It-column">subsection header (one line)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sx"><b class="Ic" title="Ic" id="Sx">Sx</b></a></td>
+    <td class="It-column">internal cross reference to a section or
+      subsection</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Xr"><b class="Ic" title="Ic" id="Xr">Xr</b></a></td>
+    <td class="It-column">cross reference to another manual page:
+      <var class="Ar" title="Ar">name section</var></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pp"><b class="Ic" title="Ic" id="Pp">Pp</b></a></td>
+    <td class="It-column">start a text paragraph (no arguments)</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Displays_and_lists"><a class="selflink" href="#Displays_and_lists">Displays
+  and lists</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a>,
+      <b class="Ic" title="Ic">Ed</b></td>
+    <td class="It-column">display block:
+      <b class="Fl" title="Fl">-</b><var class="Ar" title="Ar">type</var>
+      [<span class="Op"><b class="Fl" title="Fl">-offset</b>
+      <var class="Ar" title="Ar">width</var></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-compact</b></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#D1"><b class="Ic" title="Ic" id="D1">D1</b></a></td>
+    <td class="It-column">indented display (one line)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dl"><b class="Ic" title="Ic" id="Dl">Dl</b></a></td>
+    <td class="It-column">indented literal display (one line)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ql"><b class="Ic" title="Ic" id="Ql">Ql</b></a></td>
+    <td class="It-column">in-line literal display:
+      &#x2018;<code class="Li">text</code>&#x2019;</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bl"><b class="Ic" title="Ic" id="Bl">Bl</b></a>,
+      <b class="Ic" title="Ic">El</b></td>
+    <td class="It-column">list block:
+      <b class="Fl" title="Fl">-</b><var class="Ar" title="Ar">type</var>
+      [<span class="Op"><b class="Fl" title="Fl">-width</b>
+      <var class="Ar" title="Ar">val</var></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-offset</b>
+      <var class="Ar" title="Ar">val</var></span>]
+      [<span class="Op"><b class="Fl" title="Fl">-compact</b></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#It"><b class="Ic" title="Ic" id="It">It</b></a></td>
+    <td class="It-column">list item (syntax depends on
+      <b class="Fl" title="Fl">-</b><var class="Ar" title="Ar">type</var>)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ta"><b class="Ic" title="Ic" id="Ta">Ta</b></a></td>
+    <td class="It-column">table cell separator in
+      <b class="Ic" title="Ic">Bl</b> <b class="Fl" title="Fl">-column</b>
+      <span class="No">lists</span></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Rs"><b class="Ic" title="Ic" id="Rs">Rs</b></a>,
+      <b class="Ic" title="Ic">%*</b>, <b class="Ic" title="Ic">Re</b></td>
+    <td class="It-column">bibliographic block (references)</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Spacing_control"><a class="selflink" href="#Spacing_control">Spacing
+  control</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pf"><b class="Ic" title="Ic" id="Pf">Pf</b></a></td>
+    <td class="It-column">prefix, no following horizontal space (one
+      argument)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ns"><b class="Ic" title="Ic" id="Ns">Ns</b></a></td>
+    <td class="It-column">roman font, no preceding horizontal space (no
+      arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ap"><b class="Ic" title="Ic" id="Ap">Ap</b></a></td>
+    <td class="It-column">apostrophe without surrounding whitespace (no
+      arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sm"><b class="Ic" title="Ic" id="Sm">Sm</b></a></td>
+    <td class="It-column">switch horizontal spacing mode:
+      [<span class="Op"><b class="Cm" title="Cm">on</b> |
+      <b class="Cm" title="Cm">off</b></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bk"><b class="Ic" title="Ic" id="Bk">Bk</b></a>,
+      <b class="Ic" title="Ic">Ek</b></td>
+    <td class="It-column">keep block: <b class="Fl" title="Fl">-words</b></td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Semantic_markup_for_command_line_utilities"><a class="selflink" href="#Semantic_markup_for_command_line_utilities">Semantic
+  markup for command line utilities</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nm"><b class="Ic" title="Ic" id="Nm">Nm</b></a></td>
+    <td class="It-column">start a SYNOPSIS block with the name of a utility</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fl"><b class="Ic" title="Ic" id="Fl">Fl</b></a></td>
+    <td class="It-column">command line options (flags) (&gt;=0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Cm"><b class="Ic" title="Ic" id="Cm">Cm</b></a></td>
+    <td class="It-column">command modifier (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ar"><b class="Ic" title="Ic" id="Ar">Ar</b></a></td>
+    <td class="It-column">command arguments (&gt;=0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Op"><b class="Ic" title="Ic" id="Op">Op</b></a>,
+      <b class="Ic" title="Ic">Oo</b>, <b class="Ic" title="Ic">Oc</b></td>
+    <td class="It-column">optional syntax elements (enclosure)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ic"><b class="Ic" title="Ic" id="Ic">Ic</b></a></td>
+    <td class="It-column">internal or interactive command (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ev"><b class="Ic" title="Ic" id="Ev">Ev</b></a></td>
+    <td class="It-column">environmental variable (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pa"><b class="Ic" title="Ic" id="Pa">Pa</b></a></td>
+    <td class="It-column">file system path (&gt;=0 arguments)</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Semantic_markup_for_function_libraries"><a class="selflink" href="#Semantic_markup_for_function_libraries">Semantic
+  markup for function libraries</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Lb"><b class="Ic" title="Ic" id="Lb">Lb</b></a></td>
+    <td class="It-column">function library (one argument)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#In"><b class="Ic" title="Ic" id="In">In</b></a></td>
+    <td class="It-column">include file (one argument)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fd"><b class="Ic" title="Ic" id="Fd">Fd</b></a></td>
+    <td class="It-column">other preprocessor directive (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ft"><b class="Ic" title="Ic" id="Ft">Ft</b></a></td>
+    <td class="It-column">function type (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fo"><b class="Ic" title="Ic" id="Fo">Fo</b></a>,
+      <b class="Ic" title="Ic">Fc</b></td>
+    <td class="It-column">function block:
+      <var class="Ar" title="Ar">funcname</var></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fn"><b class="Ic" title="Ic" id="Fn">Fn</b></a></td>
+    <td class="It-column">function name:
+      <var class="Ar" title="Ar">funcname</var>
+      [<span class="Op"><var class="Ar" title="Ar">argument
+      ...</var></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fa"><b class="Ic" title="Ic" id="Fa">Fa</b></a></td>
+    <td class="It-column">function argument (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Vt"><b class="Ic" title="Ic" id="Vt">Vt</b></a></td>
+    <td class="It-column">variable type (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Va"><b class="Ic" title="Ic" id="Va">Va</b></a></td>
+    <td class="It-column">variable name (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dv"><b class="Ic" title="Ic" id="Dv">Dv</b></a></td>
+    <td class="It-column">defined variable or preprocessor constant (&gt;0
+      arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Er"><b class="Ic" title="Ic" id="Er">Er</b></a></td>
+    <td class="It-column">error constant (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ev"><b class="Ic" title="Ic" id="Ev">Ev</b></a></td>
+    <td class="It-column">environmental variable (&gt;0 arguments)</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Various_semantic_markup"><a class="selflink" href="#Various_semantic_markup">Various
+  semantic markup</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#An"><b class="Ic" title="Ic" id="An">An</b></a></td>
+    <td class="It-column">author name (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Lk"><b class="Ic" title="Ic" id="Lk">Lk</b></a></td>
+    <td class="It-column">hyperlink: <var class="Ar" title="Ar">uri</var>
+      [<span class="Op"><var class="Ar" title="Ar">display_name</var></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Mt"><b class="Ic" title="Ic" id="Mt">Mt</b></a></td>
+    <td class="It-column">&#x201C;mailto&#x201D; hyperlink:
+      <var class="Ar" title="Ar">localpart</var>@<var class="Ar" title="Ar">domain</var></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Cd"><b class="Ic" title="Ic" id="Cd">Cd</b></a></td>
+    <td class="It-column">kernel configuration declaration (&gt;0
+      arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ad"><b class="Ic" title="Ic" id="Ad">Ad</b></a></td>
+    <td class="It-column">memory address (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ms"><b class="Ic" title="Ic" id="Ms">Ms</b></a></td>
+    <td class="It-column">mathematical symbol (&gt;0 arguments)</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Physical_markup"><a class="selflink" href="#Physical_markup">Physical
+  markup</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Em"><b class="Ic" title="Ic" id="Em">Em</b></a></td>
+    <td class="It-column">italic font or underline (emphasis) (&gt;0
+      arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sy"><b class="Ic" title="Ic" id="Sy">Sy</b></a></td>
+    <td class="It-column">boldface font (symbolic) (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#No"><b class="Ic" title="Ic" id="No">No</b></a></td>
+    <td class="It-column">return to roman font (normal) (&gt;0 arguments)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bf"><b class="Ic" title="Ic" id="Bf">Bf</b></a>,
+      <b class="Ic" title="Ic">Ef</b></td>
+    <td class="It-column">font block:
+      <b class="Fl" title="Fl">-</b><var class="Ar" title="Ar">type</var> |
+      <a class="selflink" href="#Em"><b class="Cm" title="Cm" id="Em">Em</b></a>
+      |
+      <a class="selflink" href="#Li"><b class="Cm" title="Cm" id="Li">Li</b></a>
+      |
+      <a class="selflink" href="#Sy"><b class="Cm" title="Cm" id="Sy">Sy</b></a></td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Physical_enclosures"><a class="selflink" href="#Physical_enclosures">Physical
+  enclosures</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dq"><b class="Ic" title="Ic" id="Dq">Dq</b></a>,
+      <b class="Ic" title="Ic">Do</b>, <b class="Ic" title="Ic">Dc</b></td>
+    <td class="It-column">enclose in typographic double quotes:
+      &#x201C;text&#x201D;</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Qq"><b class="Ic" title="Ic" id="Qq">Qq</b></a>,
+      <b class="Ic" title="Ic">Qo</b>, <b class="Ic" title="Ic">Qc</b></td>
+    <td class="It-column">enclose in typewriter double quotes:
+      &#x201C;text&#x201D;</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sq"><b class="Ic" title="Ic" id="Sq">Sq</b></a>,
+      <b class="Ic" title="Ic">So</b>, <b class="Ic" title="Ic">Sc</b></td>
+    <td class="It-column">enclose in single quotes: &#x2018;text&#x2019;</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pq"><b class="Ic" title="Ic" id="Pq">Pq</b></a>,
+      <b class="Ic" title="Ic">Po</b>, <b class="Ic" title="Ic">Pc</b></td>
+    <td class="It-column">enclose in parentheses: (text)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bq"><b class="Ic" title="Ic" id="Bq">Bq</b></a>,
+      <b class="Ic" title="Ic">Bo</b>, <b class="Ic" title="Ic">Bc</b></td>
+    <td class="It-column">enclose in square brackets: [text]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Brq"><b class="Ic" title="Ic" id="Brq">Brq</b></a>,
+      <b class="Ic" title="Ic">Bro</b>, <b class="Ic" title="Ic">Brc</b></td>
+    <td class="It-column">enclose in curly braces: {text}</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Aq"><b class="Ic" title="Ic" id="Aq">Aq</b></a>,
+      <b class="Ic" title="Ic">Ao</b>, <b class="Ic" title="Ic">Ac</b></td>
+    <td class="It-column">enclose in angle brackets: &#x27E8;text&#x27E9;</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Eo"><b class="Ic" title="Ic" id="Eo">Eo</b></a>,
+      <b class="Ic" title="Ic">Ec</b></td>
+    <td class="It-column">generic enclosure</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Text_production"><a class="selflink" href="#Text_production">Text
+  production</a></h2>
+<table class="Bl-column">
+  <colgroup>
+    <col style="width: 18.60ex;"/>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ex"><b class="Ic" title="Ic" id="Ex">Ex</b></a>
+      <b class="Fl" title="Fl">-std</b></td>
+    <td class="It-column">standard command exit values:
+      [<span class="Op"><var class="Ar" title="Ar">utility
+      ...</var></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Rv"><b class="Ic" title="Ic" id="Rv">Rv</b></a>
+      <b class="Fl" title="Fl">-std</b></td>
+    <td class="It-column">standard function return values:
+      [<span class="Op"><var class="Ar" title="Ar">function
+      ...</var></span>]</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#St"><b class="Ic" title="Ic" id="St">St</b></a></td>
+    <td class="It-column">reference to a standards document (one argument)</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#At"><b class="Ic" title="Ic" id="At">At</b></a></td>
+    <td class="It-column"><span class="Ux">AT&amp;T UNIX</span></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bx"><b class="Ic" title="Ic" id="Bx">Bx</b></a></td>
+    <td class="It-column"><span class="Ux">BSD</span></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bsx"><b class="Ic" title="Ic" id="Bsx">Bsx</b></a></td>
+    <td class="It-column"><span class="Ux">BSD/OS</span></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nx"><b class="Ic" title="Ic" id="Nx">Nx</b></a></td>
+    <td class="It-column"><span class="Ux">NetBSD</span></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fx"><b class="Ic" title="Ic" id="Fx">Fx</b></a></td>
+    <td class="It-column"><span class="Ux">FreeBSD</span></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ox"><b class="Ic" title="Ic" id="Ox">Ox</b></a></td>
+    <td class="It-column"><span class="Ux">OpenBSD</span></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dx"><b class="Ic" title="Ic" id="Dx">Dx</b></a></td>
+    <td class="It-column"><span class="Ux">DragonFly</span></td>
+  </tr>
+</table>
+<h1 class="Sh" title="Sh" id="MACRO_REFERENCE"><a class="selflink" href="#MACRO_REFERENCE">MACRO
+  REFERENCE</a></h1>
+This section is a canonical reference of all macros, arranged alphabetically.
+  For the scoping of individual macros, see
+  <a class="Sx" title="Sx" href="#MACRO_SYNTAX">MACRO SYNTAX</a>.
+<dl class="Bl-tag" style="margin-left: 6.60ex;">
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%A"><b class="Ic" title="Ic" id="%A">%A</b></a>
+    <var class="Ar" title="Ar">first_name ... last_name</var></dt>
+  <dd class="It-tag">Author name of an <b class="Ic" title="Ic">Rs</b> block.
+      Multiple authors should each be accorded their own
+      <b class="Ic" title="Ic">%A</b> line. Author names should be ordered with
+      full or abbreviated forename(s) first, then full surname.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%B"><b class="Ic" title="Ic" id="%B">%B</b></a>
+    <var class="Ar" title="Ar">title</var></dt>
+  <dd class="It-tag">Book title of an <b class="Ic" title="Ic">Rs</b> block.
+      This macro may also be used in a non-bibliographic context when referring
+      to book titles.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%C"><b class="Ic" title="Ic" id="%C">%C</b></a>
+    <var class="Ar" title="Ar">location</var></dt>
+  <dd class="It-tag">Publication city or location of an
+      <b class="Ic" title="Ic">Rs</b> block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%D"><b class="Ic" title="Ic" id="%D">%D</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">month day</var>,</span>]
+    <var class="Ar" title="Ar">year</var></dt>
+  <dd class="It-tag">Publication date of an <b class="Ic" title="Ic">Rs</b>
+      block. Provide the full English name of the
+      <var class="Ar" title="Ar">month</var> and all four digits of the
+      <var class="Ar" title="Ar">year</var>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%I"><b class="Ic" title="Ic" id="%I">%I</b></a>
+    <var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">Publisher or issuer name of an
+      <b class="Ic" title="Ic">Rs</b> block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%J"><b class="Ic" title="Ic" id="%J">%J</b></a>
+    <var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">Journal name of an <b class="Ic" title="Ic">Rs</b>
+    block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%N"><b class="Ic" title="Ic" id="%N">%N</b></a>
+    <var class="Ar" title="Ar">number</var></dt>
+  <dd class="It-tag">Issue number (usually for journals) of an
+      <b class="Ic" title="Ic">Rs</b> block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%O"><b class="Ic" title="Ic" id="%O">%O</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Optional information of an <b class="Ic" title="Ic">Rs</b>
+      block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%P"><b class="Ic" title="Ic" id="%P">%P</b></a>
+    <var class="Ar" title="Ar">number</var></dt>
+  <dd class="It-tag">Book or journal page number of an
+      <b class="Ic" title="Ic">Rs</b> block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%Q"><b class="Ic" title="Ic" id="%Q">%Q</b></a>
+    <var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">Institutional author (school, government, etc.) of an
+      <b class="Ic" title="Ic">Rs</b> block. Multiple institutional authors
+      should each be accorded their own <b class="Ic" title="Ic">%Q</b>
+    line.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%R"><b class="Ic" title="Ic" id="%R">%R</b></a>
+    <var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">Technical report name of an <b class="Ic" title="Ic">Rs</b>
+      block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%T"><b class="Ic" title="Ic" id="%T">%T</b></a>
+    <var class="Ar" title="Ar">title</var></dt>
+  <dd class="It-tag">Article title of an <b class="Ic" title="Ic">Rs</b> block.
+      This macro may also be used in a non-bibliographical context when
+      referring to article titles.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%U"><b class="Ic" title="Ic" id="%U">%U</b></a>
+    <var class="Ar" title="Ar">protocol</var>://<var class="Ar" title="Ar">path</var></dt>
+  <dd class="It-tag">URI of reference document.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#%V"><b class="Ic" title="Ic" id="%V">%V</b></a>
+    <var class="Ar" title="Ar">number</var></dt>
+  <dd class="It-tag">Volume number of an <b class="Ic" title="Ic">Rs</b>
+    block.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ac"><b class="Ic" title="Ic" id="Ac">Ac</b></a></dt>
+  <dd class="It-tag">Close an <b class="Ic" title="Ic">Ao</b> block. Does not
+      have any tail arguments.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ad"><b class="Ic" title="Ic" id="Ad">Ad</b></a>
+    <var class="Ar" title="Ar">address</var></dt>
+  <dd class="It-tag">Memory address. Do not use this for postal addresses.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Ad [0,$]</code></div>
+    <div class="D1"><code class="Li">.Ad 0x00000000</code></div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#An"><b class="Ic" title="Ic" id="An">An</b></a>
+    <b class="Fl" title="Fl">-split</b> |
+    <a class="selflink" href="#nosplit"><b class="Fl" title="Fl" id="nosplit">-nosplit</b></a>
+    | <var class="Ar" title="Ar">first_name ... last_name</var></dt>
+  <dd class="It-tag">Author name. Can be used both for the authors of the
+      program, function, or driver documented in the manual, or for the authors
+      of the manual itself. Requires either the name of an author or one of the
+      following arguments:
+    <div class="Pp"></div>
+    <div class="Bl-tag" style="margin-left: 6.00ex;">
+    <dl class="Bl-tag Bl-compact" style="margin-left: 13.80ex;">
+      <dt class="It-tag" style="margin-left: -13.80ex;"><a class="selflink" href="#split"><b class="Fl" title="Fl" id="split">-split</b></a></dt>
+      <dd class="It-tag">Start a new output line before each subsequent
+          invocation of <b class="Ic" title="Ic">An</b>.</dd>
+      <dt class="It-tag" style="margin-left: -13.80ex;"><a class="selflink" href="#nosplit"><b class="Fl" title="Fl" id="nosplit">-nosplit</b></a></dt>
+      <dd class="It-tag">The opposite of
+        <b class="Fl" title="Fl">-split</b>.</dd>
+    </dl>
+    </div>
+    <div class="Pp"></div>
+    The default is <b class="Fl" title="Fl">-nosplit</b>. The effect of
+      selecting either of the <b class="Fl" title="Fl">-split</b> modes ends at
+      the beginning of the <i class="Em" title="Em">AUTHORS</i> section. In the
+      <i class="Em" title="Em">AUTHORS</i> section, the default is
+      <b class="Fl" title="Fl">-nosplit</b> for the first author listing and
+      <b class="Fl" title="Fl">-split</b> for all other author listings.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.An -nosplit</code></div>
+    <div class="D1"><code class="Li">.An Kristaps Dzonsons Aq Mt
+      kristaps@bsd.lv</code></div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ao"><b class="Ic" title="Ic" id="Ao">Ao</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Begin a block enclosed by angle brackets. Does not have any
+      head arguments. This macro is almost never useful. See
+      <b class="Ic" title="Ic">Aq</b> for more details.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ap"><b class="Ic" title="Ic" id="Ap">Ap</b></a></dt>
+  <dd class="It-tag">Inserts an apostrophe without any surrounding whitespace.
+      This is generally used as a grammatical device when referring to the verb
+      form of a function.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Fn execve Ap d</code></div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Aq"><b class="Ic" title="Ic" id="Aq">Aq</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Enclose the rest of the input line in angle brackets. The
+      only important use case is for email addresses. See
+      <b class="Ic" title="Ic">Mt</b> for an example.
+    <div class="Pp"></div>
+    Occasionally, it is used for names of characters and keys, for example:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+Press the
+.Aq escape
+key to ...
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    For URIs, use <b class="Ic" title="Ic">Lk</b> instead, and
+      <b class="Ic" title="Ic">In</b> for &#x201C;#include&#x201D; directives.
+      Never wrap <b class="Ic" title="Ic">Ar</b> in
+      <b class="Ic" title="Ic">Aq</b>.
+    <div class="Pp"></div>
+    Since <b class="Ic" title="Ic">Aq</b> usually renders with non-ASCII
+      characters in non-ASCII output modes, do not use it where the ASCII
+      characters &#x2018;&lt;&#x2019; and &#x2018;&gt;&#x2019; are required as
+      syntax elements. Instead, use these characters directly in such cases,
+      combining them with the macros <b class="Ic" title="Ic">Pf</b>,
+      <b class="Ic" title="Ic">Ns</b>, or <b class="Ic" title="Ic">Eo</b> as
+      needed.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Ao</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ar"><b class="Ic" title="Ic" id="Ar">Ar</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">placeholder
+    ...</var></span>]</dt>
+  <dd class="It-tag">Command arguments. If an argument is not provided, the
+      string &#x201C;file ...&#x201D; is used as a default.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Fl o Ar file</code></div>
+    <div class="D1"><code class="Li">.Ar</code></div>
+    <div class="D1"><code class="Li">.Ar arg1 , arg2 .</code></div>
+    <div class="Pp"></div>
+    The arguments to the <b class="Ic" title="Ic">Ar</b> macro are names and
+      placeholders for command arguments; for fixed strings to be passed
+      verbatim as arguments, use <b class="Ic" title="Ic">Fl</b> or
+      <b class="Ic" title="Ic">Cm</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#At"><b class="Ic" title="Ic" id="At">At</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</dt>
+  <dd class="It-tag">Formats an <span class="Ux">AT&amp;T UNIX</span> version.
+      Accepts one optional argument:
+    <div class="Pp"></div>
+    <div class="Bl-tag" style="margin-left: 6.00ex;">
+    <dl class="Bl-tag Bl-compact" style="margin-left: 18.60ex;">
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#v[1-7]"><b class="Cm" title="Cm" id="v[1-7]">v[1-7]</b></a>
+        |
+        <a class="selflink" href="#32v"><b class="Cm" title="Cm" id="32v">32v</b></a></dt>
+      <dd class="It-tag">A version of <span class="Ux">AT&amp;T
+        UNIX</span>.</dd>
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#III"><b class="Cm" title="Cm" id="III">III</b></a></dt>
+      <dd class="It-tag"><span class="Ux">AT&amp;T System&#x00A0;III
+          UNIX</span>.</dd>
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#V"><b class="Cm" title="Cm" id="V">V</b></a>
+        |
+        <a class="selflink" href="#V.[1-4]"><b class="Cm" title="Cm" id="V.[1-4]">V.[1-4]</b></a></dt>
+      <dd class="It-tag">A version of <span class="Ux">AT&amp;T System&#x00A0;V
+          UNIX</span>.</dd>
+    </dl>
+    </div>
+    <div class="Pp"></div>
+    Note that these arguments do not begin with a hyphen.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.At</code></div>
+    <div class="D1"><code class="Li">.At III</code></div>
+    <div class="D1"><code class="Li">.At V.1</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Bsx</b>, <b class="Ic" title="Ic">Bx</b>,
+      <b class="Ic" title="Ic">Dx</b>, <b class="Ic" title="Ic">Fx</b>,
+      <b class="Ic" title="Ic">Nx</b>, and <b class="Ic" title="Ic">Ox</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bc"><b class="Ic" title="Ic" id="Bc">Bc</b></a></dt>
+  <dd class="It-tag">Close a <b class="Ic" title="Ic">Bo</b> block. Does not
+      have any tail arguments.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a>
+    <b class="Fl" title="Fl">-</b><var class="Ar" title="Ar">type</var>
+    [<span class="Op"><b class="Fl" title="Fl">-offset</b>
+    <var class="Ar" title="Ar">width</var></span>]
+    [<span class="Op"><b class="Fl" title="Fl">-compact</b></span>]</dt>
+  <dd class="It-tag">Begin a display block. Display blocks are used to select a
+      different indentation and justification than the one used by the
+      surrounding text. They may contain both macro lines and text lines. By
+      default, a display block is preceded by a vertical space.
+    <div class="Pp"></div>
+    The <var class="Ar" title="Ar">type</var> must be one of the following:
+    <div class="Bl-tag" style="margin-left: 6.00ex;">
+    <dl class="Bl-tag" style="margin-left: 18.60ex;">
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#centered"><b class="Fl" title="Fl" id="centered">-centered</b></a></dt>
+      <dd class="It-tag">Produce one output line from each input line, and
+          center-justify each line. Using this display type is not recommended;
+          many <b class="Nm" title="Nm">mdoc</b> implementations render it
+          poorly.</dd>
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#filled"><b class="Fl" title="Fl" id="filled">-filled</b></a></dt>
+      <dd class="It-tag">Change the positions of line breaks to fill each line,
+          and left- and right-justify the resulting block.</dd>
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#literal"><b class="Fl" title="Fl" id="literal">-literal</b></a></dt>
+      <dd class="It-tag">Produce one output line from each input line, and do
+          not justify the block at all. Preserve white space as it appears in
+          the input. Always use a constant-width font. Use this for displaying
+          source code.</dd>
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#ragged"><b class="Fl" title="Fl" id="ragged">-ragged</b></a></dt>
+      <dd class="It-tag">Change the positions of line breaks to fill each line,
+          and left-justify the resulting block.</dd>
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#unfilled"><b class="Fl" title="Fl" id="unfilled">-unfilled</b></a></dt>
+      <dd class="It-tag">The same as <b class="Fl" title="Fl">-literal</b>, but
+          using the same font as for normal text, which is a variable width font
+          if supported by the output device.</dd>
+    </dl>
+    </div>
+    <div class="Pp"></div>
+    The <var class="Ar" title="Ar">type</var> must be provided first. Additional
+      arguments may follow:
+    <div class="Bl-tag" style="margin-left: 6.00ex;">
+    <dl class="Bl-tag" style="margin-left: 18.60ex;">
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#offset"><b class="Fl" title="Fl" id="offset">-offset</b></a>
+        <var class="Ar" title="Ar">width</var></dt>
+      <dd class="It-tag">Indent the display by the
+          <var class="Ar" title="Ar">width</var>, which may be one of the
+          following:
+        <ul class="Bl-item">
+          <li class="It-item">One of the pre-defined strings
+              <b class="Cm" title="Cm">indent</b>, the width of a standard
+              indentation (six constant width characters);
+              <b class="Cm" title="Cm">indent-two</b>, twice
+              <b class="Cm" title="Cm">indent</b>;
+              <b class="Cm" title="Cm">left</b>, which has no effect;
+              <b class="Cm" title="Cm">right</b>, which justifies to the right
+              margin; or <b class="Cm" title="Cm">center</b>, which aligns
+              around an imagined center axis.</li>
+          <li class="It-item">A macro invocation, which selects a predefined
+              width associated with that macro. The most popular is the
+              imaginary macro <var class="Ar" title="Ar">Ds</var>, which
+              resolves to <b class="Sy" title="Sy">6n</b>.</li>
+          <li class="It-item">A scaling width as described in
+              <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>.</li>
+          <li class="It-item">An arbitrary string, which indents by the length
+              of this string.</li>
+        </ul>
+        <div class="Pp"></div>
+        When the argument is missing, <b class="Fl" title="Fl">-offset</b> is
+          ignored.</dd>
+      <dt class="It-tag" style="margin-left: -18.60ex;"><a class="selflink" href="#compact"><b class="Fl" title="Fl" id="compact">-compact</b></a></dt>
+      <dd class="It-tag">Do not assert vertical space before the display.</dd>
+    </dl>
+    </div>
+    <div class="Pp"></div>
+    Examples:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Bd -literal -offset indent -compact
+   Hello       world.
+.Ed
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">D1</b> and
+      <b class="Ic" title="Ic">Dl</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bf"><b class="Ic" title="Ic" id="Bf">Bf</b></a>
+    <b class="Fl" title="Fl">-emphasis</b> |
+    <a class="selflink" href="#literal"><b class="Fl" title="Fl" id="literal">-literal</b></a>
+    |
+    <a class="selflink" href="#symbolic"><b class="Fl" title="Fl" id="symbolic">-symbolic</b></a>
+    | <a class="selflink" href="#Em"><b class="Cm" title="Cm" id="Em">Em</b></a>
+    | <a class="selflink" href="#Li"><b class="Cm" title="Cm" id="Li">Li</b></a>
+    |
+    <a class="selflink" href="#Sy"><b class="Cm" title="Cm" id="Sy">Sy</b></a></dt>
+  <dd class="It-tag">Change the font mode for a scoped block of text. The
+      <b class="Fl" title="Fl">-emphasis</b> and <b class="Cm" title="Cm">Em</b>
+      argument are equivalent, as are <b class="Fl" title="Fl">-symbolic</b> and
+      <b class="Cm" title="Cm">Sy</b>, and <b class="Fl" title="Fl">-literal</b>
+      and <b class="Cm" title="Cm">Li</b>. Without an argument, this macro does
+      nothing. The font mode continues until broken by a new font mode in a
+      nested scope or <b class="Ic" title="Ic">Ef</b> is encountered.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Li</b>, <b class="Ic" title="Ic">Ef</b>,
+      <b class="Ic" title="Ic">Em</b>, and <b class="Ic" title="Ic">Sy</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bk"><b class="Ic" title="Ic" id="Bk">Bk</b></a>
+    <b class="Fl" title="Fl">-words</b></dt>
+  <dd class="It-tag">For each macro, keep its output together on the same output
+      line, until the end of the macro or the end of the input line is reached,
+      whichever comes first. Line breaks in text lines are unaffected.
+    <div class="Pp"></div>
+    The <b class="Fl" title="Fl">-words</b> argument is required; additional
+      arguments are ignored.
+    <div class="Pp"></div>
+    The following example will not break within each
+      <b class="Ic" title="Ic">Op</b> macro line:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Bk -words
+.Op Fl f Ar flags
+.Op Fl o Ar output
+.Ek
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    Be careful in using over-long lines within a keep block! Doing so will
+      clobber the right margin.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bl"><b class="Ic" title="Ic" id="Bl">Bl</b></a>
+    <b class="Fl" title="Fl">-</b><var class="Ar" title="Ar">type</var>
+    [<span class="Op"><b class="Fl" title="Fl">-width</b>
+    <var class="Ar" title="Ar">val</var></span>]
+    [<span class="Op"><b class="Fl" title="Fl">-offset</b>
+    <var class="Ar" title="Ar">val</var></span>]
+    [<span class="Op"><b class="Fl" title="Fl">-compact</b></span>]
+    [<span class="Op"><var class="Ar" title="Ar">col ...</var></span>]</dt>
+  <dd class="It-tag">Begin a list. Lists consist of items specified using the
+      <b class="Ic" title="Ic">It</b> macro, containing a head or a body or
+      both.
+    <div class="Pp"></div>
+    The list <var class="Ar" title="Ar">type</var> is mandatory and must be
+      specified first. The <b class="Fl" title="Fl">-width</b> and
+      <b class="Fl" title="Fl">-offset</b> arguments accept macro names as
+      described for <b class="Ic" title="Ic">Bd</b>
+      <b class="Fl" title="Fl">-offset</b>, scaling widths as described in
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>, or use
+      the length of the given string. The <b class="Fl" title="Fl">-offset</b>
+      is a global indentation for the whole list, affecting both item heads and
+      bodies. For those list types supporting it, the
+      <b class="Fl" title="Fl">-width</b> argument requests an additional
+      indentation of item bodies, to be added to the
+      <b class="Fl" title="Fl">-offset</b>. Unless the
+      <b class="Fl" title="Fl">-compact</b> argument is specified, list entries
+      are separated by vertical space.
+    <div class="Pp"></div>
+    A list must specify one of the following list types:
+    <div class="Bl-tag" style="margin-left: 6.00ex;">
+    <dl class="Bl-tag" style="margin-left: 17.40ex;">
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#bullet"><b class="Fl" title="Fl" id="bullet">-bullet</b></a></dt>
+      <dd class="It-tag">No item heads can be specified, but a bullet will be
+          printed at the head of each item. Item bodies start on the same output
+          line as the bullet and are indented according to the
+          <b class="Fl" title="Fl">-width</b> argument.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#column"><b class="Fl" title="Fl" id="column">-column</b></a></dt>
+      <dd class="It-tag">A columnated list. The
+          <b class="Fl" title="Fl">-width</b> argument has no effect; instead,
+          the string length of each argument specifies the width of one column.
+          If the first line of the body of a
+          <b class="Fl" title="Fl">-column</b> list is not an
+          <b class="Ic" title="Ic">It</b> macro line,
+          <b class="Ic" title="Ic">It</b> contexts spanning one input line each
+          are implied until an <b class="Ic" title="Ic">It</b> macro line is
+          encountered, at which point items start being interpreted as described
+          in the <b class="Ic" title="Ic">It</b> documentation.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#dash"><b class="Fl" title="Fl" id="dash">-dash</b></a></dt>
+      <dd class="It-tag">Like <b class="Fl" title="Fl">-bullet</b>, except that
+          dashes are used in place of bullets.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#diag"><b class="Fl" title="Fl" id="diag">-diag</b></a></dt>
+      <dd class="It-tag">Like <b class="Fl" title="Fl">-inset</b>, except that
+          item heads are not parsed for macro invocations. Most often used in
+          the <i class="Em" title="Em">DIAGNOSTICS</i> section with error
+          constants in the item heads.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#enum"><b class="Fl" title="Fl" id="enum">-enum</b></a></dt>
+      <dd class="It-tag">A numbered list. No item heads can be specified.
+          Formatted like <b class="Fl" title="Fl">-bullet</b>, except that
+          cardinal numbers are used in place of bullets, starting at 1.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#hang"><b class="Fl" title="Fl" id="hang">-hang</b></a></dt>
+      <dd class="It-tag">Like <b class="Fl" title="Fl">-tag</b>, except that the
+          first lines of item bodies are not indented, but follow the item heads
+          like in <b class="Fl" title="Fl">-inset</b> lists.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#hyphen"><b class="Fl" title="Fl" id="hyphen">-hyphen</b></a></dt>
+      <dd class="It-tag">Synonym for <b class="Fl" title="Fl">-dash</b>.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#inset"><b class="Fl" title="Fl" id="inset">-inset</b></a></dt>
+      <dd class="It-tag">Item bodies follow items heads on the same line, using
+          normal inter-word spacing. Bodies are not indented, and the
+          <b class="Fl" title="Fl">-width</b> argument is ignored.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#item"><b class="Fl" title="Fl" id="item">-item</b></a></dt>
+      <dd class="It-tag">No item heads can be specified, and none are printed.
+          Bodies are not indented, and the <b class="Fl" title="Fl">-width</b>
+          argument is ignored.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#ohang"><b class="Fl" title="Fl" id="ohang">-ohang</b></a></dt>
+      <dd class="It-tag">Item bodies start on the line following item heads and
+          are not indented. The <b class="Fl" title="Fl">-width</b> argument is
+          ignored.</dd>
+      <dt class="It-tag" style="margin-left: -17.40ex;"><a class="selflink" href="#tag"><b class="Fl" title="Fl" id="tag">-tag</b></a></dt>
+      <dd class="It-tag">Item bodies are indented according to the
+          <b class="Fl" title="Fl">-width</b> argument. When an item head fits
+          inside the indentation, the item body follows this head on the same
+          output line. Otherwise, the body starts on the output line following
+          the head.</dd>
+    </dl>
+    </div>
+    <div class="Pp"></div>
+    Lists may be nested within lists and displays. Nesting of
+      <b class="Fl" title="Fl">-column</b> and
+      <b class="Fl" title="Fl">-enum</b> lists may not be portable.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">El</b> and
+      <b class="Ic" title="Ic">It</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bo"><b class="Ic" title="Ic" id="Bo">Bo</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Begin a block enclosed by square brackets. Does not have
+      any head arguments.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Bo 1 ,
+.Dv BUFSIZ Bc
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Bq</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bq"><b class="Ic" title="Ic" id="Bq">Bq</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Encloses its arguments in square brackets.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Bq 1, Dv BUFSIZ</code></div>
+    <div class="Pp"></div>
+    <i class="Em" title="Em">Remarks</i>: this macro is sometimes abused to
+      emulate optional arguments for commands; the correct macros to use for
+      this purpose are <b class="Ic" title="Ic">Op</b>,
+      <b class="Ic" title="Ic">Oo</b>, and <b class="Ic" title="Ic">Oc</b>.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Bo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Brc"><b class="Ic" title="Ic" id="Brc">Brc</b></a></dt>
+  <dd class="It-tag">Close a <b class="Ic" title="Ic">Bro</b> block. Does not
+      have any tail arguments.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bro"><b class="Ic" title="Ic" id="Bro">Bro</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Begin a block enclosed by curly braces. Does not have any
+      head arguments.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Bro 1 , ... ,
+.Va n Brc
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Brq</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Brq"><b class="Ic" title="Ic" id="Brq">Brq</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Encloses its arguments in curly braces.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Brq 1, ..., Va n</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Bro</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bsx"><b class="Ic" title="Ic" id="Bsx">Bsx</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</dt>
+  <dd class="It-tag">Format the <span class="Ux">BSD/OS</span> version provided
+      as an argument, or a default value if no argument is provided.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Bsx 1.0</code></div>
+    <div class="D1"><code class="Li">.Bsx</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">At</b>, <b class="Ic" title="Ic">Bx</b>,
+      <b class="Ic" title="Ic">Dx</b>, <b class="Ic" title="Ic">Fx</b>,
+      <b class="Ic" title="Ic">Nx</b>, and <b class="Ic" title="Ic">Ox</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bt"><b class="Ic" title="Ic" id="Bt">Bt</b></a></dt>
+  <dd class="It-tag">Supported only for compatibility, do not use this in new
+      manuals. Prints &#x201C;is currently in beta test.&#x201D;</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Bx"><b class="Ic" title="Ic" id="Bx">Bx</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">version</var>
+    [<span class="Op"><var class="Ar" title="Ar">variant</var></span>]</span>]</dt>
+  <dd class="It-tag">Format the <span class="Ux">BSD</span> version provided as
+      an argument, or a default value if no argument is provided.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Bx 4.3 Tahoe</code></div>
+    <div class="D1"><code class="Li">.Bx 4.4</code></div>
+    <div class="D1"><code class="Li">.Bx</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">At</b>, <b class="Ic" title="Ic">Bsx</b>,
+      <b class="Ic" title="Ic">Dx</b>, <b class="Ic" title="Ic">Fx</b>,
+      <b class="Ic" title="Ic">Nx</b>, and <b class="Ic" title="Ic">Ox</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Cd"><b class="Ic" title="Ic" id="Cd">Cd</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Kernel configuration declaration. This denotes strings
+      accepted by
+      <a class="Xr" title="Xr" href="config.8;../man8/config.8">config(8)</a>.
+      It is most often used in section 4 manual pages.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Cd device le0 at scode?</code></div>
+    <div class="Pp"></div>
+    <i class="Em" title="Em">Remarks</i>: this macro is commonly abused by using
+      quoted literals to retain whitespace and align consecutive
+      <b class="Ic" title="Ic">Cd</b> declarations. This practise is
+      discouraged.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Cm"><b class="Ic" title="Ic" id="Cm">Cm</b></a>
+    <var class="Ar" title="Ar">keyword ...</var></dt>
+  <dd class="It-tag">Command modifiers. Typically used for fixed strings passed
+      as arguments, unless <b class="Ic" title="Ic">Fl</b> is more appropriate.
+      Also useful when specifying configuration options or keys.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Nm mt Fl f Ar device Cm
+      rewind</code></div>
+    <div class="D1"><code class="Li">.Nm ps Fl o Cm pid , Ns Cm
+      command</code></div>
+    <div class="D1"><code class="Li">.Nm dd Cm if= Ns Ar file1 Cm of= Ns Ar
+      file2</code></div>
+    <div class="D1"><code class="Li">.Cm IdentityFile Pa
+      ~/.ssh/id_rsa</code></div>
+    <div class="D1"><code class="Li">.Cm LogLevel Dv DEBUG</code></div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#D1"><b class="Ic" title="Ic" id="D1">D1</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">One-line indented display. This is formatted by the default
+      rules and is useful for simple indented statements. It is followed by a
+      newline.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.D1 Fl abcdefgh</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Bd</b> and
+      <b class="Ic" title="Ic">Dl</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Db"><b class="Ic" title="Ic" id="Db">Db</b></a></dt>
+  <dd class="It-tag">This macro is obsolete. No replacement is needed. It is
+      ignored by
+      <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>
+      and groff including its arguments. It was formerly used to toggle a
+      debugging mode.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Dc"><b class="Ic" title="Ic" id="Dc">Dc</b></a></dt>
+  <dd class="It-tag">Close a <b class="Ic" title="Ic">Do</b> block. Does not
+      have any tail arguments.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Dd"><b class="Ic" title="Ic" id="Dd">Dd</b></a>
+    <b class="Cm" title="Cm">$Mdocdate$</b> | <var class="Ar" title="Ar">month
+    day</var>, <var class="Ar" title="Ar">year</var></dt>
+  <dd class="It-tag">Document date for display in the page footer. This is the
+      mandatory first macro of any <b class="Nm" title="Nm">mdoc</b> manual.
+    <div class="Pp"></div>
+    The <var class="Ar" title="Ar">month</var> is the full English month name,
+      the <var class="Ar" title="Ar">day</var> is an integer number, and the
+      <var class="Ar" title="Ar">year</var> is the full four-digit year.
+    <div class="Pp"></div>
+    Other arguments are not portable; the
+      <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>
+      utility handles them as follows:
+    <ul class="Bl-dash Bl-compact" style="margin-left: 3.00ex;">
+      <li class="It-dash">To have the date automatically filled in by the
+          <span class="Ux">OpenBSD</span> version of
+          <a class="Xr" title="Xr" href="cvs.1;../man1/cvs.1">cvs(1)</a>, the
+          special string &#x201C;$Mdocdate$&#x201D; can be given as an
+        argument.</li>
+      <li class="It-dash">The traditional, purely numeric
+          <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a> format
+          <var class="Ar" title="Ar">year</var>&#x2013;<var class="Ar" title="Ar">month</var>&#x2013;<var class="Ar" title="Ar">day</var>
+          is accepted, too.</li>
+      <li class="It-dash">If a date string cannot be parsed, it is used
+          verbatim.</li>
+      <li class="It-dash">If no date string is given, the current date is
+        used.</li>
+    </ul>
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Dd $Mdocdate$</code></div>
+    <div class="D1"><code class="Li">.Dd $Mdocdate: July 2 2018$</code></div>
+    <div class="D1"><code class="Li">.Dd July 2, 2018</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dt</b> and
+      <b class="Ic" title="Ic">Os</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Dl"><b class="Ic" title="Ic" id="Dl">Dl</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">One-line indented display. This is formatted as literal
+      text and is useful for commands and invocations. It is followed by a
+      newline.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Dl % mandoc mdoc.7 \(ba less</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Ql</b>, <b class="Ic" title="Ic">Bd</b>
+      <b class="Fl" title="Fl">-literal</b>, and
+      <b class="Ic" title="Ic">D1</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Do"><b class="Ic" title="Ic" id="Do">Do</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Begin a block enclosed by double quotes. Does not have any
+      head arguments.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Do
+April is the cruellest month
+.Dc
+\(em T.S. Eliot
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dq</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Dq"><b class="Ic" title="Ic" id="Dq">Dq</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Encloses its arguments in &#x201C;typographic&#x201D;
+      double-quotes.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Dq April is the cruellest month
+\(em T.S. Eliot
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Qq</b>, <b class="Ic" title="Ic">Sq</b>,
+      and <b class="Ic" title="Ic">Do</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Dt"><b class="Ic" title="Ic" id="Dt">Dt</b></a>
+    <var class="Ar" title="Ar">TITLE section</var>
+    [<span class="Op"><var class="Ar" title="Ar">arch</var></span>]</dt>
+  <dd class="It-tag">Document title for display in the page header. This is the
+      mandatory second macro of any <b class="Nm" title="Nm">mdoc</b> file.
+    <div class="Pp"></div>
+    Its arguments are as follows:
+    <div class="Bl-tag" style="margin-left: 2.00ex;">
+    <dl class="Bl-tag" style="margin-left: 11.40ex;">
+      <dt class="It-tag" style="margin-left: -11.40ex;"><var class="Ar" title="Ar">TITLE</var></dt>
+      <dd class="It-tag">The document's title (name), defaulting to
+          &#x201C;UNTITLED&#x201D; if unspecified. To achieve a uniform
+          appearance of page header lines, it should by convention be all
+        caps.</dd>
+      <dt class="It-tag" style="margin-left: -11.40ex;"><var class="Ar" title="Ar">section</var></dt>
+      <dd class="It-tag">The manual section. This may be one of
+          <b class="Cm" title="Cm">1</b> (General Commands),
+          <b class="Cm" title="Cm">2</b> (System Calls),
+          <b class="Cm" title="Cm">3</b> (Library Functions),
+          <b class="Cm" title="Cm">3p</b> (Perl Library),
+          <b class="Cm" title="Cm">4</b> (Device Drivers),
+          <b class="Cm" title="Cm">5</b> (File Formats),
+          <b class="Cm" title="Cm">6</b> (Games), <b class="Cm" title="Cm">7</b>
+          (Miscellaneous Information), <b class="Cm" title="Cm">8</b> (System
+          Manager's Manual), or <b class="Cm" title="Cm">9</b> (Kernel
+          Developer's Manual). It should correspond to the manual's filename
+          suffix and defaults to the empty string if unspecified.</dd>
+      <dt class="It-tag" style="margin-left: -11.40ex;"><var class="Ar" title="Ar">arch</var></dt>
+      <dd class="It-tag">This specifies the machine architecture a manual page
+          applies to, where relevant, for example
+          <b class="Cm" title="Cm">alpha</b>,
+          <b class="Cm" title="Cm">amd64</b>, <b class="Cm" title="Cm">i386</b>,
+          or <b class="Cm" title="Cm">sparc64</b>. The list of valid
+          architectures varies by operating system.</dd>
+    </dl>
+    </div>
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Dt FOO 1</code></div>
+    <div class="D1"><code class="Li">.Dt FOO 9 i386</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dd</b> and
+      <b class="Ic" title="Ic">Os</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Dv"><b class="Ic" title="Ic" id="Dv">Dv</b></a>
+    <var class="Ar" title="Ar">identifier ...</var></dt>
+  <dd class="It-tag">Defined variables such as preprocessor constants, constant
+      symbols, enumeration values, and so on.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Dv NULL</code></div>
+    <div class="D1"><code class="Li">.Dv BUFSIZ</code></div>
+    <div class="D1"><code class="Li">.Dv STDOUT_FILENO</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Er</b> and <b class="Ic" title="Ic">Ev</b>
+      for special-purpose constants, <b class="Ic" title="Ic">Va</b> for
+      variable symbols, and <b class="Ic" title="Ic">Fd</b> for listing
+      preprocessor variable definitions in the
+      <i class="Em" title="Em">SYNOPSIS</i>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Dx"><b class="Ic" title="Ic" id="Dx">Dx</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</dt>
+  <dd class="It-tag">Format the <span class="Ux">DragonFly</span> version
+      provided as an argument, or a default value if no argument is provided.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Dx 2.4.1</code></div>
+    <div class="D1"><code class="Li">.Dx</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">At</b>, <b class="Ic" title="Ic">Bsx</b>,
+      <b class="Ic" title="Ic">Bx</b>, <b class="Ic" title="Ic">Fx</b>,
+      <b class="Ic" title="Ic">Nx</b>, and <b class="Ic" title="Ic">Ox</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ec"><b class="Ic" title="Ic" id="Ec">Ec</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">closing_delimiter</var></span>]</dt>
+  <dd class="It-tag">Close a scope started by <b class="Ic" title="Ic">Eo</b>.
+    <div class="Pp"></div>
+    The <var class="Ar" title="Ar">closing_delimiter</var> argument is used as
+      the enclosure tail, for example, specifying \(rq will emulate
+      <b class="Ic" title="Ic">Dc</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ed"><b class="Ic" title="Ic" id="Ed">Ed</b></a></dt>
+  <dd class="It-tag">End a display context started by
+      <b class="Ic" title="Ic">Bd</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ef"><b class="Ic" title="Ic" id="Ef">Ef</b></a></dt>
+  <dd class="It-tag">End a font mode context started by
+      <b class="Ic" title="Ic">Bf</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ek"><b class="Ic" title="Ic" id="Ek">Ek</b></a></dt>
+  <dd class="It-tag">End a keep context started by
+      <b class="Ic" title="Ic">Bk</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#El"><b class="Ic" title="Ic" id="El">El</b></a></dt>
+  <dd class="It-tag">End a list context started by
+      <b class="Ic" title="Ic">Bl</b>. See also
+    <b class="Ic" title="Ic">It</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Em"><b class="Ic" title="Ic" id="Em">Em</b></a>
+    <var class="Ar" title="Ar">word ...</var></dt>
+  <dd class="It-tag">Request an italic font. If the output device does not
+      provide that, underline.
+    <div class="Pp"></div>
+    This is most often used for stress emphasis (not to be confused with
+      importance, see <b class="Ic" title="Ic">Sy</b>). In the rare cases where
+      none of the semantic markup macros fit, it can also be used for technical
+      terms and placeholders, except that for syntax elements,
+      <b class="Ic" title="Ic">Sy</b> and <b class="Ic" title="Ic">Ar</b> are
+      preferred, respectively.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+Selected lines are those
+.Em not
+matching any of the specified patterns.
+Some of the functions use a
+.Em hold space
+to save the pattern space for subsequent retrieval.
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">No</b>, <b class="Ic" title="Ic">Ql</b>,
+      and <b class="Ic" title="Ic">Sy</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#En"><b class="Ic" title="Ic" id="En">En</b></a>
+    <var class="Ar" title="Ar">word ...</var></dt>
+  <dd class="It-tag">This macro is obsolete. Use <b class="Ic" title="Ic">Eo</b>
+      or any of the other enclosure macros.
+    <div class="Pp"></div>
+    It encloses its argument in the delimiters specified by the last
+      <b class="Ic" title="Ic">Es</b> macro.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Eo"><b class="Ic" title="Ic" id="Eo">Eo</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">opening_delimiter</var></span>]</dt>
+  <dd class="It-tag">An arbitrary enclosure. The
+      <var class="Ar" title="Ar">opening_delimiter</var> argument is used as the
+      enclosure head, for example, specifying \(lq will emulate
+      <b class="Ic" title="Ic">Do</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Er"><b class="Ic" title="Ic" id="Er">Er</b></a>
+    <var class="Ar" title="Ar">identifier ...</var></dt>
+  <dd class="It-tag">Error constants for definitions of the
+      <var class="Va" title="Va">errno</var> libc global variable. This is most
+      often used in section 2 and 3 manual pages.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Er EPERM</code></div>
+    <div class="D1"><code class="Li">.Er ENOENT</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dv</b> for general constants.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Es"><b class="Ic" title="Ic" id="Es">Es</b></a>
+    <var class="Ar" title="Ar">opening_delimiter closing_delimiter</var></dt>
+  <dd class="It-tag">This macro is obsolete. Use <b class="Ic" title="Ic">Eo</b>
+      or any of the other enclosure macros.
+    <div class="Pp"></div>
+    It takes two arguments, defining the delimiters to be used by subsequent
+      <b class="Ic" title="Ic">En</b> macros.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ev"><b class="Ic" title="Ic" id="Ev">Ev</b></a>
+    <var class="Ar" title="Ar">identifier ...</var></dt>
+  <dd class="It-tag">Environmental variables such as those specified in
+      <a class="Xr" title="Xr" href="environ.7;../man7/environ.7">environ(7)</a>.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Ev DISPLAY</code></div>
+    <div class="D1"><code class="Li">.Ev PATH</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dv</b> for general constants.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ex"><b class="Ic" title="Ic" id="Ex">Ex</b></a>
+    <b class="Fl" title="Fl">-std</b>
+    [<span class="Op"><var class="Ar" title="Ar">utility ...</var></span>]</dt>
+  <dd class="It-tag">Insert a standard sentence regarding command exit values of
+      0 on success and &gt;0 on failure. This is most often used in section 1,
+      6, and 8 manual pages.
+    <div class="Pp"></div>
+    If <var class="Ar" title="Ar">utility</var> is not specified, the document's
+      name set by <b class="Ic" title="Ic">Nm</b> is used. Multiple
+      <var class="Ar" title="Ar">utility</var> arguments are treated as separate
+      utilities.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Rv</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fa"><b class="Ic" title="Ic" id="Fa">Fa</b></a>
+    <var class="Ar" title="Ar">argument ...</var></dt>
+  <dd class="It-tag">Function argument or parameter. Each argument may be a name
+      and a type (recommended for the <i class="Em" title="Em">SYNOPSIS</i>
+      section), a name alone (for function invocations), or a type alone (for
+      function prototypes). If both a type and a name are given or if the type
+      consists of multiple words, all words belonging to the same function
+      argument have to be given in a single argument to the
+      <b class="Ic" title="Ic">Fa</b> macro.
+    <div class="Pp"></div>
+    This macro is also used to specify the field name of a structure.
+    <div class="Pp"></div>
+    Most often, the <b class="Ic" title="Ic">Fa</b> macro is used in the
+      <i class="Em" title="Em">SYNOPSIS</i> within
+      <b class="Ic" title="Ic">Fo</b> blocks when documenting multi-line
+      function prototypes. If invoked with multiple arguments, the arguments are
+      separated by a comma. Furthermore, if the following macro is another
+      <b class="Ic" title="Ic">Fa</b>, the last argument will also have a
+      trailing comma.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Fa &quot;const char *p&quot;</code></div>
+    <div class="D1"><code class="Li">.Fa &quot;int a&quot; &quot;int b&quot;
+      &quot;int c&quot;</code></div>
+    <div class="D1"><code class="Li">.Fa &quot;char *&quot; size_t</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Fo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fc"><b class="Ic" title="Ic" id="Fc">Fc</b></a></dt>
+  <dd class="It-tag">End a function context started by
+      <b class="Ic" title="Ic">Fo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fd"><b class="Ic" title="Ic" id="Fd">Fd</b></a>
+    #<var class="Ar" title="Ar">directive</var>
+    [<span class="Op"><var class="Ar" title="Ar">argument ...</var></span>]</dt>
+  <dd class="It-tag">Preprocessor directive, in particular for listing it in the
+      <i class="Em" title="Em">SYNOPSIS</i>. Historically, it was also used to
+      document include files. The latter usage has been deprecated in favour of
+      <b class="Ic" title="Ic">In</b>.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Fd #define sa_handler
+      __sigaction_u.__sa_handler</code></div>
+    <div class="D1"><code class="Li">.Fd #define SIO_MAXNFDS</code></div>
+    <div class="D1"><code class="Li">.Fd #ifdef FS_DEBUG</code></div>
+    <div class="D1"><code class="Li">.Ft void</code></div>
+    <div class="D1"><code class="Li">.Fn dbg_open &quot;const char
+      *&quot;</code></div>
+    <div class="D1"><code class="Li">.Fd #endif</code></div>
+    <div class="Pp"></div>
+    See also <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL
+      STRUCTURE</a>, <b class="Ic" title="Ic">In</b>, and
+      <b class="Ic" title="Ic">Dv</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fl"><b class="Ic" title="Ic" id="Fl">Fl</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">word ...</var></span>]</dt>
+  <dd class="It-tag">Command-line flag or option. Used when listing arguments to
+      command-line utilities. Prints a fixed-width hyphen &#x2018;-&#x2019;
+      directly followed by each argument. If no arguments are provided, a hyphen
+      is printed followed by a space. If the argument is a macro, a hyphen is
+      prefixed to the subsequent macro output.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Fl R Op Fl H | L | P</code></div>
+    <div class="D1"><code class="Li">.Op Fl
+      1AaCcdFfgHhikLlmnopqRrSsTtux</code></div>
+    <div class="D1"><code class="Li">.Fl type Cm d Fl name Pa CVS</code></div>
+    <div class="D1"><code class="Li">.Fl Ar signal_number</code></div>
+    <div class="D1"><code class="Li">.Fl o Fl</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Cm</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fn"><b class="Ic" title="Ic" id="Fn">Fn</b></a>
+    <var class="Ar" title="Ar">funcname</var>
+    [<span class="Op"><var class="Ar" title="Ar">argument ...</var></span>]</dt>
+  <dd class="It-tag">A function name.
+    <div class="Pp"></div>
+    Function arguments are surrounded in parenthesis and are delimited by
+      commas. If no arguments are specified, blank parenthesis are output. In
+      the <i class="Em" title="Em">SYNOPSIS</i> section, this macro starts a new
+      output line, and a blank line is automatically inserted between function
+      definitions.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Fn &quot;int funcname&quot; &quot;int
+      arg0&quot; &quot;int arg1&quot;</code></div>
+    <div class="D1"><code class="Li">.Fn funcname &quot;int
+      arg0&quot;</code></div>
+    <div class="D1"><code class="Li">.Fn funcname arg0</code></div>
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Ft functype
+.Fn funcname
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    When referring to a function documented in another manual page, use
+      <b class="Ic" title="Ic">Xr</b> instead. See also
+      <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a>,
+      <b class="Ic" title="Ic">Fo</b>, and <b class="Ic" title="Ic">Ft</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fo"><b class="Ic" title="Ic" id="Fo">Fo</b></a>
+    <var class="Ar" title="Ar">funcname</var></dt>
+  <dd class="It-tag">Begin a function block. This is a multi-line version of
+      <b class="Ic" title="Ic">Fn</b>.
+    <div class="Pp"></div>
+    Invocations usually occur in the following context:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">.<b class="Ic" title="Ic">Ft</b>
+      <var class="Ar" title="Ar">functype</var>
+    <div>&#x00A0;</div>
+    .<b class="Ic" title="Ic">Fo</b> <var class="Ar" title="Ar">funcname</var>
+    <div>&#x00A0;</div>
+    .<b class="Ic" title="Ic">Fa</b>
+      &#x201C;<var class="Ar" title="Ar">argtype</var>
+      <var class="Ar" title="Ar">argname</var>&#x201D;
+    <div>&#x00A0;</div>
+    ...
+    <div>&#x00A0;</div>
+    .<b class="Ic" title="Ic">Fc</b></div>
+    <div class="Pp"></div>
+    A <b class="Ic" title="Ic">Fo</b> scope is closed by
+      <b class="Ic" title="Ic">Fc</b>.
+    <div class="Pp"></div>
+    See also <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL
+      STRUCTURE</a>, <b class="Ic" title="Ic">Fa</b>,
+      <b class="Ic" title="Ic">Fc</b>, and <b class="Ic" title="Ic">Ft</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fr"><b class="Ic" title="Ic" id="Fr">Fr</b></a>
+    <var class="Ar" title="Ar">number</var></dt>
+  <dd class="It-tag">This macro is obsolete. No replacement markup is needed.
+    <div class="Pp"></div>
+    It was used to show numerical function return values in an italic font.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ft"><b class="Ic" title="Ic" id="Ft">Ft</b></a>
+    <var class="Ar" title="Ar">functype</var></dt>
+  <dd class="It-tag">A function type.
+    <div class="Pp"></div>
+    In the <i class="Em" title="Em">SYNOPSIS</i> section, a new output line is
+      started after this macro.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Ft int</code></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Ft functype
+.Fn funcname
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL
+      STRUCTURE</a>, <b class="Ic" title="Ic">Fn</b>, and
+      <b class="Ic" title="Ic">Fo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Fx"><b class="Ic" title="Ic" id="Fx">Fx</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</dt>
+  <dd class="It-tag">Format the <span class="Ux">FreeBSD</span> version provided
+      as an argument, or a default value if no argument is provided.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Fx 7.1</code></div>
+    <div class="D1"><code class="Li">.Fx</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">At</b>, <b class="Ic" title="Ic">Bsx</b>,
+      <b class="Ic" title="Ic">Bx</b>, <b class="Ic" title="Ic">Dx</b>,
+      <b class="Ic" title="Ic">Nx</b>, and <b class="Ic" title="Ic">Ox</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Hf"><b class="Ic" title="Ic" id="Hf">Hf</b></a>
+    <var class="Ar" title="Ar">filename</var></dt>
+  <dd class="It-tag">This macro is not implemented in
+      <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>.
+      It was used to include the contents of a (header) file literally.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ic"><b class="Ic" title="Ic" id="Ic">Ic</b></a>
+    <var class="Ar" title="Ar">keyword ...</var></dt>
+  <dd class="It-tag">Designate an internal or interactive command. This is
+      similar to <b class="Ic" title="Ic">Cm</b> but used for instructions
+      rather than values.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Ic :wq</code></div>
+    <div class="D1"><code class="Li">.Ic hash</code></div>
+    <div class="D1"><code class="Li">.Ic alias</code></div>
+    <div class="Pp"></div>
+    Note that using <b class="Ic" title="Ic">Ql</b>,
+      <b class="Ic" title="Ic">Dl</b>, or <b class="Ic" title="Ic">Bd</b>
+      <b class="Fl" title="Fl">-literal</b> is preferred for displaying code
+      samples; the <b class="Ic" title="Ic">Ic</b> macro is used when referring
+      to an individual command name.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#In"><b class="Ic" title="Ic" id="In">In</b></a>
+    <var class="Ar" title="Ar">filename</var></dt>
+  <dd class="It-tag">The name of an include file. This macro is most often used
+      in section 2, 3, and 9 manual pages.
+    <div class="Pp"></div>
+    When invoked as the first macro on an input line in the
+      <i class="Em" title="Em">SYNOPSIS</i> section, the argument is displayed
+      in angle brackets and preceded by &#x201C;#include&#x201D;, and a blank
+      line is inserted in front if there is a preceding function declaration. In
+      other sections, it only encloses its argument in angle brackets and causes
+      no line break.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.In sys/types.h</code></div>
+    <div class="Pp"></div>
+    See also <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL
+      STRUCTURE</a>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#It"><b class="Ic" title="Ic" id="It">It</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">head</var></span>]</dt>
+  <dd class="It-tag">A list item. The syntax of this macro depends on the list
+      type.
+    <div class="Pp"></div>
+    Lists of type <b class="Fl" title="Fl">-hang</b>,
+      <b class="Fl" title="Fl">-ohang</b>, <b class="Fl" title="Fl">-inset</b>,
+      and <b class="Fl" title="Fl">-diag</b> have the following syntax:
+    <div class="Pp"></div>
+    <div class="D1">.<b class="Ic" title="Ic">It</b>
+      <var class="Ar" title="Ar">args</var></div>
+    <div class="Pp"></div>
+    Lists of type <b class="Fl" title="Fl">-bullet</b>,
+      <b class="Fl" title="Fl">-dash</b>, <b class="Fl" title="Fl">-enum</b>,
+      <b class="Fl" title="Fl">-hyphen</b> and
+      <b class="Fl" title="Fl">-item</b> have the following syntax:
+    <div class="Pp"></div>
+    <div class="D1">.<b class="Ic" title="Ic">It</b></div>
+    <div class="Pp"></div>
+    with subsequent lines interpreted within the scope of the
+      <b class="Ic" title="Ic">It</b> until either a closing
+      <b class="Ic" title="Ic">El</b> or another
+      <b class="Ic" title="Ic">It</b>.
+    <div class="Pp"></div>
+    The <b class="Fl" title="Fl">-tag</b> list has the following syntax:
+    <div class="Pp"></div>
+    <div class="D1">.<b class="Ic" title="Ic">It</b>
+      [<span class="Op"><b class="Cm" title="Cm">args</b></span>]</div>
+    <div class="Pp"></div>
+    Subsequent lines are interpreted as with
+      <b class="Fl" title="Fl">-bullet</b> and family. The line arguments
+      correspond to the list's left-hand side; body arguments correspond to the
+      list's contents.
+    <div class="Pp"></div>
+    The <b class="Fl" title="Fl">-column</b> list is the most complicated. Its
+      syntax is as follows:
+    <div class="Pp"></div>
+    <div class="D1">.<b class="Ic" title="Ic">It</b>
+      <var class="Ar" title="Ar">cell</var>
+      [<span class="Op"><b class="Ic" title="Ic">Ta</b>
+      <var class="Ar" title="Ar">cell ...</var></span>]</div>
+    <div class="D1">.<b class="Ic" title="Ic">It</b>
+      <var class="Ar" title="Ar">cell</var> [<span class="Op">&lt;TAB&gt;
+      <var class="Ar" title="Ar">cell ...</var></span>]</div>
+    <div class="Pp"></div>
+    The arguments consist of one or more lines of text and macros representing a
+      complete table line. Cells within the line are delimited by the special
+      <b class="Ic" title="Ic">Ta</b> block macro or by literal tab characters.
+    <div class="Pp"></div>
+    Using literal tabs is strongly discouraged because they are very hard to use
+      correctly and <b class="Nm" title="Nm">mdoc</b> code using them is very
+      hard to read. In particular, a blank character is syntactically
+      significant before and after the literal tab character. If a word precedes
+      or follows the tab without an intervening blank, that word is never
+      interpreted as a macro call, but always output literally.
+    <div class="Pp"></div>
+    The tab cell delimiter may only be used within the
+      <b class="Ic" title="Ic">It</b> line itself; on following lines, only the
+      <b class="Ic" title="Ic">Ta</b> macro can be used to delimit cells, and
+      portability requires that <b class="Ic" title="Ic">Ta</b> is called by
+      other macros: some parsers do not recognize it when it appears as the
+      first macro on a line.
+    <div class="Pp"></div>
+    Note that quoted strings may span tab-delimited cells on an
+      <b class="Ic" title="Ic">It</b> line. For example,
+    <div class="Pp"></div>
+    <div class="D1"><code class="Li">.It &quot;col1 , &lt;TAB&gt; col2 ,&quot;
+      ;</code></div>
+    <div class="Pp"></div>
+    will preserve the whitespace before both commas, but not the whitespace
+      before the semicolon.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Bl</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Lb"><b class="Ic" title="Ic" id="Lb">Lb</b></a>
+    <b class="Cm" title="Cm">lib</b><var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">Specify a library.
+    <div class="Pp"></div>
+    The <var class="Ar" title="Ar">name</var> parameter may be a system library,
+      such as <b class="Cm" title="Cm">z</b> or
+      <b class="Cm" title="Cm">pam</b>, in which case a small library
+      description is printed next to the linker invocation; or a custom library,
+      in which case the library name is printed in quotes. This is most commonly
+      used in the <i class="Em" title="Em">SYNOPSIS</i> section as described in
+      <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a>.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Lb libz</code></div>
+    <div class="D1"><code class="Li">.Lb libmandoc</code></div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Li"><b class="Ic" title="Ic" id="Li">Li</b></a>
+    <var class="Ar" title="Ar">word ...</var></dt>
+  <dd class="It-tag">Request a typewriter (literal) font. Deprecated because on
+      terminal output devices, this is usually indistinguishable from normal
+      text. For literal displays, use <b class="Ic" title="Ic">Ql</b> (in-line),
+      <b class="Ic" title="Ic">Dl</b> (single line), or
+      <b class="Ic" title="Ic">Bd</b> <b class="Fl" title="Fl">-literal</b>
+      (multi-line) instead.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Lk"><b class="Ic" title="Ic" id="Lk">Lk</b></a>
+    <var class="Ar" title="Ar">uri</var>
+    [<span class="Op"><var class="Ar" title="Ar">display_name</var></span>]</dt>
+  <dd class="It-tag">Format a hyperlink.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Lk http://bsd.lv &quot;The BSD.lv
+      Project&quot;</code></div>
+    <div class="D1"><code class="Li">.Lk http://bsd.lv</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Mt</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Lp"><b class="Ic" title="Ic" id="Lp">Lp</b></a></dt>
+  <dd class="It-tag">Deprecated synonym for
+    <b class="Ic" title="Ic">Pp</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ms"><b class="Ic" title="Ic" id="Ms">Ms</b></a>
+    <var class="Ar" title="Ar">name</var></dt>
+  <dd class="It-tag">Display a mathematical symbol.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Ms sigma</code></div>
+    <div class="D1"><code class="Li">.Ms aleph</code></div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Mt"><b class="Ic" title="Ic" id="Mt">Mt</b></a>
+    <var class="Ar" title="Ar">localpart</var>@<var class="Ar" title="Ar">domain</var></dt>
+  <dd class="It-tag">Format a &#x201C;mailto:&#x201D; hyperlink.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Mt discuss@manpages.bsd.lv</code></div>
+    <div class="D1"><code class="Li">.An Kristaps Dzonsons Aq Mt
+      kristaps@bsd.lv</code></div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Nd"><b class="Ic" title="Ic" id="Nd">Nd</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">A one line description of the manual's content. This is the
+      mandatory last macro of the <i class="Em" title="Em">NAME</i> section and
+      not appropriate for other sections.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.<b class="Ic" title="Ic">Nd mdoc language
+      reference</b></code></div>
+    <div class="D1"><code class="Li">.<b class="Ic" title="Ic">Nd format and
+      display UNIX manuals</b></code></div>
+    <div class="Pp"></div>
+    The <b class="Ic" title="Ic">Nd</b> macro technically accepts child macros
+      and terminates with a subsequent <b class="Ic" title="Ic">Sh</b>
+      invocation. Do not assume this behaviour: some
+      <a class="Xr" title="Xr" href="whatis.1;../man1/whatis.1">whatis(1)</a>
+      database generators are not smart enough to parse more than the line
+      arguments and will display macros verbatim.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Nm</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Nm"><b class="Ic" title="Ic" id="Nm">Nm</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">name</var></span>]</dt>
+  <dd class="It-tag">The name of the manual page, or &#x2014; in particular in
+      section 1, 6, and 8 pages &#x2014; of an additional command or feature
+      documented in the manual page. When first invoked, the
+      <b class="Ic" title="Ic">Nm</b> macro expects a single argument, the name
+      of the manual page. Usually, the first invocation happens in the
+      <i class="Em" title="Em">NAME</i> section of the page. The specified name
+      will be remembered and used whenever the macro is called again without
+      arguments later in the page. The <b class="Ic" title="Ic">Nm</b> macro
+      uses <a class="Sx" title="Sx" href="#Block_full-implicit">Block
+      full-implicit</a> semantics when invoked as the first macro on an input
+      line in the <i class="Em" title="Em">SYNOPSIS</i> section; otherwise, it
+      uses ordinary <a class="Sx" title="Sx" href="#In-line">In-line</a>
+      semantics.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Sh SYNOPSIS
+.Nm cat
+.Op Fl benstuv
+.Op Ar
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    In the <i class="Em" title="Em">SYNOPSIS</i> of section 2, 3 and 9 manual
+      pages, use the <b class="Ic" title="Ic">Fn</b> macro rather than
+      <b class="Ic" title="Ic">Nm</b> to mark up the name of the manual
+    page.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#No"><b class="Ic" title="Ic" id="No">No</b></a>
+    <var class="Ar" title="Ar">word ...</var></dt>
+  <dd class="It-tag">Normal text. Closes the scope of any preceding in-line
+      macro. When used after physical formatting macros like
+      <b class="Ic" title="Ic">Em</b> or <b class="Ic" title="Ic">Sy</b>,
+      switches back to the standard font face and weight. Can also be used to
+      embed plain text strings in macro lines using semantic annotation macros.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Em italic , Sy bold , No and
+      roman</code></div>
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Sm off
+.Cm :C No / Ar pattern No / Ar replacement No /
+.Sm on
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Em</b>, <b class="Ic" title="Ic">Ql</b>,
+      and <b class="Ic" title="Ic">Sy</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ns"><b class="Ic" title="Ic" id="Ns">Ns</b></a></dt>
+  <dd class="It-tag">Suppress a space between the output of the preceding macro
+      and the following text or macro. Following invocation, input is
+      interpreted as normal text just like after an
+      <b class="Ic" title="Ic">No</b> macro.
+    <div class="Pp"></div>
+    This has no effect when invoked at the start of a macro line.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Ar name Ns = Ns Ar value</code></div>
+    <div class="D1"><code class="Li">.Cm :M Ns Ar pattern</code></div>
+    <div class="D1"><code class="Li">.Fl o Ns Ar output</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">No</b> and
+      <b class="Ic" title="Ic">Sm</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Nx"><b class="Ic" title="Ic" id="Nx">Nx</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</dt>
+  <dd class="It-tag">Format the <span class="Ux">NetBSD</span> version provided
+      as an argument, or a default value if no argument is provided.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Nx 5.01</code></div>
+    <div class="D1"><code class="Li">.Nx</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">At</b>, <b class="Ic" title="Ic">Bsx</b>,
+      <b class="Ic" title="Ic">Bx</b>, <b class="Ic" title="Ic">Dx</b>,
+      <b class="Ic" title="Ic">Fx</b>, and <b class="Ic" title="Ic">Ox</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Oc"><b class="Ic" title="Ic" id="Oc">Oc</b></a></dt>
+  <dd class="It-tag">Close multi-line <b class="Ic" title="Ic">Oo</b>
+    context.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Oo"><b class="Ic" title="Ic" id="Oo">Oo</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Multi-line version of <b class="Ic" title="Ic">Op</b>.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Oo
+.Op Fl flag Ns Ar value
+.Oc
+    </pre>
+    </div>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Op"><b class="Ic" title="Ic" id="Op">Op</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Optional part of a command line. Prints the argument(s) in
+      brackets. This is most often used in the
+      <i class="Em" title="Em">SYNOPSIS</i> section of section 1 and 8 manual
+      pages.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Op Fl a Ar b</code></div>
+    <div class="D1"><code class="Li">.Op Ar a | b</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Oo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Os"><b class="Ic" title="Ic" id="Os">Os</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">system</var>
+    [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</span>]</dt>
+  <dd class="It-tag">Operating system version for display in the page footer.
+      This is the mandatory third macro of any <b class="Nm" title="Nm">mdoc</b>
+      file.
+    <div class="Pp"></div>
+    The optional <var class="Ar" title="Ar">system</var> parameter specifies the
+      relevant operating system or environment. It is suggested to leave it
+      unspecified, in which case
+      <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>
+      uses its <b class="Fl" title="Fl">-Ios</b> argument or, if that isn't
+      specified either, <var class="Fa" title="Fa">sysname</var> and
+      <var class="Fa" title="Fa">release</var> as returned by
+      <a class="Xr" title="Xr" href="uname.3;../man3/uname.3">uname(3)</a>.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Os</code></div>
+    <div class="D1"><code class="Li">.Os KTH/CSC/TCS</code></div>
+    <div class="D1"><code class="Li">.Os BSD 4.3</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dd</b> and
+      <b class="Ic" title="Ic">Dt</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ot"><b class="Ic" title="Ic" id="Ot">Ot</b></a>
+    <var class="Ar" title="Ar">functype</var></dt>
+  <dd class="It-tag">This macro is obsolete. Use <b class="Ic" title="Ic">Ft</b>
+      instead; with
+      <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>,
+      both have the same effect.
+    <div class="Pp"></div>
+    Historical <b class="Nm" title="Nm">mdoc</b> packages described it as
+      &#x201C;old function type (FORTRAN)&#x201D;.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ox"><b class="Ic" title="Ic" id="Ox">Ox</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">version</var></span>]</dt>
+  <dd class="It-tag">Format the <span class="Ux">OpenBSD</span> version provided
+      as an argument, or a default value if no argument is provided.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Ox 4.5</code></div>
+    <div class="D1"><code class="Li">.Ox</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">At</b>, <b class="Ic" title="Ic">Bsx</b>,
+      <b class="Ic" title="Ic">Bx</b>, <b class="Ic" title="Ic">Dx</b>,
+      <b class="Ic" title="Ic">Fx</b>, and <b class="Ic" title="Ic">Nx</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Pa"><b class="Ic" title="Ic" id="Pa">Pa</b></a>
+    <var class="Ar" title="Ar">name ...</var></dt>
+  <dd class="It-tag">An absolute or relative file system path, or a file or
+      directory name. If an argument is not provided, the character
+      &#x2018;~&#x2019; is used as a default.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Pa /usr/bin/mandoc</code></div>
+    <div class="D1"><code class="Li">.Pa /usr/share/man/man7/mdoc.7</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Lk</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Pc"><b class="Ic" title="Ic" id="Pc">Pc</b></a></dt>
+  <dd class="It-tag">Close parenthesised context opened by
+      <b class="Ic" title="Ic">Po</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Pf"><b class="Ic" title="Ic" id="Pf">Pf</b></a>
+    <var class="Ar" title="Ar">prefix macro</var>
+    [<span class="Op"><var class="Ar" title="Ar">argument ...</var></span>]</dt>
+  <dd class="It-tag">Removes the space between its argument and the following
+      macro. It is equivalent to:
+    <div class="Pp"></div>
+    <div class="D1"><b class="Ic" title="Ic">No</b>
+      \&amp;<var class="Ar" title="Ar">prefix</var>
+      <b class="Ic" title="Ic">Ns</b> <var class="Ar" title="Ar">macro</var>
+      [<span class="Op"><var class="Ar" title="Ar">argument
+      ...</var></span>]</div>
+    <div class="Pp"></div>
+    The <var class="Ar" title="Ar">prefix</var> argument is not parsed for macro
+      names or delimiters, but used verbatim as if it were escaped.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Pf $ Ar variable_name</code></div>
+    <div class="D1"><code class="Li">.Pf . Ar macro_name</code></div>
+    <div class="D1"><code class="Li">.Pf 0x Ar hex_digits</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Ns</b> and
+      <b class="Ic" title="Ic">Sm</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Po"><b class="Ic" title="Ic" id="Po">Po</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Multi-line version of <b class="Ic" title="Ic">Pq</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Pp"><b class="Ic" title="Ic" id="Pp">Pp</b></a></dt>
+  <dd class="It-tag">Break a paragraph. This will assert vertical space between
+      prior and subsequent macros and/or text.
+    <div class="Pp"></div>
+    Paragraph breaks are not needed before or after
+      <b class="Ic" title="Ic">Sh</b> or <b class="Ic" title="Ic">Ss</b> macros
+      or before displays (<b class="Ic" title="Ic">Bd</b>
+      <var class="Ar" title="Ar">line</var>) or lists
+      (<b class="Ic" title="Ic">Bl</b>) unless the
+      <b class="Fl" title="Fl">-compact</b> flag is given.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Pq"><b class="Ic" title="Ic" id="Pq">Pq</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Parenthesised enclosure.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Po</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Qc"><b class="Ic" title="Ic" id="Qc">Qc</b></a></dt>
+  <dd class="It-tag">Close quoted context opened by
+      <b class="Ic" title="Ic">Qo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ql"><b class="Ic" title="Ic" id="Ql">Ql</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">In-line literal display. This can be used for complete
+      command invocations and for multi-word code examples when an indented
+      display is not desired.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dl</b> and <b class="Ic" title="Ic">Bd</b>
+      <b class="Fl" title="Fl">-literal</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Qo"><b class="Ic" title="Ic" id="Qo">Qo</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Multi-line version of <b class="Ic" title="Ic">Qq</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Qq"><b class="Ic" title="Ic" id="Qq">Qq</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Encloses its arguments in &#x201C;typewriter&#x201D;
+      double-quotes. Consider using <b class="Ic" title="Ic">Dq</b>.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dq</b>, <b class="Ic" title="Ic">Sq</b>,
+      and <b class="Ic" title="Ic">Qo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Re"><b class="Ic" title="Ic" id="Re">Re</b></a></dt>
+  <dd class="It-tag">Close an <b class="Ic" title="Ic">Rs</b> block. Does not
+      have any tail arguments.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Rs"><b class="Ic" title="Ic" id="Rs">Rs</b></a></dt>
+  <dd class="It-tag">Begin a bibliographic (&#x201C;reference&#x201D;) block.
+      Does not have any head arguments. The block macro may only contain
+      <b class="Ic" title="Ic">%A</b>, <b class="Ic" title="Ic">%B</b>,
+      <b class="Ic" title="Ic">%C</b>, <b class="Ic" title="Ic">%D</b>,
+      <b class="Ic" title="Ic">%I</b>, <b class="Ic" title="Ic">%J</b>,
+      <b class="Ic" title="Ic">%N</b>, <b class="Ic" title="Ic">%O</b>,
+      <b class="Ic" title="Ic">%P</b>, <b class="Ic" title="Ic">%Q</b>,
+      <b class="Ic" title="Ic">%R</b>, <b class="Ic" title="Ic">%T</b>,
+      <b class="Ic" title="Ic">%U</b>, and <b class="Ic" title="Ic">%V</b> child
+      macros (at least one must be specified).
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Rs
+.%A J. E. Hopcroft
+.%A J. D. Ullman
+.%B Introduction to Automata Theory, Languages, and Computation
+.%I Addison-Wesley
+.%C Reading, Massachusetts
+.%D 1979
+.Re
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    If an <b class="Ic" title="Ic">Rs</b> block is used within a SEE ALSO
+      section, a vertical space is asserted before the rendered output, else the
+      block continues on the current line.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Rv"><b class="Ic" title="Ic" id="Rv">Rv</b></a>
+    <b class="Fl" title="Fl">-std</b>
+    [<span class="Op"><var class="Ar" title="Ar">function ...</var></span>]</dt>
+  <dd class="It-tag">Insert a standard sentence regarding a function call's
+      return value of 0 on success and -1 on error, with the
+      <var class="Va" title="Va">errno</var> libc global variable set on error.
+    <div class="Pp"></div>
+    If <var class="Ar" title="Ar">function</var> is not specified, the
+      document's name set by <b class="Ic" title="Ic">Nm</b> is used. Multiple
+      <var class="Ar" title="Ar">function</var> arguments are treated as
+      separate functions.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Ex</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Sc"><b class="Ic" title="Ic" id="Sc">Sc</b></a></dt>
+  <dd class="It-tag">Close single-quoted context opened by
+      <b class="Ic" title="Ic">So</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Sh"><b class="Ic" title="Ic" id="Sh">Sh</b></a>
+    <var class="Ar" title="Ar">TITLE LINE</var></dt>
+  <dd class="It-tag">Begin a new section. For a list of conventional manual
+      sections, see <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL
+      STRUCTURE</a>. These sections should be used unless it's absolutely
+      necessary that custom sections be used.
+    <div class="Pp"></div>
+    Section names should be unique so that they may be keyed by
+      <b class="Ic" title="Ic">Sx</b>. Although this macro is parsed, it should
+      not consist of child node or it may not be linked with
+      <b class="Ic" title="Ic">Sx</b>.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Pp</b>, <b class="Ic" title="Ic">Ss</b>,
+      and <b class="Ic" title="Ic">Sx</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Sm"><b class="Ic" title="Ic" id="Sm">Sm</b></a>
+    [<span class="Op"><b class="Cm" title="Cm">on</b> |
+    <b class="Cm" title="Cm">off</b></span>]</dt>
+  <dd class="It-tag">Switches the spacing mode for output generated from macros.
+    <div class="Pp"></div>
+    By default, spacing is <b class="Cm" title="Cm">on</b>. When switched
+      <b class="Cm" title="Cm">off</b>, no white space is inserted between macro
+      arguments and between the output generated from adjacent macros, but text
+      lines still get normal spacing between words and sentences.
+    <div class="Pp"></div>
+    When called without an argument, the <b class="Ic" title="Ic">Sm</b> macro
+      toggles the spacing mode. Using this is not recommended because it makes
+      the code harder to read.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#So"><b class="Ic" title="Ic" id="So">So</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Multi-line version of <b class="Ic" title="Ic">Sq</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Sq"><b class="Ic" title="Ic" id="Sq">Sq</b></a>
+    <var class="Ar" title="Ar">line</var></dt>
+  <dd class="It-tag">Encloses its arguments in &#x2018;typewriter&#x2019;
+      single-quotes.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Dq</b>, <b class="Ic" title="Ic">Qq</b>,
+      and <b class="Ic" title="Ic">So</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ss"><b class="Ic" title="Ic" id="Ss">Ss</b></a>
+    <var class="Ar" title="Ar">Title line</var></dt>
+  <dd class="It-tag">Begin a new subsection. Unlike with
+      <b class="Ic" title="Ic">Sh</b>, there is no convention for the naming of
+      subsections. Except <i class="Em" title="Em">DESCRIPTION</i>, the
+      conventional sections described in
+      <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL STRUCTURE</a>
+      rarely have subsections.
+    <div class="Pp"></div>
+    Sub-section names should be unique so that they may be keyed by
+      <b class="Ic" title="Ic">Sx</b>. Although this macro is parsed, it should
+      not consist of child node or it may not be linked with
+      <b class="Ic" title="Ic">Sx</b>.
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Pp</b>, <b class="Ic" title="Ic">Sh</b>,
+      and <b class="Ic" title="Ic">Sx</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#St"><b class="Ic" title="Ic" id="St">St</b></a>
+    <b class="Fl" title="Fl">-</b><var class="Ar" title="Ar">abbreviation</var></dt>
+  <dd class="It-tag">Replace an abbreviation for a standard with the full form.
+      The following standards are recognised. Where multiple lines are given
+      without a blank line in between, they all refer to the same standard, and
+      using the first form is recommended.
+    <dl class="Bl-tag" style="margin-left: 4.20ex;">
+      <dt class="It-tag" style="margin-left: -4.20ex;">C language standards</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 19.80ex;">
+          <dt class="It-tag" style="margin-left: -19.80ex;">-ansiC</dt>
+          <dd class="It-tag"><span class="St" title="St">ANSI X3.159-1989
+              (&#x201C;ANSI&#x00A0;C89&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-ansiC-89</dt>
+          <dd class="It-tag"><span class="St" title="St">ANSI X3.159-1989
+              (&#x201C;ANSI&#x00A0;C89&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-isoC</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9899:1990
+              (&#x201C;ISO&#x00A0;C90&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-isoC-90</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9899:1990
+              (&#x201C;ISO&#x00A0;C90&#x201D;)</span>
+            <div>&#x00A0;</div>
+            The original C standard.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-isoC-amd1</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9899/AMD1:1995
+              (&#x201C;ISO&#x00A0;C90, Amendment 1&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-isoC-tcor1</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9899/TCOR1:1994
+              (&#x201C;ISO&#x00A0;C90, Technical Corrigendum 1&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-isoC-tcor2</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9899/TCOR2:1995
+              (&#x201C;ISO&#x00A0;C90, Technical Corrigendum 2&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-isoC-99</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9899:1999
+              (&#x201C;ISO&#x00A0;C99&#x201D;)</span>
+            <div>&#x00A0;</div>
+            The second major version of the C language standard.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-isoC-2011</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9899:2011
+              (&#x201C;ISO&#x00A0;C11&#x201D;)</span>
+            <div>&#x00A0;</div>
+            The third major version of the C language standard.</dd>
+        </dl>
+      </dd>
+      <dt class="It-tag" style="margin-left: -4.20ex;">POSIX.1 before the Single
+        UNIX Specification</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 19.80ex;">
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1-88</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1-1988
+              (&#x201C;POSIX.1&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1
+              (&#x201C;POSIX.1&#x201D;)</span>
+            <div>&#x00A0;</div>
+            The original POSIX standard, based on ANSI C.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1-90</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1-1990
+              (&#x201C;POSIX.1&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-iso9945-1-90</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9945-1:1990
+              (&#x201C;POSIX.1&#x201D;)</span>
+            <div>&#x00A0;</div>
+            The first update of POSIX.1.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1b-93</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1b-1993
+              (&#x201C;POSIX.1b&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1b</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1b
+              (&#x201C;POSIX.1b&#x201D;)</span>
+            <div>&#x00A0;</div>
+            Real-time extensions.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1c-95</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1c-1995
+              (&#x201C;POSIX.1c&#x201D;)</span>
+            <div>&#x00A0;</div>
+            POSIX thread interfaces.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1i-95</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1i-1995
+              (&#x201C;POSIX.1i&#x201D;)</span>
+            <div>&#x00A0;</div>
+            Technical Corrigendum.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1-96</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9945-1:1996
+              (&#x201C;POSIX.1&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-iso9945-1-96</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9945-1:1996
+              (&#x201C;POSIX.1&#x201D;)</span>
+            <div>&#x00A0;</div>
+            Includes POSIX.1-1990, 1b, 1c, and 1i.</dd>
+        </dl>
+      </dd>
+      <dt class="It-tag" style="margin-left: -4.20ex;">X/Open Portability Guide
+        version 4 and related standards</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 19.80ex;">
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xpg3</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Portability
+              Guide Issue&#x00A0;3 (&#x201C;XPG3&#x201D;)</span>
+            <div>&#x00A0;</div>
+            An XPG4 precursor, published in 1989.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.2</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.2
+              (&#x201C;POSIX.2&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.2-92</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.2-1992
+              (&#x201C;POSIX.2&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-iso9945-2-93</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO/IEC 9945-2:1993
+              (&#x201C;POSIX.2&#x201D;)</span>
+            <div>&#x00A0;</div>
+            An XCU4 precursor.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.2a-92</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.2a-1992
+              (&#x201C;POSIX.2&#x201D;)</span>
+            <div>&#x00A0;</div>
+            Updates to POSIX.2.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xpg4</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Portability
+              Guide Issue&#x00A0;4 (&#x201C;XPG4&#x201D;)</span>
+            <div>&#x00A0;</div>
+            Based on POSIX.1 and POSIX.2, published in 1992.</dd>
+        </dl>
+      </dd>
+      <dt class="It-tag" style="margin-left: -4.20ex;">Single UNIX Specification
+        version 1 and related standards</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 19.80ex;">
+          <dt class="It-tag" style="margin-left: -19.80ex;">-susv1</dt>
+          <dd class="It-tag"><span class="St" title="St">Version&#x00A0;1 of the
+              Single UNIX Specification (&#x201C;SUSv1&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xpg4.2</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Portability
+              Guide Issue&#x00A0;4, Version&#x00A0;2
+              (&#x201C;XPG4.2&#x201D;)</span>
+            <div>&#x00A0;</div>
+            This standard was published in 1994. It was used as the basis for
+              UNIX 95 certification. The following three refer to parts of it.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xsh4.2</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open System
+              Interfaces and Headers Issue&#x00A0;4, Version&#x00A0;2
+              (&#x201C;XSH4.2&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xcurses4.2</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Curses
+              Issue&#x00A0;4, Version&#x00A0;2
+              (&#x201C;XCURSES4.2&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1g-2000</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1g-2000
+              (&#x201C;POSIX.1g&#x201D;)</span>
+            <div>&#x00A0;</div>
+            Networking APIs, including sockets.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-svid4</dt>
+          <dd class="It-tag"><span class="St" title="St">System&#x00A0;V
+              Interface Definition, Fourth Edition
+              (&#x201C;SVID4&#x201D;)</span>,
+            <div>&#x00A0;</div>
+            Published in 1995.</dd>
+        </dl>
+      </dd>
+      <dt class="It-tag" style="margin-left: -4.20ex;">Single UNIX Specification
+        version 2 and related standards</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 19.80ex;">
+          <dt class="It-tag" style="margin-left: -19.80ex;">-susv2</dt>
+          <dd class="It-tag"><span class="St" title="St">Version&#x00A0;2 of the
+              Single UNIX Specification (&#x201C;SUSv2&#x201D;)</span> This
+              Standard was published in 1997 and is also called X/Open
+              Portability Guide version 5. It was used as the basis for UNIX 98
+              certification. The following refer to parts of it.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xbd5</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Base Definitions
+              Issue&#x00A0;5 (&#x201C;XBD5&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xsh5</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open System
+              Interfaces and Headers Issue&#x00A0;5
+              (&#x201C;XSH5&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xcu5</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Commands and
+              Utilities Issue&#x00A0;5 (&#x201C;XCU5&#x201D;)</span>
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xns5</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Networking
+              Services Issue&#x00A0;5 (&#x201C;XNS5&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-xns5.2</dt>
+          <dd class="It-tag"><span class="St" title="St">X/Open Networking
+              Services Issue&#x00A0;5.2 (&#x201C;XNS5.2&#x201D;)</span></dd>
+        </dl>
+      </dd>
+      <dt class="It-tag" style="margin-left: -4.20ex;">Single UNIX Specification
+        version 3</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 18.60ex;">
+          <dt class="It-tag" style="margin-left: -18.60ex;">-p1003.1-2001</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1-2001
+              (&#x201C;POSIX.1&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -18.60ex;">-susv3</dt>
+          <dd class="It-tag"><span class="St" title="St">Version&#x00A0;3 of the
+              Single UNIX Specification (&#x201C;SUSv3&#x201D;)</span>
+            <div>&#x00A0;</div>
+            This standard is based on C99, SUSv2, POSIX.1-1996, 1d, and 1j. It
+              is also called X/Open Portability Guide version 6. It is used as
+              the basis for UNIX 03 certification.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -18.60ex;">-p1003.1-2004</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1-2004
+              (&#x201C;POSIX.1&#x201D;)</span>
+            <div>&#x00A0;</div>
+            The second and last Technical Corrigendum.</dd>
+        </dl>
+      </dd>
+      <dt class="It-tag" style="margin-left: -4.20ex;">Single UNIX Specification
+        version 4</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 19.80ex;">
+          <dt class="It-tag" style="margin-left: -19.80ex;">-p1003.1-2008</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1003.1-2008
+              (&#x201C;POSIX.1&#x201D;)</span></dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-susv4</dt>
+          <dd class="It-tag"><span class="St" title="St">Version&#x00A0;4 of the
+              Single UNIX Specification (&#x201C;SUSv4&#x201D;)</span>
+            <div>&#x00A0;</div>
+            This standard is also called X/Open Portability Guide version
+            7.</dd>
+        </dl>
+      </dd>
+      <dt class="It-tag" style="margin-left: -4.20ex;">Other standards</dt>
+      <dd class="It-tag">
+        <div class="Pp"></div>
+        <dl class="Bl-tag Bl-compact" style="margin-left: 19.80ex;">
+          <dt class="It-tag" style="margin-left: -19.80ex;">-ieee754</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std
+              754-1985</span>
+            <div>&#x00A0;</div>
+            Floating-point arithmetic.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-iso8601</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO 8601</span>
+            <div>&#x00A0;</div>
+            Representation of dates and times, published in 1988.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-iso8802-3</dt>
+          <dd class="It-tag"><span class="St" title="St">ISO 8802-3: 1989</span>
+            <div>&#x00A0;</div>
+            Ethernet local area networks.
+            <div class="Pp"></div>
+          </dd>
+          <dt class="It-tag" style="margin-left: -19.80ex;">-ieee1275-94</dt>
+          <dd class="It-tag"><span class="St" title="St">IEEE Std 1275-1994
+              (&#x201C;Open Firmware&#x201D;)</span></dd>
+        </dl>
+      </dd>
+    </dl>
+  </dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Sx"><b class="Ic" title="Ic" id="Sx">Sx</b></a>
+    <var class="Ar" title="Ar">Title line</var></dt>
+  <dd class="It-tag">Reference a section or subsection in the same manual page.
+      The referenced section or subsection name must be identical to the
+      enclosed argument, including whitespace.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Sx MANUAL STRUCTURE</code></div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Sh</b> and
+      <b class="Ic" title="Ic">Ss</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Sy"><b class="Ic" title="Ic" id="Sy">Sy</b></a>
+    <var class="Ar" title="Ar">word ...</var></dt>
+  <dd class="It-tag">Request a boldface font.
+    <div class="Pp"></div>
+    This is most often used to indicate importance or seriousness (not to be
+      confused with stress emphasis, see <b class="Ic" title="Ic">Em</b>). When
+      none of the semantic macros fit, it is also adequate for syntax elements
+      that have to be given or that appear verbatim.
+    <div class="Pp"></div>
+    Examples:
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+.Sy Warning :
+If
+.Sy s
+appears in the owner permissions, set-user-ID mode is set.
+This utility replaces the former
+.Sy dumpdir
+program.
+    </pre>
+    </div>
+    <div class="Pp"></div>
+    See also <b class="Ic" title="Ic">Em</b>, <b class="Ic" title="Ic">No</b>,
+      and <b class="Ic" title="Ic">Ql</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ta"><b class="Ic" title="Ic" id="Ta">Ta</b></a></dt>
+  <dd class="It-tag">Table cell separator in <b class="Ic" title="Ic">Bl</b>
+      <b class="Fl" title="Fl">-column</b> lists; can only be used below
+      <b class="Ic" title="Ic">It</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Tn"><b class="Ic" title="Ic" id="Tn">Tn</b></a>
+    <var class="Ar" title="Ar">word ...</var></dt>
+  <dd class="It-tag">Supported only for compatibility, do not use this in new
+      manuals. Even though the macro name (&#x201C;tradename&#x201D;) suggests a
+      semantic function, historic usage is inconsistent, mostly using it as a
+      presentation-level macro to request a small caps font.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ud"><b class="Ic" title="Ic" id="Ud">Ud</b></a></dt>
+  <dd class="It-tag">Supported only for compatibility, do not use this in new
+      manuals. Prints out &#x201C;currently under development.&#x201D;</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Ux"><b class="Ic" title="Ic" id="Ux">Ux</b></a></dt>
+  <dd class="It-tag">Supported only for compatibility, do not use this in new
+      manuals. Prints out &#x201C;<span class="Ux">UNIX</span>&#x201D;.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Va"><b class="Ic" title="Ic" id="Va">Va</b></a>
+    [<span class="Op"><var class="Ar" title="Ar">type</var></span>]
+    <var class="Ar" title="Ar">identifier ...</var></dt>
+  <dd class="It-tag">A variable name.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Va foo</code></div>
+    <div class="D1"><code class="Li">.Va const char *bar;</code></div>
+    <div class="Pp"></div>
+    For function arguments and parameters, use <b class="Ic" title="Ic">Fa</b>
+      instead. For declarations of global variables in the
+      <i class="Em" title="Em">SYNOPSIS</i> section, use
+      <b class="Ic" title="Ic">Vt</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Vt"><b class="Ic" title="Ic" id="Vt">Vt</b></a>
+    <var class="Ar" title="Ar">type</var>
+    [<span class="Op"><var class="Ar" title="Ar">identifier</var></span>]</dt>
+  <dd class="It-tag">A variable type.
+    <div class="Pp"></div>
+    This is also used for indicating global variables in the
+      <i class="Em" title="Em">SYNOPSIS</i> section, in which case a variable
+      name is also specified. Note that it accepts
+      <a class="Sx" title="Sx" href="#Block_partial-implicit">Block
+      partial-implicit</a> syntax when invoked as the first macro on an input
+      line in the <i class="Em" title="Em">SYNOPSIS</i> section, else it accepts
+      ordinary <a class="Sx" title="Sx" href="#In-line">In-line</a> syntax. In
+      the former case, this macro starts a new output line, and a blank line is
+      inserted in front if there is a preceding function definition or include
+      directive.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Vt unsigned char</code></div>
+    <div class="D1"><code class="Li">.Vt extern const char * const sys_signame[]
+      ;</code></div>
+    <div class="Pp"></div>
+    For parameters in function prototypes, use <b class="Ic" title="Ic">Fa</b>
+      instead, for function return types <b class="Ic" title="Ic">Ft</b>, and
+      for variable names outside the <i class="Em" title="Em">SYNOPSIS</i>
+      section <b class="Ic" title="Ic">Va</b>, even when including a type with
+      the name. See also
+      <a class="Sx" title="Sx" href="#MANUAL_STRUCTURE">MANUAL
+    STRUCTURE</a>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Xc"><b class="Ic" title="Ic" id="Xc">Xc</b></a></dt>
+  <dd class="It-tag">Close a scope opened by
+    <b class="Ic" title="Ic">Xo</b>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Xo"><b class="Ic" title="Ic" id="Xo">Xo</b></a>
+    <var class="Ar" title="Ar">block</var></dt>
+  <dd class="It-tag">Extend the header of an <b class="Ic" title="Ic">It</b>
+      macro or the body of a partial-implicit block macro beyond the end of the
+      input line. This macro originally existed to work around the 9-argument
+      limit of historic
+      <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>.</dd>
+  <dt class="It-tag" style="margin-left: -6.60ex;"><a class="selflink" href="#Xr"><b class="Ic" title="Ic" id="Xr">Xr</b></a>
+    <var class="Ar" title="Ar">name section</var></dt>
+  <dd class="It-tag">Link to another manual (&#x201C;cross-reference&#x201D;).
+    <div class="Pp"></div>
+    Cross reference the <var class="Ar" title="Ar">name</var> and
+      <var class="Ar" title="Ar">section</var> number of another man page.
+    <div class="Pp"></div>
+    Examples:
+    <div class="D1"><code class="Li">.Xr mandoc 1</code></div>
+    <div class="D1"><code class="Li">.Xr mandoc 1 ;</code></div>
+    <div class="D1"><code class="Li">.Xr mandoc 1 Ns s behaviour</code></div>
+  </dd>
+</dl>
+<h1 class="Sh" title="Sh" id="MACRO_SYNTAX"><a class="selflink" href="#MACRO_SYNTAX">MACRO
+  SYNTAX</a></h1>
+The syntax of a macro depends on its classification. In this section,
+  &#x2018;-arg&#x2019; refers to macro arguments, which may be followed by zero
+  or more &#x2018;parm&#x2019; parameters; &#x2018;Yo&#x2019; opens the scope of
+  a macro; and if specified, &#x2018;Yc&#x2019; closes it out.
+<div class="Pp"></div>
+The <i class="Em" title="Em">Callable</i> column indicates that the macro may
+  also be called by passing its name as an argument to another macro. For
+  example, &#x2018;.Op Fl O Ar file&#x2019; produces
+  &#x2018;[<span class="Op"><b class="Fl" title="Fl">-O</b>
+  <var class="Ar" title="Ar">file</var></span>]&#x2019;. To prevent a macro call
+  and render the macro name literally, escape it by prepending a zero-width
+  space, &#x2018;\&amp;&#x2019;. For example, &#x2018;Op \&amp;Fl O&#x2019;
+  produces &#x2018;[<span class="Op">Fl O</span>]&#x2019;. If a macro is not
+  callable but its name appears as an argument to another macro, it is
+  interpreted as opaque text. For example, &#x2018;.Fl Sh&#x2019; produces
+  &#x2018;<b class="Fl" title="Fl">-Sh</b>&#x2019;.
+<div class="Pp"></div>
+The <i class="Em" title="Em">Parsed</i> column indicates whether the macro may
+  call other macros by receiving their names as arguments. If a macro is not
+  parsed but the name of another macro appears as an argument, it is interpreted
+  as opaque text.
+<div class="Pp"></div>
+The <i class="Em" title="Em">Scope</i> column, if applicable, describes closure
+  rules.
+<h2 class="Ss" title="Ss" id="Block_full-explicit"><a class="selflink" href="#Block_full-explicit">Block
+  full-explicit</a></h2>
+Multi-line scope closed by an explicit closing macro. All macros contains
+  bodies; only <b class="Ic" title="Ic">Bf</b> and (optionally)
+  <b class="Ic" title="Ic">Bl</b> contain a head.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+.Yo [-arg [parm...]] [head...]
+[body...]
+.Yc
+</pre>
+</div>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 10.20ex;"/>
+    <col style="width: 13.80ex;"/>
+    <col style="width: 11.40ex;"/>
+    <col style="min-width: 13.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><i class="Em" title="Em">Macro</i></td>
+    <td class="It-column"><i class="Em" title="Em">Callable</i></td>
+    <td class="It-column"><i class="Em" title="Em">Parsed</i></td>
+    <td class="It-column"><i class="Em" title="Em">Scope</i></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Ed</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bf"><b class="Ic" title="Ic" id="Bf">Bf</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Ef</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bk"><b class="Ic" title="Ic" id="Bk">Bk</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Ek</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bl"><b class="Ic" title="Ic" id="Bl">Bl</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">El</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ed"><b class="Ic" title="Ic" id="Ed">Ed</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Bd</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ef"><b class="Ic" title="Ic" id="Ef">Ef</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Bf</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ek"><b class="Ic" title="Ic" id="Ek">Ek</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Bk</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#El"><b class="Ic" title="Ic" id="El">El</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Bl</b></td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Block_full-implicit"><a class="selflink" href="#Block_full-implicit">Block
+  full-implicit</a></h2>
+Multi-line scope closed by end-of-file or implicitly by another macro. All
+  macros have bodies; some (<b class="Ic" title="Ic">It</b>
+  <b class="Fl" title="Fl">-bullet</b>, <b class="Fl" title="Fl">-hyphen</b>,
+  <b class="Fl" title="Fl">-dash</b>, <b class="Fl" title="Fl">-enum</b>,
+  <b class="Fl" title="Fl">-item</b>) don't have heads; only one
+  (<b class="Ic" title="Ic">It</b> in <b class="Ic" title="Ic">Bl</b>
+  <b class="Fl" title="Fl">-column</b>) has multiple heads.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+.Yo [-arg [parm...]] [head... [Ta head...]]
+[body...]
+</pre>
+</div>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 10.20ex;"/>
+    <col style="width: 13.80ex;"/>
+    <col style="width: 11.40ex;"/>
+    <col style="min-width: 21.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><i class="Em" title="Em">Macro</i></td>
+    <td class="It-column"><i class="Em" title="Em">Callable</i></td>
+    <td class="It-column"><i class="Em" title="Em">Parsed</i></td>
+    <td class="It-column"><i class="Em" title="Em">Scope</i></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#It"><b class="Ic" title="Ic" id="It">It</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">It</b>,
+      <b class="Ic" title="Ic">El</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nd"><b class="Ic" title="Ic" id="Nd">Nd</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Sh</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nm"><b class="Ic" title="Ic" id="Nm">Nm</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Nm</b>,
+      <b class="Ic" title="Ic">Sh</b>, <b class="Ic" title="Ic">Ss</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sh"><b class="Ic" title="Ic" id="Sh">Sh</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Sh</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ss"><b class="Ic" title="Ic" id="Ss">Ss</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Sh</b>,
+      <b class="Ic" title="Ic">Ss</b></td>
+  </tr>
+</table>
+<div class="Pp"></div>
+Note that the <b class="Ic" title="Ic">Nm</b> macro is a
+  <a class="Sx" title="Sx" href="#Block_full-implicit">Block full-implicit</a>
+  macro only when invoked as the first macro in a
+  <i class="Em" title="Em">SYNOPSIS</i> section line, else it is
+  <a class="Sx" title="Sx" href="#In-line">In-line</a>.
+<h2 class="Ss" title="Ss" id="Block_partial-explicit"><a class="selflink" href="#Block_partial-explicit">Block
+  partial-explicit</a></h2>
+Like block full-explicit, but also with single-line scope. Each has at least a
+  body and, in limited circumstances, a head (<b class="Ic" title="Ic">Fo</b>,
+  <b class="Ic" title="Ic">Eo</b>) and/or tail
+  (<b class="Ic" title="Ic">Ec</b>).
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+.Yo [-arg [parm...]] [head...]
+[body...]
+.Yc [tail...]
+
+.Yo [-arg [parm...]] [head...] [body...] Yc [tail...]
+</pre>
+</div>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 10.20ex;"/>
+    <col style="width: 13.80ex;"/>
+    <col style="width: 11.40ex;"/>
+    <col style="min-width: 14.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><i class="Em" title="Em">Macro</i></td>
+    <td class="It-column"><i class="Em" title="Em">Callable</i></td>
+    <td class="It-column"><i class="Em" title="Em">Parsed</i></td>
+    <td class="It-column"><i class="Em" title="Em">Scope</i></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ac"><b class="Ic" title="Ic" id="Ac">Ac</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Ao</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ao"><b class="Ic" title="Ic" id="Ao">Ao</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Ac</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bc"><b class="Ic" title="Ic" id="Bc">Bc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Bo</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bo"><b class="Ic" title="Ic" id="Bo">Bo</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Bc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Brc"><b class="Ic" title="Ic" id="Brc">Brc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Bro</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bro"><b class="Ic" title="Ic" id="Bro">Bro</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Brc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dc"><b class="Ic" title="Ic" id="Dc">Dc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Do</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Do"><b class="Ic" title="Ic" id="Do">Do</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Dc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ec"><b class="Ic" title="Ic" id="Ec">Ec</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Eo</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Eo"><b class="Ic" title="Ic" id="Eo">Eo</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Ec</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fc"><b class="Ic" title="Ic" id="Fc">Fc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Fo</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fo"><b class="Ic" title="Ic" id="Fo">Fo</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Fc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Oc"><b class="Ic" title="Ic" id="Oc">Oc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Oo</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Oo"><b class="Ic" title="Ic" id="Oo">Oo</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Oc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pc"><b class="Ic" title="Ic" id="Pc">Pc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Po</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Po"><b class="Ic" title="Ic" id="Po">Po</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Pc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Qc"><b class="Ic" title="Ic" id="Qc">Qc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Oo</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Qo"><b class="Ic" title="Ic" id="Qo">Qo</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Oc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Re"><b class="Ic" title="Ic" id="Re">Re</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Rs</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Rs"><b class="Ic" title="Ic" id="Rs">Rs</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Re</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sc"><b class="Ic" title="Ic" id="Sc">Sc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">So</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#So"><b class="Ic" title="Ic" id="So">So</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Sc</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Xc"><b class="Ic" title="Ic" id="Xc">Xc</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">opened by <b class="Ic" title="Ic">Xo</b></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Xo"><b class="Ic" title="Ic" id="Xo">Xo</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Xc</b></td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Block_partial-implicit"><a class="selflink" href="#Block_partial-implicit">Block
+  partial-implicit</a></h2>
+Like block full-implicit, but with single-line scope closed by the end of the
+  line.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+.Yo [-arg [val...]] [body...] [res...]
+</pre>
+</div>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 10.20ex;"/>
+    <col style="width: 13.80ex;"/>
+    <col style="min-width: 7.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><i class="Em" title="Em">Macro</i></td>
+    <td class="It-column"><i class="Em" title="Em">Callable</i></td>
+    <td class="It-column"><i class="Em" title="Em">Parsed</i></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Aq"><b class="Ic" title="Ic" id="Aq">Aq</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bq"><b class="Ic" title="Ic" id="Bq">Bq</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Brq"><b class="Ic" title="Ic" id="Brq">Brq</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#D1"><b class="Ic" title="Ic" id="D1">D1</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dl"><b class="Ic" title="Ic" id="Dl">Dl</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dq"><b class="Ic" title="Ic" id="Dq">Dq</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#En"><b class="Ic" title="Ic" id="En">En</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Op"><b class="Ic" title="Ic" id="Op">Op</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pq"><b class="Ic" title="Ic" id="Pq">Pq</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ql"><b class="Ic" title="Ic" id="Ql">Ql</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Qq"><b class="Ic" title="Ic" id="Qq">Qq</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sq"><b class="Ic" title="Ic" id="Sq">Sq</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Vt"><b class="Ic" title="Ic" id="Vt">Vt</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+  </tr>
+</table>
+<div class="Pp"></div>
+Note that the <b class="Ic" title="Ic">Vt</b> macro is a
+  <a class="Sx" title="Sx" href="#Block_partial-implicit">Block
+  partial-implicit</a> only when invoked as the first macro in a
+  <i class="Em" title="Em">SYNOPSIS</i> section line, else it is
+  <a class="Sx" title="Sx" href="#In-line">In-line</a>.
+<h2 class="Ss" title="Ss" id="Special_block_macro"><a class="selflink" href="#Special_block_macro">Special
+  block macro</a></h2>
+The <b class="Ic" title="Ic">Ta</b> macro can only be used below
+  <b class="Ic" title="Ic">It</b> in <b class="Ic" title="Ic">Bl</b>
+  <b class="Fl" title="Fl">-column</b> lists. It delimits blocks representing
+  table cells; these blocks have bodies, but no heads.
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 10.20ex;"/>
+    <col style="width: 13.80ex;"/>
+    <col style="width: 11.40ex;"/>
+    <col style="min-width: 14.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><i class="Em" title="Em">Macro</i></td>
+    <td class="It-column"><i class="Em" title="Em">Callable</i></td>
+    <td class="It-column"><i class="Em" title="Em">Parsed</i></td>
+    <td class="It-column"><i class="Em" title="Em">Scope</i></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ta"><b class="Ic" title="Ic" id="Ta">Ta</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">closed by <b class="Ic" title="Ic">Ta</b>,
+      <b class="Ic" title="Ic">It</b></td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="In-line"><a class="selflink" href="#In-line">In-line</a></h2>
+Closed by the end of the line, fixed argument lengths, and/or subsequent macros.
+  In-line macros have only text children. If a number (or inequality) of
+  arguments is (n), then the macro accepts an arbitrary number of arguments.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+.Yo [-arg [val...]] [args...] [res...]
+
+.Yo [-arg [val...]] [args...] Yc...
+
+.Yo [-arg [val...]] arg0 arg1 argN
+</pre>
+</div>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 10.20ex;"/>
+    <col style="width: 13.80ex;"/>
+    <col style="width: 11.40ex;"/>
+    <col style="min-width: 9.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><i class="Em" title="Em">Macro</i></td>
+    <td class="It-column"><i class="Em" title="Em">Callable</i></td>
+    <td class="It-column"><i class="Em" title="Em">Parsed</i></td>
+    <td class="It-column"><i class="Em" title="Em">Arguments</i></td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%A"><b class="Ic" title="Ic" id="%A">%A</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%B"><b class="Ic" title="Ic" id="%B">%B</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%C"><b class="Ic" title="Ic" id="%C">%C</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%D"><b class="Ic" title="Ic" id="%D">%D</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%I"><b class="Ic" title="Ic" id="%I">%I</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%J"><b class="Ic" title="Ic" id="%J">%J</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%N"><b class="Ic" title="Ic" id="%N">%N</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%O"><b class="Ic" title="Ic" id="%O">%O</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%P"><b class="Ic" title="Ic" id="%P">%P</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%Q"><b class="Ic" title="Ic" id="%Q">%Q</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%R"><b class="Ic" title="Ic" id="%R">%R</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%T"><b class="Ic" title="Ic" id="%T">%T</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%U"><b class="Ic" title="Ic" id="%U">%U</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#%V"><b class="Ic" title="Ic" id="%V">%V</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ad"><b class="Ic" title="Ic" id="Ad">Ad</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#An"><b class="Ic" title="Ic" id="An">An</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ap"><b class="Ic" title="Ic" id="Ap">Ap</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ar"><b class="Ic" title="Ic" id="Ar">Ar</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#At"><b class="Ic" title="Ic" id="At">At</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">1</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bsx"><b class="Ic" title="Ic" id="Bsx">Bsx</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bt"><b class="Ic" title="Ic" id="Bt">Bt</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Bx"><b class="Ic" title="Ic" id="Bx">Bx</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Cd"><b class="Ic" title="Ic" id="Cd">Cd</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Cm"><b class="Ic" title="Ic" id="Cm">Cm</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Db"><b class="Ic" title="Ic" id="Db">Db</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">1</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dd"><b class="Ic" title="Ic" id="Dd">Dd</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dt"><b class="Ic" title="Ic" id="Dt">Dt</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dv"><b class="Ic" title="Ic" id="Dv">Dv</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Dx"><b class="Ic" title="Ic" id="Dx">Dx</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Em"><b class="Ic" title="Ic" id="Em">Em</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Er"><b class="Ic" title="Ic" id="Er">Er</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Es"><b class="Ic" title="Ic" id="Es">Es</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">2</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ev"><b class="Ic" title="Ic" id="Ev">Ev</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ex"><b class="Ic" title="Ic" id="Ex">Ex</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fa"><b class="Ic" title="Ic" id="Fa">Fa</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fd"><b class="Ic" title="Ic" id="Fd">Fd</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fl"><b class="Ic" title="Ic" id="Fl">Fl</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fn"><b class="Ic" title="Ic" id="Fn">Fn</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fr"><b class="Ic" title="Ic" id="Fr">Fr</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ft"><b class="Ic" title="Ic" id="Ft">Ft</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Fx"><b class="Ic" title="Ic" id="Fx">Fx</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Hf"><b class="Ic" title="Ic" id="Hf">Hf</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ic"><b class="Ic" title="Ic" id="Ic">Ic</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#In"><b class="Ic" title="Ic" id="In">In</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">1</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Lb"><b class="Ic" title="Ic" id="Lb">Lb</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">1</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Li"><b class="Ic" title="Ic" id="Li">Li</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Lk"><b class="Ic" title="Ic" id="Lk">Lk</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Lp"><b class="Ic" title="Ic" id="Lp">Lp</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ms"><b class="Ic" title="Ic" id="Ms">Ms</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Mt"><b class="Ic" title="Ic" id="Mt">Mt</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nm"><b class="Ic" title="Ic" id="Nm">Nm</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#No"><b class="Ic" title="Ic" id="No">No</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ns"><b class="Ic" title="Ic" id="Ns">Ns</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Nx"><b class="Ic" title="Ic" id="Nx">Nx</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Os"><b class="Ic" title="Ic" id="Os">Os</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ot"><b class="Ic" title="Ic" id="Ot">Ot</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ox"><b class="Ic" title="Ic" id="Ox">Ox</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pa"><b class="Ic" title="Ic" id="Pa">Pa</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pf"><b class="Ic" title="Ic" id="Pf">Pf</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">1</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Pp"><b class="Ic" title="Ic" id="Pp">Pp</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Rv"><b class="Ic" title="Ic" id="Rv">Rv</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sm"><b class="Ic" title="Ic" id="Sm">Sm</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">&lt;2</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#St"><b class="Ic" title="Ic" id="St">St</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">1</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sx"><b class="Ic" title="Ic" id="Sx">Sx</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Sy"><b class="Ic" title="Ic" id="Sy">Sy</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Tn"><b class="Ic" title="Ic" id="Tn">Tn</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ud"><b class="Ic" title="Ic" id="Ud">Ud</b></a></td>
+    <td class="It-column">No</td>
+    <td class="It-column">No</td>
+    <td class="It-column">0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Ux"><b class="Ic" title="Ic" id="Ux">Ux</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Va"><b class="Ic" title="Ic" id="Va">Va</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">n</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Vt"><b class="Ic" title="Ic" id="Vt">Vt</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">&gt;0</td>
+  </tr>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#Xr"><b class="Ic" title="Ic" id="Xr">Xr</b></a></td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">Yes</td>
+    <td class="It-column">2</td>
+  </tr>
+</table>
+<h2 class="Ss" title="Ss" id="Delimiters"><a class="selflink" href="#Delimiters">Delimiters</a></h2>
+When a macro argument consists of one single input character considered as a
+  delimiter, the argument gets special handling. This does not apply when
+  delimiters appear in arguments containing more than one character.
+  Consequently, to prevent special handling and just handle it like any other
+  argument, a delimiter can be escaped by prepending a zero-width space
+  (&#x2018;\&amp;&#x2019;). In text lines, delimiters never need escaping, but
+  may be used as normal punctuation.
+<div class="Pp"></div>
+For many macros, when the leading arguments are opening delimiters, these
+  delimiters are put before the macro scope, and when the trailing arguments are
+  closing delimiters, these delimiters are put after the macro scope. Spacing is
+  suppressed after opening delimiters and before closing delimiters. For
+  example,
+<div class="Pp"></div>
+<div class="D1">.Aq ( [ word ] ) .</div>
+<div class="Pp"></div>
+renders as:
+<div class="Pp"></div>
+<div class="D1">([&#x27E8;word&#x27E9;]).</div>
+<div class="Pp"></div>
+Opening delimiters are:
+<div class="Pp"></div>
+<div class="Bl-tag" style="margin-left: 6.00ex;">
+<dl class="Bl-tag Bl-compact">
+  <dt class="It-tag">(</dt>
+  <dd class="It-tag">left parenthesis</dd>
+  <dt class="It-tag">[</dt>
+  <dd class="It-tag">left bracket</dd>
+</dl>
+</div>
+<div class="Pp"></div>
+Closing delimiters are:
+<div class="Pp"></div>
+<div class="Bl-tag" style="margin-left: 6.00ex;">
+<dl class="Bl-tag Bl-compact">
+  <dt class="It-tag">.</dt>
+  <dd class="It-tag">period</dd>
+  <dt class="It-tag">,</dt>
+  <dd class="It-tag">comma</dd>
+  <dt class="It-tag">:</dt>
+  <dd class="It-tag">colon</dd>
+  <dt class="It-tag">;</dt>
+  <dd class="It-tag">semicolon</dd>
+  <dt class="It-tag">)</dt>
+  <dd class="It-tag">right parenthesis</dd>
+  <dt class="It-tag">]</dt>
+  <dd class="It-tag">right bracket</dd>
+  <dt class="It-tag">?</dt>
+  <dd class="It-tag">question mark</dd>
+  <dt class="It-tag">!</dt>
+  <dd class="It-tag">exclamation mark</dd>
+</dl>
+</div>
+<div class="Pp"></div>
+Note that even a period preceded by a backslash (&#x2018;\.&#x2019;) gets this
+  special handling; use &#x2018;\&amp;.&#x2019; to prevent that.
+<div class="Pp"></div>
+Many in-line macros interrupt their scope when they encounter delimiters, and
+  resume their scope when more arguments follow that are not delimiters. For
+  example,
+<div class="Pp"></div>
+<div class="D1">.Fl a ( b | c \*(Ba d ) e</div>
+<div class="Pp"></div>
+renders as:
+<div class="Pp"></div>
+<div class="D1"><b class="Fl" title="Fl">-a</b> (<b class="Fl" title="Fl">-b</b>
+  | <b class="Fl" title="Fl">-c</b> | <b class="Fl" title="Fl">-d</b>)
+  <b class="Fl" title="Fl">-e</b></div>
+<div class="Pp"></div>
+This applies to both opening and closing delimiters, and also to the middle
+  delimiter, which does not suppress spacing:
+<div class="Pp"></div>
+<div class="Bl-tag" style="margin-left: 6.00ex;">
+<dl class="Bl-tag Bl-compact">
+  <dt class="It-tag">|</dt>
+  <dd class="It-tag">vertical bar</dd>
+</dl>
+</div>
+<div class="Pp"></div>
+As a special case, the predefined string \*(Ba is handled and rendered in the
+  same way as a plain &#x2018;|&#x2019; character. Using this predefined string
+  is not recommended in new manuals.
+<h2 class="Ss" title="Ss" id="Font_handling"><a class="selflink" href="#Font_handling">Font
+  handling</a></h2>
+In <b class="Nm" title="Nm">mdoc</b> documents, usage of semantic markup is
+  recommended in order to have proper fonts automatically selected; only when no
+  fitting semantic markup is available, consider falling back to
+  <a class="Sx" title="Sx" href="#Physical_markup">Physical markup</a> macros.
+  Whenever any <b class="Nm" title="Nm">mdoc</b> macro switches the
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a> font mode,
+  it will automatically restore the previous font when exiting its scope.
+  Manually switching the font using the
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>
+  &#x2018;<code class="Li">\f</code>&#x2019; font escape sequences is never
+  required.
+<h1 class="Sh" title="Sh" id="COMPATIBILITY"><a class="selflink" href="#COMPATIBILITY">COMPATIBILITY</a></h1>
+This section provides an incomplete list of compatibility issues between mandoc
+  and GNU troff (&#x201C;groff&#x201D;).
+<div class="Pp"></div>
+The following problematic behaviour is found in groff:
+<div class="Pp"></div>
+<ul class="Bl-dash Bl-compact">
+  <li class="It-dash"><a class="selflink" href="#Dd"><b class="Ic" title="Ic" id="Dd">Dd</b></a>
+      with non-standard arguments behaves very strangely. When there are three
+      arguments, they are printed verbatim. Any other number of arguments is
+      replaced by the current date, but without any arguments the string
+      &#x201C;Epoch&#x201D; is printed.</li>
+  <li class="It-dash"><a class="selflink" href="#Lk"><b class="Ic" title="Ic" id="Lk">Lk</b></a>
+      only accepts a single link-name argument; the remainder is
+    misformatted.</li>
+  <li class="It-dash"><a class="selflink" href="#Pa"><b class="Ic" title="Ic" id="Pa">Pa</b></a>
+      does not format its arguments when used in the FILES section under certain
+      list types.</li>
+  <li class="It-dash"><a class="selflink" href="#Ta"><b class="Ic" title="Ic" id="Ta">Ta</b></a>
+      can only be called by other macros, but not at the beginning of a
+    line.</li>
+  <li class="It-dash"><a class="selflink" href="#%C"><b class="Ic" title="Ic" id="%C">%C</b></a>
+      is not implemented (up to and including groff-1.22.2).</li>
+  <li class="It-dash">&#x2018;\f&#x2019; (font face) and &#x2018;\F&#x2019;
+      (font family face) <a class="Sx" title="Sx" href="#Text_Decoration">Text
+      Decoration</a> escapes behave irregularly when specified within line-macro
+      scopes.</li>
+  <li class="It-dash">Negative scaling units return to prior lines. Instead,
+      mandoc truncates them to zero.</li>
+</ul>
+<div class="Pp"></div>
+The following features are unimplemented in mandoc:
+<div class="Pp"></div>
+<ul class="Bl-dash Bl-compact">
+  <li class="It-dash"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a>
+      <b class="Fl" title="Fl">-file</b> <var class="Ar" title="Ar">file</var>
+      is unsupported for security reasons.</li>
+  <li class="It-dash"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a>
+      <b class="Fl" title="Fl">-filled</b> does not adjust the right margin, but
+      is an alias for <b class="Ic" title="Ic">Bd</b>
+      <b class="Fl" title="Fl">-ragged</b>.</li>
+  <li class="It-dash"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a>
+      <b class="Fl" title="Fl">-literal</b> does not use a literal font, but is
+      an alias for <b class="Ic" title="Ic">Bd</b>
+      <b class="Fl" title="Fl">-unfilled</b>.</li>
+  <li class="It-dash"><a class="selflink" href="#Bd"><b class="Ic" title="Ic" id="Bd">Bd</b></a>
+      <b class="Fl" title="Fl">-offset</b> <b class="Cm" title="Cm">center</b>
+      and <b class="Fl" title="Fl">-offset</b>
+      <b class="Cm" title="Cm">right</b> don't work. Groff does not implement
+      centered and flush-right rendering either, but produces large
+      indentations.</li>
+</ul>
+<h1 class="Sh" title="Sh" id="SEE_ALSO"><a class="selflink" href="#SEE_ALSO">SEE
+  ALSO</a></h1>
+<a class="Xr" title="Xr" href="man.1;../man1/man.1">man(1)</a>,
+  <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>,
+  <a class="Xr" title="Xr" href="eqn.7;../man7/eqn.7">eqn(7)</a>,
+  <a class="Xr" title="Xr" href="man.7;../man7/man.7">man(7)</a>,
+  <a class="Xr" title="Xr" href="mandoc_char.7;../man7/mandoc_char.7">mandoc_char(7)</a>,
+  <a class="Xr" title="Xr" href="roff.7;../man7/roff.7">roff(7)</a>,
+  <a class="Xr" title="Xr" href="tbl.7;../man7/tbl.7">tbl(7)</a>
+<div class="Pp"></div>
+The web page <a class="Lk" title="Lk" href="http://mandoc.bsd.lv/mdoc/">extended
+  documentation for the mdoc language</a> provides a few tutorial-style pages
+  for beginners, an extensive style guide for advanced authors, and an
+  alphabetic index helping to choose the best macros for various kinds of
+  content.
+<h1 class="Sh" title="Sh" id="HISTORY"><a class="selflink" href="#HISTORY">HISTORY</a></h1>
+The <b class="Nm" title="Nm">mdoc</b> language first appeared as a troff macro
+  package in <span class="Ux">4.4BSD</span>. It was later significantly updated
+  by Werner Lemberg and Ruslan Ermilov in groff-1.17. The standalone
+  implementation that is part of the
+  <a class="Xr" title="Xr" href="mandoc.1;../man1/mandoc.1">mandoc(1)</a>
+  utility written by Kristaps Dzonsons appeared in <span class="Ux">OpenBSD
+  4.6</span>.
+<h1 class="Sh" title="Sh" id="AUTHORS"><a class="selflink" href="#AUTHORS">AUTHORS</a></h1>
+The <b class="Nm" title="Nm">mdoc</b> reference was written by
+  <span class="An" title="An">Kristaps Dzonsons</span>
+  &lt;<a class="Mt" title="Mt" href="mailto:kristaps@bsd.lv">kristaps@bsd.lv</a>&gt;.</div>
+<table class="foot">
+  <tr>
+    <td class="foot-date">February 7, 2019</td>
+    <td class="foot-os">Debian</td>
+  </tr>
+</table>
