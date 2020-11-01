@@ -41,5 +41,8 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
     Max: 30
 
+Metrics/PerceivedComplexity:
+    Max: 10
+
 Style/StringLiterals:
     Enabled: false
