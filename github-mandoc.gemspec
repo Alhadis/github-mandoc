@@ -5,15 +5,15 @@ Gem::Specification.new do |s|
 	s.authors       = ["Alhadis"]
 	s.homepage      = "https://github.com/Alhadis/github-mandoc"
 	s.license       = "ISC"
-	
+
 	s.files         = Dir["bin/*"] + Dir["lib/**/*"] + ["LICENSE.md"]
 	s.executables   = Dir["bin/*"].map {|exe| File.basename(exe)}
 	s.test_files    = Dir["test/*_test.rb"]
 	s.require_paths = ["lib"]
-	
+
 	s.add_dependency "nokogiri", "~> 1.5.6"
 	s.add_development_dependency "bundler", ">= 1.10"
 	s.add_development_dependency "minitest", ">= 5.0"
 	s.add_development_dependency "simplecov", ">= 0.19"
-	s.add_development_dependency "rubocop", "~> 1.1"
+	s.add_development_dependency "rubocop", "~> 1.4"
 end

@@ -25,7 +25,7 @@ end.parse!
 # Apply HTML filters to input as though it were emitted by mandoc(1)
 if filter_only
 	filename = ARGF.filename.sub(/^-$/, "<standard input>")
-	input = ARGF.readlines.join("")
+	input = ARGF.readlines.join
 	results = GitHub::Mandoc.filter input, filename
 
 # Collect the output of `mandoc -Thtml -Ofragment`
