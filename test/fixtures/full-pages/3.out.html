@@ -1,10 +1,7 @@
 <div>
-
 <h1 id="name">NAME</h1>
 <code><b>mdoc</b></code> —
 semantic markup language for formatting manual pages
-
-
 <h1 id="description">DESCRIPTION</h1>
 <p>The <code><b>mdoc</b></code> language supports authoring of manual pages for the <code>man(1)</code> utility by allowing semantic annotations of words, phrases, page sections and complete manual pages. Such annotations are used by formatting tools to achieve a uniform presentation across all manuals written in <code><b>mdoc</b></code>, and to support hyperlinking if supported by the output medium.</p>
 <p>This reference document describes the structure of manual pages and the syntax and usage of the <code><b>mdoc</b></code> language. The reference implementation of a parsing and formatting tool is <code>mandoc(1)</code>; the <a href="#compatibility">COMPATIBILITY</a> section describes compatibility with other implementations.</p>
@@ -21,8 +18,6 @@ Text lines are interpreted within the current state.
 </pre>
 
 <p>Many aspects of the basic syntax of the <code><b>mdoc</b></code> language are based on the <code>roff(7)</code> language; see the <i>LANGUAGE SYNTAX</i> and <i>MACRO SYNTAX</i> sections in the <code>roff(7)</code> manual for details, in particular regarding comments, escape sequences, whitespace, and quoting. However, using <code>roff(7)</code> requests in <code><b>mdoc</b></code> documents is discouraged; <code>mandoc(1)</code> supports some of them merely for backward compatibility.</p>
-
-
 <h1 id="manual-structure">MANUAL STRUCTURE</h1>
 <p>A well-formed <code><b>mdoc</b></code> document consists of a document prologue followed by one or more sections.</p>
 <p>The prologue, which consists of the <code><b>Dd</b></code>, <code><b>Dt</b></code>, and <code><b>Os</b></code> macros in that order, is required for every document.</p>
@@ -263,14 +258,11 @@ section.</dd>
 <dt><i>SECURITY CONSIDERATIONS</i></dt>
 <dd>Documents any security precautions that operators should consider.</dd>
 </dl>
-
-
 <h1 id="macro-overview">MACRO OVERVIEW</h1>
 This overview is sorted such that macros of similar purpose are listed together,
 to help find the best macro for any given purpose. Deprecated macros are not
 included in the overview, but can be found below in the alphabetical
 <a href="#macro-reference">MACRO REFERENCE</a>.
-
 <h2 id="document-preamble-and-name-section-macros">Document preamble and NAME section macros</h2>
 
 <table>
@@ -299,8 +291,6 @@ included in the overview, but can be found below in the alphabetical
 <td>document description (one line)</td>
 </tr>
 </table>
-
-
 <h2 id="sections-and-cross-references">Sections and cross references</h2>
 
 <table>
@@ -327,8 +317,6 @@ section</var>
 <td>start a text paragraph (no arguments)</td>
 </tr>
 </table>
-
-
 <h2 id="displays-and-lists">Displays and lists</h2>
 
 <table>
@@ -382,8 +370,6 @@ section</var>
 <td>bibliographic block (references)</td>
 </tr>
 </table>
-
-
 <h2 id="spacing-control">Spacing control</h2>
 
 <table>
@@ -413,8 +399,6 @@ section</var>
 </td>
 </tr>
 </table>
-
-
 <h2 id="semantic-markup-for-command-line-utilities">Semantic markup for command line utilities</h2>
 
 <table>
@@ -454,8 +438,6 @@ section</var>
 <td>file system path (&gt;=0 arguments)</td>
 </tr>
 </table>
-
-
 <h2 id="semantic-markup-for-function-libraries">Semantic markup for function libraries</h2>
 
 <table>
@@ -513,8 +495,6 @@ section</var>
 <td>environmental variable (&gt;0 arguments)</td>
 </tr>
 </table>
-
-
 <h2 id="various-semantic-markup">Various semantic markup</h2>
 
 <table>
@@ -546,8 +526,6 @@ section</var>
 <td>mathematical symbol (&gt;0 arguments)</td>
 </tr>
 </table>
-
-
 <h2 id="physical-markup">Physical markup</h2>
 
 <table>
@@ -575,8 +553,6 @@ section</var>
 </td>
 </tr>
 </table>
-
-
 <h2 id="physical-enclosures">Physical enclosures</h2>
 
 <table>
@@ -637,8 +613,6 @@ section</var>
 <td>generic enclosure</td>
 </tr>
 </table>
-
-
 <h2 id="text-production">Text production</h2>
 
 <table>
@@ -688,9 +662,6 @@ section</var>
 <td><span>DragonFly</span></td>
 </tr>
 </table>
-
-
-
 <h1 id="macro-reference">MACRO REFERENCE</h1>
 <p>This section is a canonical reference of all macros, arranged alphabetically. For the scoping of individual macros, see <a href="#macro-syntax">MACRO SYNTAX</a>.</p>
 <dl>
@@ -983,7 +954,6 @@ with that macro. The most popular is the imaginary macro
 <li>An arbitrary string, which indents by the length of this
 string.</li>
 </ul>
-
 <p>When the argument is missing, <code><b>-offset</b></code> is ignored.</p>
 </dd>
 <dt><code id="compact"><b>-compact</b></code></dt>
@@ -1287,7 +1257,6 @@ is accepted, too.</li>
 <li>If a date string cannot be parsed, it is used verbatim.</li>
 <li>If no date string is given, the current date is used.</li>
 </ul>
-
 <p>Examples:</p>
 
 <pre>
@@ -2618,8 +2587,6 @@ originally existed to work around the 9-argument limit of historic
 
 </dd>
 </dl>
-
-
 <h1 id="macro-syntax">MACRO SYNTAX</h1>
 <p>The syntax of a macro depends on its classification. In this section, ‘-arg’ refers to macro arguments, which may be followed by zero or more ‘parm’ parameters; ‘Yo’ opens the scope of a macro; and if specified, ‘Yc’ closes it out.</p>
 <p>The <i>Callable</i> column indicates that the macro may also be called by passing its name as an argument to another macro. For example, ‘.Op Fl O Ar file’ produces ‘[<code><b>-O</b></code> <var>file</var>]’. To prevent a macro call and render the macro name literally, escape it by prepending a zero-width space, ‘\&amp;’. For example, ‘Op \&amp;Fl O’ produces ‘[Fl O]’. If a macro is not callable but its name appears as an argument to another macro, it is interpreted as opaque text. For example, ‘.Fl Sh’ produces ‘<code><b>-Sh</b></code>’.</p>
@@ -2627,7 +2594,6 @@ originally existed to work around the 9-argument limit of historic
 <p>The <i>Parsed</i> column indicates whether the macro may call other macros by receiving their names as arguments. If a macro is not parsed but the name of another macro appears as an argument, it is interpreted as opaque text.</p>
 
 <p>The <i>Scope</i> column, if applicable, describes closure rules.</p>
-
 <h2 id="block-full-explicit">Block full-explicit</h2>
 <p>Multi-line scope closed by an explicit closing macro. All macros contains bodies; only <code><b>Bf</b></code> and (optionally) <code><b>Bl</b></code> contain a head.</p>
 
@@ -2702,8 +2668,6 @@ originally existed to work around the 9-argument limit of historic
 </td>
 </tr>
 </table>
-
-
 <h2 id="block-full-implicit">Block full-implicit</h2>
 <p>Multi-line scope closed by end-of-file or implicitly by another macro. All macros have bodies; some (<code><b>It</b> <b>-bullet</b></code>, <code><b>-hyphen</b></code>, <code><b>-dash</b></code>, <code><b>-enum</b></code>, <code><b>-item</b></code>) don't have heads; only one (<code><b>It</b></code> in <code><b>Bl</b> <b>-column</b></code>) has multiple heads.</p>
 
@@ -2757,10 +2721,7 @@ originally existed to work around the 9-argument limit of historic
 </td>
 </tr>
 </table>
-
 <p>Note that the <code><b>Nm</b></code> macro is a <a href="#block-full-implicit">Block full-implicit</a> macro only when invoked as the first macro in a <i>SYNOPSIS</i> section line, else it is <a href="#in-line">In-line</a>.</p>
-
-
 <h2 id="block-partial-explicit">Block partial-explicit</h2>
 <p>Like block full-explicit, but also with single-line scope. Each has at least a body and, in limited circumstances, a head (<code><b>Fo</b></code>, <code><b>Eo</b></code>) and/or tail (<code><b>Ec</b></code>).</p>
 
@@ -2949,8 +2910,6 @@ originally existed to work around the 9-argument limit of historic
 </td>
 </tr>
 </table>
-
-
 <h2 id="block-partial-implicit">Block partial-implicit</h2>
 <p>Like block full-implicit, but with single-line scope closed by the end of the line.</p>
 
@@ -3031,10 +2990,7 @@ originally existed to work around the 9-argument limit of historic
 <td>Yes</td>
 </tr>
 </table>
-
 <p>Note that the <code><b>Vt</b></code> macro is a <a href="#block-partial-implicit">Block partial-implicit</a> only when invoked as the first macro in a <i>SYNOPSIS</i> section line, else it is <a href="#in-line">In-line</a>.</p>
-
-
 <h2 id="special-block-macro">Special block macro</h2>
 <p>The <code><b>Ta</b></code> macro can only be used below <code><b>It</b></code> in <code><b>Bl</b> <b>-column</b></code> lists. It delimits blocks representing table cells; these blocks have bodies, but no heads.</p>
 <table>
@@ -3052,8 +3008,6 @@ originally existed to work around the 9-argument limit of historic
 </td>
 </tr>
 </table>
-
-
 <h2 id="in-line">In-line</h2>
 <p>Closed by the end of the line, fixed argument lengths, and/or subsequent macros. In-line macros have only text children. If a number (or inequality) of arguments is (n), then the macro accepts an arbitrary number of arguments.</p>
 
@@ -3500,8 +3454,6 @@ originally existed to work around the 9-argument limit of historic
 <td>2</td>
 </tr>
 </table>
-
-
 <h2 id="delimiters">Delimiters</h2>
 <p>When a macro argument consists of one single input character considered as a delimiter, the argument gets special handling. This does not apply when delimiters appear in arguments containing more than one character. Consequently, to prevent special handling and just handle it like any other argument, a delimiter can be escaped by prepending a zero-width space (‘\&amp;’). In text lines, delimiters never need escaping, but may be used as normal punctuation.</p>
 <p>For many macros, when the leading arguments are opening delimiters, these delimiters are put before the macro scope, and when the trailing arguments are closing delimiters, these delimiters are put after the macro scope. Spacing is suppressed after opening delimiters and before closing delimiters. For example,</p>
@@ -3587,8 +3539,6 @@ originally existed to work around the 9-argument limit of historic
 </div></ul>
 
 <p>As a special case, the predefined string \*(Ba is handled and rendered in the same way as a plain ‘|’ character. Using this predefined string is not recommended in new manuals.</p>
-
-
 <h2 id="font-handling">Font handling</h2>
 In <code><b>mdoc</b></code> documents, usage of semantic markup is
 recommended in order to have proper fonts automatically selected; only when no
@@ -3600,9 +3550,6 @@ automatically restore the previous font when exiting its scope. Manually
 switching the font using the <code>roff(7)</code>
 ‘<code>\f</code>’ font escape sequences is never
 required.
-
-
-
 <h1 id="compatibility">COMPATIBILITY</h1>
 <p>This section provides an incomplete list of compatibility issues between mandoc and GNU troff (“groff”).</p>
 <p>The following problematic behaviour is found in groff:</p>
@@ -3637,7 +3584,6 @@ irregularly when specified within line-macro scopes.</li>
 <li>Negative scaling units return to prior lines. Instead, mandoc truncates
 them to zero.</li>
 </ul>
-
 <p>The following features are unimplemented in mandoc:</p>
 
 
@@ -3658,13 +3604,9 @@ alias for <code><b>Bd</b> <b>-unfilled</b></code>.</li>
 Groff does not implement centered and flush-right rendering either, but
 produces large indentations.</li>
 </ul>
-
-
 <h1 id="see-also">SEE ALSO</h1>
 <p><code>man(1)</code>, <code>mandoc(1)</code>, <code>eqn(7)</code>, <code>man(7)</code>, <code>mandoc_char(7)</code>, <code>roff(7)</code>, <code>tbl(7)</code></p>
 <p>The web page <a href="http://mandoc.bsd.lv/mdoc/">extended documentation for the mdoc language</a> provides a few tutorial-style pages for beginners, an extensive style guide for advanced authors, and an alphabetic index helping to choose the best macros for various kinds of content.</p>
-
-
 <h1 id="history">HISTORY</h1>
 The <code><b>mdoc</b></code> language first appeared as a troff macro
 package in <span>4.4BSD</span>. It was later significantly updated
@@ -3672,8 +3614,6 @@ by Werner Lemberg and Ruslan Ermilov in groff-1.17. The standalone
 implementation that is part of the
 <code>mandoc(1)</code> utility written by
 Kristaps Dzonsons appeared in <span>OpenBSD 4.6</span>.
-
-
 <h1 id="authors">AUTHORS</h1>
 The <code><b>mdoc</b></code> reference was written by
 <span>Kristaps Dzonsons</span>

@@ -1,14 +1,10 @@
 <div>
-
 <h1 id="name">NAME</h1>
 <code><b>mandoc</b></code> —
 format manual pages
-
-
 <h1 id="synopsis">SYNOPSIS</h1>
 
-<table>
-<tr>
+<table><tr>
 <th valign="top"><code><b>mandoc</b></code></th>
 <td valign="top">[<code><b>-ac</b></code>] [<code><b>-I</b> <b>os</b></code>=<var>name</var>]
 [<code><b>-K</b></code> <var>encoding</var>]
@@ -17,10 +13,7 @@ format manual pages
 [<code><b>-T</b></code> <var>output</var>]
 [<code><b>-W</b></code> <var>level</var>]
 [<var>file ...</var>]</td>
-</tr>
-</table>
-
-
+</tr></table>
 <h1 id="description">DESCRIPTION</h1>
 <p>The <code><b>mandoc</b></code> utility formats manual pages for display.</p>
 <p>By default, <code><b>mandoc</b></code> reads <code>mdoc(7)</code> or <code>man(7)</code> text from stdin and produces <code><b>-T</b> <b>locale</b></code> output.</p>
@@ -111,9 +104,7 @@ output formats for supported <var>options</var>.</dd>
 processed in the given order. If unspecified,
 <code><b>mandoc</b></code> reads from standard input.</dd>
 </dl>
-
 <p>The options <code><b>-fhklw</b></code> are also supported and are documented in man(1). In <code><b>-f</b></code> and <code><b>-k</b></code> mode, <code><b>mandoc</b></code> also supports the options <code><b>-CMmOSs</b></code> described in the <code>apropos(1)</code> manual. The options <code><b>-fkl</b></code> are mutually exclusive and override each other.</p>
-
 <h2 id="ascii-output">ASCII Output</h2>
 <p>Use <code><b>-T</b> <b>ascii</b></code> to force text output in 7-bit ASCII character encoding documented in the <code>ascii(7)</code> manual page, ignoring the <code>locale(1)</code> set in the environment.</p>
 <p>Font styles are applied by using back-spaced encoding such that an underlined character ‘c’ is rendered as ‘_\[bs]c’, where ‘\[bs]’ is the back-space character number 8. Emboldened characters are rendered as ‘c\[bs]c’. This markup is typically converted to appropriate terminal sequences by the pager or <code>ul(1)</code>. To remove the markup, pipe the output to <code>col(1) <b>-b</b></code> instead.</p>
@@ -163,8 +154,6 @@ default of 78. When output is to a pager on a terminal that is less than
 width. In any case, lines that are output in literal mode are never
 wrapped and may exceed the output width.</dd>
 </dl>
-
-
 <h2 id="html-output">HTML Output</h2>
 <p>Output produced by <code><b>-T</b> <b>html</b></code> conforms to HTML5 using optional self-closing tags. Default styles use only CSS1. Equations rendered from <code>eqn(7)</code> blocks use MathML.</p>
 <p>The file <code><span>/usr/share/misc/mandoc.css</span></code> documents style-sheet classes available for customising output. If a style-sheet is not specified with <code><b>-O</b> <b>style</b></code>, <code><b>-T</b> <b>html</b></code> defaults to simple output (via an embedded style-sheet) readable in any graphical or text-based web browser.</p>
@@ -207,8 +196,6 @@ style-sheet. This must be a valid absolute or relative URI.</dd>
 <dd>If an input file contains at least two non-standard sections, print a
 table of contents near the beginning of the output.</dd>
 </dl>
-
-
 <h2 id="locale-output">Locale Output</h2>
 By default, <code><b>mandoc</b></code> automatically selects UTF-8 or ASCII
 output according to the current
@@ -218,13 +205,9 @@ variables <code>LC_ALL</code>, <code>LC_CTYPE</code>, or
 UTF-8 character encoding, it produces <a href="#utf-8-output">UTF-8 Output</a>; otherwise, it falls back to
 <a href="#ascii-output">ASCII Output</a>. This output mode can also
 be selected explicitly with <code><b>-T</b> <b>locale</b></code>.
-
-
 <h2 id="man-output">Man Output</h2>
 <p>Use <code><b>-T</b> <b>man</b></code> to translate <code>mdoc(7)</code> input into <code>man(7)</code> output format. This is useful for distributing manual sources to legacy systems lacking <code>mdoc(7)</code> formatters.</p>
 <p>If the input format of a file is <code>man(7)</code>, the input is copied to the output, expanding any <code>roff(7) <b>so</b></code> requests. The parser is also run, and as usual, the <code><b>-W</b></code> level controls which <a href="#diagnostics">DIAGNOSTICS</a> are displayed before copying the input to the output.</p>
-
-
 <h2 id="markdown-output">Markdown Output</h2>
 <p>Use <code><b>-T</b> <b>markdown</b></code> to translate <code>mdoc(7)</code> input to the markdown format conforming to <a href="http://daringfireball.net/projects/markdown/syntax.text">John Gruber's 2004 specification</a>. The output also almost conforms to the <a href="http://commonmark.org/">CommonMark</a> specification.</p>
 <p>The character set used for the markdown output is ASCII. Non-ASCII characters are encoded as HTML entities. Since that is not possible in literal font contexts, because these are rendered as code spans and code blocks in the markdown output, non-ASCII characters are transliterated to ASCII approximations in these contexts.</p>
@@ -232,14 +215,10 @@ be selected explicitly with <code><b>-T</b> <b>locale</b></code>.
 <p>Markdown is a very weak markup language, so all semantic markup is lost, and even part of the presentational markup may be lost. Do not use this as an intermediate step in converting to HTML; instead, use <code><b>-T</b> <b>html</b></code> directly.</p>
 
 <p>The <code>man(7)</code>, <code>tbl(7)</code>, and <code>eqn(7)</code> input languages are not supported by <code><b>-T</b> <b>markdown</b></code> output mode.</p>
-
-
 <h2 id="pdf-output">PDF Output</h2>
 PDF-1.1 output may be generated by <code><b>-T</b> <b>pdf</b></code>. See
 <a href="#postscript-output">PostScript Output</a> for
 <code><b>-O</b></code> arguments and defaults.
-
-
 <h2 id="postscript-output">PostScript Output</h2>
 <p>PostScript “Adobe-3.0” Level-2 pages may be generated by <code><b>-T</b> <b>ps</b></code>. Output pages default to letter sized and are rendered in the Times font family, 11-point. Margins are calculated as 1/9 the page length and width. Line-height is 1.4m.</p>
 <p>Special characters are rendered as in <a href="#ascii-output">ASCII Output</a>.</p>
@@ -257,13 +236,9 @@ PDF-1.1 output may be generated by <code><b>-T</b> <b>pdf</b></code>. See
 <var>NNxNN</var>, width by height in millimetres. If an unknown
 value is encountered, <var>letter</var> is used.</dd>
 </dl>
-
-
 <h2 id="utf-8-output">UTF-8 Output</h2>
 <p>Use <code><b>-T</b> <b>utf8</b></code> to force text output in UTF-8 multi-byte character encoding, ignoring the <code>locale(1)</code> settings in the environment. See <a href="#ascii-output">ASCII Output</a> regarding font styles and <code><b>-O</b></code> arguments.</p>
 <p>On operating systems lacking locale or wide character support, and on those where the internal character representation is not UCS-4, <code><b>mandoc</b></code> always falls back to <a href="#ascii-output">ASCII Output</a>.</p>
-
-
 <h2 id="syntax-tree-output">Syntax tree output</h2>
 <p>Use <code><b>-T</b> <b>tree</b></code> to show a human readable representation of the syntax tree. It is useful for debugging the source code of manual pages. The exact format is subject to change, so don't write parsers for it.</p>
 <p>The first paragraph shows meta data found in the <code>mdoc(7)</code> prologue, on the <code>man(7) <b>TH</b></code> line, or the fallbacks used.</p>
@@ -296,7 +271,6 @@ format.</li>
 </ul>
 </li>
 </ol>
-
 <p>The following <code><b>-O</b></code> argument is accepted:</p>
 
 <dl>
@@ -305,9 +279,6 @@ format.</li>
 find out whether a given behaviour is caused by the parser or by the
 validator. Meta data is not available in this case.</dd>
 </dl>
-
-
-
 <h1 id="environment">ENVIRONMENT</h1>
 
 <dl>
@@ -331,8 +302,6 @@ MANPAGER is defined, <code>more(1) <b>-s</b></code> is used. Only used if
 <code><b>-a</b></code> or <code><b>-l</b></code> is
 specified.</dd>
 </dl>
-
-
 <h1 id="exit-status">EXIT STATUS</h1>
 <p>The <code><b>mandoc</b></code> utility exits with one of the following values, controlled by the message <var>level</var> associated with the <code><b>-W</b></code> option:</p>
 
@@ -366,10 +335,7 @@ descriptors, or process table entries. Such errors cause
 <code><b>mandoc</b></code> to exit at once, possibly in the middle of
 parsing or formatting a file.</dd>
 </dl>
-
 <p>Note that selecting <code><b>-T</b> <b>lint</b></code> output mode implies <code><b>-W</b> <b>all</b></code>.</p>
-
-
 <h1 id="examples">EXAMPLES</h1>
 <p>To page manuals to the terminal:</p>
 
@@ -404,8 +370,6 @@ parsing or formatting a file.</dd>
 
 <pre>
 <code>$ mandoc -T man foo.mdoc &gt; foo.man</code></pre>
-
-
 <h1 id="diagnostics">DIAGNOSTICS</h1>
 <p>Messages displayed by <code><b>mandoc</b></code> follow this format:</p>
 <ul><div>
@@ -448,11 +412,9 @@ formatting nor portability are in danger. Messages of the
 <code><b>base</b></code> level are printed with the more intuitive
 <code><b>style</b></code> <var>level</var> tag.</dd>
 </dl>
-
 <p>Messages of the <code><b>base</b></code>, <code><b>style</b></code>, <code><b>warning</b></code>, <code><b>error</b></code>, and <code><b>unsupp</b></code> levels except those about non-existent or unreadable input files are hidden unless their level, or a lower level, is requested using a <code><b>-W</b></code> option or <code><b>-T</b> <b>lint</b></code> output mode.</p>
 
 <p>As indicated below, all <code><b>base</b></code> and some <code><b>style</b></code> checks are only performed if a specific operating system name occurs in the arguments of the <code><b>-W</b></code> command line option, of the <code><b>Os</b></code> macro, of the <code><b>-Ios</b></code> command line option, or, if neither are present, in the return value of the <code>uname(3)</code> function.</p>
-
 <h2 id="conventions-for-base-system-manuals">Conventions for base system manuals</h2>
 
 <dl>
@@ -488,8 +450,6 @@ is configurable at compile time and defaults to
 <code><span>/usr/share/man</span></code>:
 <code><span>/usr/X11R6/man</span></code>.</dd>
 </dl>
-
-
 <h2 id="style-suggestions">Style suggestions</h2>
 
 <dl>
@@ -580,8 +540,6 @@ character. The <code><b>mandoc</b></code> utility treats the line as a
 comment line even without the backslash, but leaving out the backslash
 might not be portable.</dd>
 </dl>
-
-
 <h2 id="warnings-related-to-the-document-prologue">Warnings related to the document prologue</h2>
 
 <dl>
@@ -624,8 +582,6 @@ occurs after some non-prologue macro, but still takes effect.</dd>
 <code><b>Os</b></code>. All three macros are used even when given in
 another order.</dd>
 </dl>
-
-
 <h2 id="warnings-regarding-document-structure">Warnings regarding document structure</h2>
 
 <dl>
@@ -697,8 +653,6 @@ trailing punctuation after the last <code><b>Xr</b></code> macro.</dd>
 <dd>(mdoc) An AUTHORS sections contains no <code><b>An</b></code> macros,
 or only empty ones. Probably, there are author names lacking markup.</dd>
 </dl>
-
-
 <h2 id="warnings-related-to-macros-and-nesting">Warnings related to macros and nesting</h2>
 
 <dl>
@@ -767,8 +721,6 @@ which is not portable.</dd>
 macro is found that prematurely terminates the previous one. The previous,
 interrupted macro is deleted from the parse tree.</dd>
 </dl>
-
-
 <h2 id="warnings-related-to-missing-arguments">Warnings related to missing arguments</h2>
 
 <dl>
@@ -877,8 +829,6 @@ shown.</dd>
 <dd>(eqn) A diacritic mark or a binary operator is found, but there is nothing
 to the left of it. An empty box is inserted.</dd>
 </dl>
-
-
 <h2 id="warnings-related-to-bad-macro-arguments">Warnings related to bad macro arguments</h2>
 
 <dl>
@@ -947,8 +897,6 @@ layout modifier has an unknown <var>font</var> argument.</dd>
 <dd>(roff) A <code><b>tr</b></code> request contains an odd number of
 characters. The last character is mapped to the blank character.</dd>
 </dl>
-
-
 <h2 id="warnings-related-to-plain-text">Warnings related to plain text</h2>
 
 <dl>
@@ -984,8 +932,6 @@ equivalent to ignoring the backslash.</dd>
 implicitly set to the empty string. However, defining strings explicitly
 before use keeps the code more readable.</dd>
 </dl>
-
-
 <h2 id="warnings-related-to-tables">Warnings related to tables</h2>
 
 <dl>
@@ -1002,8 +948,6 @@ cell is ignored, and nothing is printed in the cell.</dd>
 vertical bars. A double bar is printed, all additional bars are
 discarded.</dd>
 </dl>
-
-
 <h2 id="errors-related-to-tables">Errors related to tables</h2>
 
 <dl>
@@ -1050,8 +994,6 @@ closed with a matching <code><b>T}</b></code>. The remaining data
 lines of the table are all put into one cell, and any remaining cells stay
 empty.</dd>
 </dl>
-
-
 <h2 id="errors-related-to-roff-mdoc-and-man-code">Errors related to roff, mdoc, and man code</h2>
 
 <dl>
@@ -1269,8 +1211,6 @@ arguments</li>
 </ul>
 The excess arguments are ignored.</dd>
 </dl>
-
-
 <h2 id="unsupported-features">Unsupported features</h2>
 
 <dl>
@@ -1309,9 +1249,6 @@ discarded.</dd>
 macro. The macro is ignored, and its arguments are handled as if they were
 a text line.</dd>
 </dl>
-
-
-
 <h1 id="see-also">SEE ALSO</h1>
 <code>apropos(1)</code>,
 <code>man(1)</code>,
@@ -1321,15 +1258,11 @@ a text line.</dd>
 <code>mdoc(7)</code>,
 <code>roff(7)</code>,
 <code>tbl(7)</code>
-
-
 <h1 id="history">HISTORY</h1>
 The <code><b>mandoc</b></code> utility first appeared in
 <span>OpenBSD 4.8</span>. The option <code><b>-I</b></code>
 appeared in <span>OpenBSD 5.2</span>, and
 <code><b>-aCcfhKklMSsw</b></code> in <span>OpenBSD 5.7</span>.
-
-
 <h1 id="authors">AUTHORS</h1>
 The <code><b>mandoc</b></code> utility was written by
 <span>Kristaps Dzonsons</span>

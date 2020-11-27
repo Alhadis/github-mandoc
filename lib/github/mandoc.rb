@@ -41,7 +41,7 @@ module GitHub
 
 			# Optimise the output of `mandoc -Thtml`
 			def filter(source, path = "")
-				@doc = Nokogiri::HTML(source)
+				@doc = Nokogiri::HTML(source, &:noblanks)
 				@path = path
 				@doc.css("table.head, table.foot").remove
 
@@ -87,7 +87,7 @@ module GitHub
 
 			# Return the HTML source for the rendered and filtered document
 			def to_s
-				@doc.to_s
+				@doc.to_html
 			end
 
 			def to_str
@@ -98,9 +98,9 @@ module GitHub
 			def gsub(pattern, replacement = "")
 				src = @doc.root.to_s
 				if pattern.is_a? Hash
-					pattern.each { |patt, repl| src.gsub!(patt, repl) }
+					pattern.each { |patt, repl| src = src.gsub(patt, repl) }
 				else
-					src.gsub!(pattern, replacement)
+					src = src.gsub(pattern, replacement)
 				end
 				@doc.inner_html = src
 			end

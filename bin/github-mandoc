@@ -1,8 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "github/mandoc"
 require "optparse"
+begin
+	require "github/mandoc"
+rescue LoadError
+	require_relative "../lib/github/mandoc"
+end
 
 load_method = $stdin.isatty ? :topic : :stdin
 filter_only = false
