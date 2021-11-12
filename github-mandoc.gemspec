@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 	s.test_files    = Dir["test/*_test.rb"]
 	s.require_paths = ["lib"]
 
-	s.add_dependency "nokogiri", "~> 1.11.4"
+	s.add_dependency "nokogiri", "~> 1.12.5"
 	s.add_development_dependency "bundler", ">= 1.10"
 	s.add_development_dependency "minitest", ">= 5.0"
 	s.add_development_dependency "simplecov", ">= 0.19"
